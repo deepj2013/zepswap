@@ -29,14 +29,17 @@ function Home() {
       image: 'https://traderjoexyz.com/static/media/nft_2x.a31a1f7035dad469312e.webp'
     },
   ]
+
+
+  
   return (
-    <div>
+    <div className="">
       <div className="bg-theme w-screen h-[70vh] relative">
         <div className="mx-auto  flex flex-col items-center h-full justify-center z-50">
           <p className="text-yellow-600 font-semibold text20">
             WELCOME TO THE PARTY
           </p>
-          <p className="text60 mt- text-center text-white font-semibold ">
+          <p className="text60 mt- text-center text-secondry font-semibold ">
 
             The most reliable
           </p>

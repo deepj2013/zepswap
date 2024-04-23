@@ -1,164 +1,271 @@
-import React, { useEffect } from "react";
-import { imagesConstant } from "../utils/ImageConstant";
-import { NavLink, Route, Routes } from "react-router-dom";
-import Aos from "aos";
-import "aos/dist/aos.css";
-import { FaArrowRight } from "react-icons/fa6";
-function Navbar() {
-  useEffect(() => {
-    Aos.init({
-      duration: 0,
-      delay: 0, // Animation duration (in milliseconds)
-      //   once: , // Whether animation should happen only once
-    });
-  }, []);
-
-  const route = [
-    {
-      name: "Home",
-      icon: "",
-    },
-  ];
-
+import React from "react";
+import {
+  Navbar,
+  MobileNav,
+  Typography,
+  Button,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Avatar,
+  Card,
+  IconButton,
+} from "@material-tailwind/react";
+import {
+  CubeTransparentIcon,
+  UserCircleIcon,
+  CodeBracketSquareIcon,
+  Square3Stack3DIcon,
+  ChevronDownIcon,
+  Cog6ToothIcon,
+  InboxArrowDownIcon,
+  LifebuoyIcon,
+  PowerIcon,
+  RocketLaunchIcon,
+  Bars2Icon,
+} from "@heroicons/react/24/solid";
+import { NavLink } from "react-router-dom";
+ 
+// profile menu component
+const profileMenuItems = [
+  {
+    label: "My Profile",
+    icon: UserCircleIcon,
+  },
+  {
+    label: "Edit Profile",
+    icon: Cog6ToothIcon,
+  },
+  {
+    label: "Inbox",
+    icon: InboxArrowDownIcon,
+  },
+  {
+    label: "Help",
+    icon: LifebuoyIcon,
+  },
+  {
+    label: "Sign Out",
+    icon: PowerIcon,
+  },
+];
+ 
+function ProfileMenu() {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+ 
+  const closeMenu = () => setIsMenuOpen(false);
+ 
   return (
-    <nav className="backdrop-blur-sm pl:ml-20 w-screen  bg-background  fixed top-0  lg:pl-20 z-40  start-0  ">
-      <div className="container flex flex-wrap items-center justify-between  mx-auto  pt-5 pb-2">
-        <a
-          href="#"
-          className="flex items-center space-x-3 rtl:space-x-reverse"
+    <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+      <MenuHandler>
+        <Button
+          variant="text"
+          color="blue-gray"
+          className="flex items-center gap-1 bg-theme rounded-full py-0.5 pr-2 pl-0. lg:ml-auto"
         >
-
-          <p className=" text-xl font-semibold text-white">Black Rock</p>
-          {/* <img
-            className="h-14"
-            src={imagesConstant.Logo}
-            alt="whtext-white Rock Logo"
-          /> */}
-
-          
-        </a>
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button
-            type="button"
-            className="text-white bg-thtext-theme bg-theme px-6 py-2 rounded-sm flex items-center gap-5"
-          >
-            Sign Up
-            <FaArrowRight/>
-          </button>
-          <button
-            data-collapse-toggle="navbar-sticky"
-            type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-sticky"
-            aria-expanded="false"
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
+          <Avatar
+            variant="circular"
+            size="sm"
+            alt="tania andrew"
+            className="border border-gray-900 p-0.5"
+            src="https://assets.pancakeswap.finance/web/chains/56.png"
+          />
+          <p className="text-white">BNB Chain</p>
+          <ChevronDownIcon
+            strokeWidth={2.5}
+            className={`h-3 w-3 transition-transform ${
+              isMenuOpen ? "rotate-180" : ""
+            }`}
+          />
+        </Button>
+      </MenuHandler>
+      <MenuList className="p-1">
+        {profileMenuItems.map(({ label, icon }, key) => {
+          const isLastItem = key === profileMenuItems.length - 1;
+          return (
+            <MenuItem
+              key={label}
+              onClick={closeMenu}
+              className={`flex items-center gap-2 rounded ${
+                isLastItem
+                  ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                  : ""
+              }`}
             >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
-          </button>
-        </div>
-        <div
-          className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-          id="navbar-sticky"
-        >
-          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:-0 ">
-            <li>
-              <p className="block py-2 px-3 text-white  rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">
-                <NavLink
-                  to={"/"}
-                  className={({ isActive }) => {
-                    return isActive
-                      ? "text-theme border-b-2 border-theme border-thtext-theme pb-3 px-5 "
-                      : "text-white";
-                  }}
-                >
-                  Home
-                </NavLink>
-              </p>
-            </li>
-
-            <li>
-              <p className="block py-2 px-3 text-white bg-theme rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">
-                <NavLink
-                  to={"/about"}
-                  className={({ isActive }) => {
-                    return isActive
-                      ? "text-theme border-b-2 border-theme border-thtext-theme pb-3 px-5 "
-                      : "text-white";
-                  }}
-                >
-                  About Us
-                </NavLink>
-              </p>
-            </li>
-
-            <li>
-              <p className="block py-2 px-3 text-white bg-theme rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">
-                <NavLink
-                  to={"/product"}
-                  className={({ isActive }) => {
-                    return isActive
-                      ? "text-theme border-b-2 border-theme border-thtext-theme pb-3 px-5 "
-                      : "text-white";
-                  }}
-                >
-                  Products
-                </NavLink>
-              </p>
-            </li>
-
-
-            <li>
-              <p className="block py-2 px-3 text-white bg-theme rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">
-                <NavLink
-                  to={"/services"}
-                  className={({ isActive }) => {
-                    return isActive
-                      ? "text-theme border-b-2 border-theme border-thtext-theme pb-3 px-5 "
-                      : "text-white";
-                  }}
-                >
-                  Services
-                </NavLink>
-              </p>
-            </li>
-
-            <li>
-              <p className="block py-2 px-3 text-white bg-theme rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">
-                <NavLink
-                  to={"/contact"}
-                  className={({ isActive }) => {
-                    return isActive
-                      ? "text-theme border-b-2 border-theme border-thtext-theme pb-3 px-5 "
-                      : "text-white";
-                  }}
-                >
-                  Contact us
-                </NavLink>
-              </p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+              {React.createElement(icon, {
+                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                strokeWidth: 2,
+              })}
+              <Typography
+                as="span"
+                variant="small"
+                className="font-normal"
+                color={isLastItem ? "red" : "inherit"}
+              >
+                {label}
+              </Typography>
+            </MenuItem>
+          );
+        })}
+      </MenuList>
+    </Menu>
   );
 }
+ 
+// nav list menu
+const navListMenuItems = [
+  {
+    title: "@material-tailwind/html",
+    description:
+      "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
+  },
+  {
+    title: "@material-tailwind/react",
+    description:
+      "Learn how to use @material-tailwind/react, packed with rich components for React.",
+  },
+  {
+    title: "Material Tailwind PRO",
+    description:
+      "A complete set of UI Elements for building faster websites in less time.",
+  },
+];
+ 
+function NavListMenu() {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+ 
+  const renderItems = navListMenuItems.map(({ title, description }) => (
+    <a href="#" key={title}>
+      <MenuItem>
+        <Typography variant="h6" color="blue-gray" className="mb-1">
+          {title}sss
+        </Typography>
+        <Typography variant="small" color="gray" className="font-normal">
+          {description}
+        </Typography>
+      </MenuItem>
+    </a>
+  ));
+ 
+  return (
+    <React.Fragment>
+      <Menu allowHover open={isMenuOpen} handler={setIsMenuOpen}>
+        <MenuHandler>
+          <Typography as="a" href="#" variant="small" className="font-normal">
+            <MenuItem className="hidden items-center gap-2 font-medium text-white lg:flex lg:rounded-full">
+              Trade{" "}
+              <ChevronDownIcon
+                strokeWidth={2}
+                className={`h-3 w-3 transition-transform ${
+                  isMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+            </MenuItem>
+          </Typography>
+        </MenuHandler>
+        <MenuList className="hidden w-[10rem] border-none  overflow-visible bg-secondry lg:grid">
+          <NavLink>
+            <p className="text-white">Swap</p>
+          </NavLink>
+        </MenuList>
+      </Menu>
+      <MenuItem className="flex items-center gap-2 font-medium text-blue-gray-900 lg:hidden">
+        <Square3Stack3DIcon className="h-[18px] w-[18px] text-blue-gray-500" />{" "}
+        Pages{" "}
+      </MenuItem>
+      <ul className="ml-6 flex w-full flex-col gap-1 lg:hidden">
+        {renderItems}
+      </ul>
+    </React.Fragment>
+  );
+}
+ 
+// nav list component
+const navListItems = [
+  {
+    label: "Account",
+    icon: UserCircleIcon,
+  },
+  {
+    label: "Blocks",
+    icon: CubeTransparentIcon,
+  },
+  {
+    label: "Docs",
+    icon: CodeBracketSquareIcon,
+  },
+];
+ 
+function NavList() {
+  return (
+    <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
+      <NavListMenu />
+      <NavListMenu />
 
-export default Navbar;
+      {navListItems.map(({ label, icon }, key) => (
+        <Typography
+          key={label}
+          as="a"
+          href="#"
+          variant="small"
+          color="gray"
+          className="font-medium text-blue-gray-500"
+        >
+          <MenuItem className="flex items-center gap-2 lg:rounded-full">
+            {React.createElement(icon, { className: "h-[18px] w-[18px]" })}{" "}
+            <span className="text-white"> {label}</span>
+          </MenuItem>
+        </Typography>
+      ))}
+    </ul>
+  );
+}
+ 
+export function ComplexNavbar() {
+  const [isNavOpen, setIsNavOpen] = React.useState(false);
+ 
+  const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
+ 
+  React.useEffect(() => {
+    window.addEventListener(
+      "resize",
+      () => window.innerWidth >= 960 && setIsNavOpen(false),
+    );
+  }, []);
+ 
+  return (
+    <div className="mx-auto w-screen  bg-secondry p-4 px-8 ">
+      <div className="container  mx-auto flex items-center justify-between text-white">
+        <Typography
+          as="a"
+          href="#"
+          className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
+        >
+          ZewSwap
+        </Typography>
+        <div className="hidden lg:block">
+          <NavList />
+        </div>
+        <IconButton
+          size="sm"
+          color="blue-gray"
+          variant="text"
+          onClick={toggleIsNavOpen}
+          className="ml-auto mr-2 lg:hidden"
+        >
+          <Bars2Icon className="h-6 w-6" />
+        </IconButton>
+ 
+        <Button size="sm" variant="text">
+          <span className="text-white">Log In</span>
+        </Button>
+        <ProfileMenu />
+      </div>
+      <MobileNav open={isNavOpen} className="overflow-scroll">
+        <NavList />
+      </MobileNav>
+    </div>
 
-
-
-
+  );
+}

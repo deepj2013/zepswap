@@ -13,6 +13,7 @@ body{
   font-family: "Commissioner", sans-serif;
   overflow-x: hidden;
 margin: 0px;
+background-color: '#3AAFA9'
 /* position: relative; */
 
 
@@ -218,3 +219,41 @@ h2 {
 ::-webkit-scrollbar-thumb {
   background: transparent;
 }
+.horizontal-scroll-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+.horizontal-scroll-content {
+  display: inline-block;
+}
+
+/* Add more styles as needed */
+
+
+.hexagon {
+        width: 200px;
+        height: 115px; /* height = 2 * (side length) * cos(30°) */
+        background-color: #ffcc00;
+        position: relative;
+    }
+    .hexagon::before,
+    .hexagon::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        border-left: 100px solid transparent;
+        border-right: 100px solid transparent;
+    }
+    .hexagon::before {
+        top: -27.5px; /* -(height / 2) */
+        border-bottom: 27.5px solid #ffcc00; /* (height / 2) */
+    }
+    .hexagon::after {
+        bottom: -27.5px; /* -(height / 2) */
+        border-top: 27.5px solid #ffcc00; /* (height / 2) */
+    }

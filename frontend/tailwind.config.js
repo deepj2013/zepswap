@@ -36,8 +36,10 @@ module.exports = withMT({
       },
 
      colors: {
-       theme:'#3B2BAA',
-       yellowShade:'#FFEF1C'
+       theme:'#3AAFA9',
+       secondry:'#17252A',
+       primaryLight:'#2B7A78',
+       lightTheme:'#Def2f1'
       },
     },
     screens: {
