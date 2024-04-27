@@ -22,7 +22,7 @@ function Swap() {
   const [token2, settoken2] = useState("USDT");
   const [BuyingPrice, setBuyingPrice] = useState(600);
   const [SellingPrice, setSellingPrice] = useState(900);
-  const [Token1Amount, setToken1Amount] = useState();
+  const [Token1Amount, setToken1Amount] = useState(900);
   const [Token2Amount, setToken2Amount] = useState(1);
   const signer = useEthersSigner();
 
@@ -44,7 +44,7 @@ function Swap() {
     }
   };
 
-  const ZepxChangeHandler = (event) => {
+  const value1Handler = (event) => {
     let inputValue = parseFloat(event.target.value);
     if (isNaN(inputValue)) {
       inputValue = 0;
@@ -59,7 +59,7 @@ function Swap() {
     }
   };
 
-  const UsdtChangeHandler = (event) => {
+  const value2handler = (event) => {
     let inputValue = parseFloat(event.target.value);
     if (isNaN(inputValue)) {
       inputValue = 0;
@@ -78,7 +78,7 @@ function Swap() {
   const buyZepx = async () => {
     try {
       setloading(true);
-      toast.error("calling buy function");
+      toast.success("Swapping");
       const bal = await getTokenBalance(Usdt_Address, signer?._address);
       console.log("bal: ", bal);
 
@@ -112,7 +112,7 @@ function Swap() {
   const SellZepx = async (amount) => {
     try {
       setloading(true);
-      toast.error("calling buy function");
+      toast.success("Swapping");
       const bal = await getTokenBalance(Zepx_Address, signer?._address);
       console.log("bal: ", bal);
 
@@ -176,7 +176,7 @@ function Swap() {
                 placeholder="00"
                 className="bg-transparent  text-right w-full outline-none flex-end "
                 value={Token1Amount}
-                onChange={ZepxChangeHandler}
+                onChange={value1Handler}
               />
             </div>
 
@@ -208,7 +208,7 @@ function Swap() {
                 placeholder="00"
                 className="bg-transparent  text-right w-full outline-none flex-end "
                 value={Token2Amount}
-                onChange={UsdtChangeHandler}
+                onChange={value2handler}
               />
             </div>
 

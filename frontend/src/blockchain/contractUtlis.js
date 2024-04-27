@@ -6,7 +6,7 @@ import { Rpc_Url, Zepx_buy, Zepx_swap } from "./config";
 import toast from "react-hot-toast";
 
 const provider = new ethers.providers.JsonRpcProvider(
-  "https://bsc-testnet-rpc.publicnode.com"
+  "https://bsc-rpc.publicnode.com"
 );
 
 export async function getTokenBalance(TokenAdress, adress) {
