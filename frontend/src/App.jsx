@@ -12,6 +12,7 @@ import Pottery from './pages/Game/Pottery/Pottery'
 import Stack from './pages/Stack/Stack'
 import Pool from './pages/Pool/Pool'
 import NavBar2 from './component/NavBar2'
+import Buy from './pages/Buy/BuyPage'
 
 
 
@@ -36,6 +37,7 @@ function App() {
         <Route path="/Pottery" element={<Pottery />} />
         <Route path="/Stack" element={<Stack />} />
         <Route path="/Pool" element={<Pool />} />
+        <Route path="/Buy" element={<Buy />} />
 
         
         
