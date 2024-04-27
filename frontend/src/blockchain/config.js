@@ -1,4 +1,4 @@
-export const Zepx_swap = "0x19927cF21791Bf759f2CF972366b3ba18e6f1749"
+export const Zepx_swap = "0xbb2f90e4d4100E345b278d2E5a4c6dAAff630e55"
 export const Zepx_buy = "0x5153651cD35E71D2Cca88c5De9Ef44704d13D5aB"
 export const Rpc_Url = "https://bsc-rpc.publicnode.com"
 export const Zepx_Address = "0x1370D2E74281202c4950342F9572ef535811dCD1"
