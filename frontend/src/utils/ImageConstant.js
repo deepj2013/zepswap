@@ -14,6 +14,8 @@ import arrowDesign from '../assets/arrowDesign.png'
 import tv1 from '../assets/tv1.svg'
 import tv2 from '../assets/tv2.svg'
 import tv3 from '../assets/tv3.svg'
+import ZepxLogo from '../assets/zepx.png'
+import UsdtLogo from '../assets/usdt.png'
 import joinUs from '../assets/joinUs.svg'
 
 import services1 from '../assets/services1.svg'
@@ -36,6 +38,8 @@ import int11 from "../assets/interior/Resturant-Interior-Design.jpeg"
 
 
 export const imagesConstant={
+    ZepxLogo:ZepxLogo,
+    UsdtLogo:UsdtLogo,
     Logo:Logo,
     table:table,
     About:About,

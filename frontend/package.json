@@ -24,6 +24,8 @@
     "react-photo-gallery": "^8.0.0",
     "react-router": "^6.21.3",
     "react-router-dom": "^6.21.3",
+    "react-hot-toast": "^2.4.1",
+    "ethers": "^5.7.2",
     "react-scroll": "^1.9.0",
     "recharts": "^2.12.6",
     "swiper": "^10.0.0",

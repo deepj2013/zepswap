@@ -1,15 +1,13 @@
 import React from "react";
-import {
-  useConnectModal,
-  useAccountModal,
-  useChainModal,
-} from "@rainbow-me/rainbowkit";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { imagesConstant } from "../../utils/ImageConstant";
 
 function Buy() {
   const { openConnectModal } = useConnectModal();
+  // test shiva
   const buyButtonHandler = () => {
     openConnectModal();
-  }
+  };
   return (
     <div className="bg-secondry h-screen w-screen py-20">
       <div className="container mx-auto">
@@ -23,9 +21,7 @@ function Buy() {
             <div className="flex items-center gap-2 text-white mt-4">
               <img
                 className="h-5 w-5 rounded-full"
-                src={
-                  "https://assets.coingecko.com/coins/images/13415/thumb/anrkey.jpg?1696513176"
-                }
+                src={imagesConstant.ZepxLogo}
               />
               ZEPX
             </div>
@@ -41,9 +37,7 @@ function Buy() {
             <div className="flex items-center gap-2 text-white mt-4">
               <img
                 className="h-5 w-5 rounded-full"
-                src={
-                  "https://assets.coingecko.com/coins/images/13415/thumb/anrkey.jpg?1696513176"
-                }
+                src={imagesConstant.UsdtLogo}
               />
               USDT
             </div>
