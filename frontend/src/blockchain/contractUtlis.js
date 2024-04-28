@@ -34,7 +34,9 @@ export async function approveERC20(
     const gasPrice = await signer.getGasPrice();
     const gasLimit = await contract.estimateGas.approve(
       contractAdress,
-      (amount * 10 ** 18).toString()
+      (amount * 10 ** 18).toLocaleString("fullwide", {
+        useGrouping: false,
+      })
     );
 
     const rawTransaction = {
@@ -43,7 +45,9 @@ export async function approveERC20(
       gasLimit,
       data: contract.interface.encodeFunctionData("approve", [
         contractAdress,
-        (amount * 10 ** 18).toString(),
+        (amount * 10 ** 18).toLocaleString("fullwide", {
+          useGrouping: false,
+        }),
       ]),
       nonce: await signer.getTransactionCount(),
     };
@@ -85,7 +89,9 @@ export async function BuyZepx(amount, signer) {
 
     const gasPrice = await signer.getGasPrice();
     const gasLimit = await contract.estimateGas.Buy_through_usdt(
-      (amount * 10 ** 18).toString()
+      (amount * 10 ** 18).toLocaleString("fullwide", {
+        useGrouping: false,
+      })
     );
 
     const rawTransaction = {
@@ -93,7 +99,9 @@ export async function BuyZepx(amount, signer) {
       gasPrice,
       gasLimit,
       data: contract.interface.encodeFunctionData("Buy_through_usdt", [
-        (amount * 10 ** 18).toString(),
+        (amount * 10 ** 18).toLocaleString("fullwide", {
+          useGrouping: false,
+        })
       ]),
       nonce: await signer.getTransactionCount(),
     };
@@ -114,7 +122,9 @@ export async function buyThroughUsdt(amount, signer) {
 
     const gasPrice = await signer.getGasPrice();
     const gasLimit = await contract.estimateGas.Buy_through_usdt(
-      (amount * 10 ** 18).toString()
+      (amount * 10 ** 18).toLocaleString("fullwide", {
+        useGrouping: false,
+      })
     );
 
     const rawTransaction = {
@@ -122,7 +132,9 @@ export async function buyThroughUsdt(amount, signer) {
       gasPrice,
       gasLimit,
       data: contract.interface.encodeFunctionData("Buy_through_usdt", [
-        (amount * 10 ** 18).toString(),
+        (amount * 10 ** 18).toLocaleString("fullwide", {
+          useGrouping: false,
+        }),
       ]),
       nonce: await signer.getTransactionCount(),
     };
@@ -143,7 +155,9 @@ export async function sellThroughUsdt(amount, signer) {
 
     const gasPrice = await signer.getGasPrice();
     const gasLimit = await contract.estimateGas.sell_through_usdt(
-      (amount * 10 ** 18).toString()
+      (amount * 10 ** 18).toLocaleString("fullwide", {
+        useGrouping: false,
+      })
     );
 
     const rawTransaction = {
@@ -151,7 +165,9 @@ export async function sellThroughUsdt(amount, signer) {
       gasPrice,
       gasLimit,
       data: contract.interface.encodeFunctionData("sell_through_usdt", [
-        (amount * 10 ** 18).toString(),
+        (amount * 10 ** 18).toLocaleString("fullwide", {
+          useGrouping: false,
+        }),
       ]),
       nonce: await signer.getTransactionCount(),
     };
