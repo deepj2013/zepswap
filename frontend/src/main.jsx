@@ -17,8 +17,8 @@ const { chains, publicClient } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "dexcrash",
-  projectId: "3fa9856fdb9afa3aba4fb203d83de11b",
+  appName: "zepswap",
+  projectId: "3cf2f5b2d0bb38c53053a3e2288e3293",
   chains,
   additionalConnectors: [phantomWallet([{ chains }])],
 });
