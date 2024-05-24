@@ -39,7 +39,7 @@ const verifyJwtToken = function (req, res, next) {
     return res.status(headersVarifyData?.status).json(headersVarifyData);
   }
 
-  jwt.verify(headersVarifyData, "p2pBetaSecret", (err, payload) => {
+  jwt.verify(headersVarifyData, "jwtsecrettoken", (err, payload) => {
     if (err) {
       console.log("token error", err);
 

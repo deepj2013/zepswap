@@ -2,9 +2,13 @@ const UserTransactions = require("../database/schema/transaction.Schema");
 const UserWallet = require("../database/schema/userWallet.Schema");
 const { catchAsync, responseObject, httpStatus } = require("../utils/helper");
 const { createJwtToken } = require("../utils/jwtUtlis");
+const mongoose = require("mongoose");
+const { Decimal128 } = mongoose.Types;
 
 const rechargeWallet = catchAsync(async (req, res) => {
-  const { address } = req.payload;
+  console.log("req", req.userPayload);
+  const { address } = req.userPayload;
+
   const { amount } = req.body;
   if (!address) {
     const err = responseObject(false, true, {
@@ -17,7 +21,7 @@ const rechargeWallet = catchAsync(async (req, res) => {
   if (!userWallet) {
     const newWallet = new UserWallet();
     newWallet.WalletAdress = address;
-    newWallet.WalletBalance = amount;
+    newWallet.ZepxBalance = amount;
     newWallet.save();
     const response = responseObject(true, false, {
       address: address,
@@ -26,7 +30,7 @@ const rechargeWallet = catchAsync(async (req, res) => {
     });
     return res.status(httpStatus.OK).json(response);
   }
-  userWallet.WalletBalance = userWallet.WalletBalance + amount;
+  userWallet.ZepxBalance = Number(userWallet.ZepxBalance) + amount;
   userWallet.save();
   const transaction = new UserTransactions({
     WalletAdress: address,
@@ -37,7 +41,7 @@ const rechargeWallet = catchAsync(async (req, res) => {
   transaction.save();
   const response = responseObject(true, false, {
     address: address,
-    balance: userWallet.WalletBalance,
+    balance: Number(userWallet.ZepxBalance),
     msg: "recharged succesfully",
   });
   return res.status(httpStatus.OK).json(response);
@@ -51,7 +55,7 @@ const Login = catchAsync(async (req, res) => {
     });
     return res.status(httpStatus.BAD_REQUEST).json(err);
   }
-  const jwt = createJwtToken({ address: address });
+  const jwt = await createJwtToken({ address: address });
   const response = responseObject(true, false, {
     address: address,
     jwt: jwt,
@@ -60,22 +64,30 @@ const Login = catchAsync(async (req, res) => {
 });
 
 const getBalance = catchAsync(async (req, res) => {
-  const { address } = req.payload;
+  const { address } = req.userPayload;
   if (!address) {
     const err = responseObject(false, true, {
       message: "unathurized address",
     });
     return res.status(httpStatus.BAD_REQUEST).json(err);
   }
+  const userWallet = await UserWallet.findOne({ WalletAdress: address });
+  if (!userWallet) {
+    const response = responseObject(true, false, {
+      address: address,
+      balance: 0,
+    });
+    return res.status(httpStatus.OK).json(response);
+  }
   const response = responseObject(true, false, {
     address: address,
-    balnnce: 100,
+    balance: Number(userWallet.ZepxBalance),
   });
   return res.status(httpStatus.OK).json(response);
 });
 
 const predictionHistory = catchAsync(async (req, res) => {
-  const { address } = req.payload;
+  const { address } = req.userPayload;
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 2;
   const skip = (page - 1) * limit;
@@ -120,8 +132,9 @@ const predictionHistory = catchAsync(async (req, res) => {
   });
   return res.status(httpStatus.OK).json(response);
 });
+
 const lotteryHistory = catchAsync(async (req, res) => {
-  const { address } = req.payload;
+  const { address } = req.userPayload;
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 2;
   const skip = (page - 1) * limit;
@@ -168,7 +181,7 @@ const lotteryHistory = catchAsync(async (req, res) => {
 });
 
 const withdrawZepx = catchAsync(async (req, res) => {
-  const { address } = req.payload;
+  const { address } = req.userPayload;
   const { amount } = req.body;
   if (!address) {
     const err = responseObject(false, true, {
@@ -184,13 +197,13 @@ const withdrawZepx = catchAsync(async (req, res) => {
     });
     return res.status(httpStatus.BAD_REQUEST).json(err);
   }
-  if (userWallet.Balance < amount) {
+  if (userWallet.ZepxBalance < amount) {
     const err = responseObject(false, true, {
       message: "insufficient balance",
     });
     return res.status(httpStatus.BAD_REQUEST).json(err);
   }
-  userWallet.WalletBalance = userWallet.WalletBalance - amount;
+  userWallet.ZepxBalance = Number(userWallet.ZepxBalance) - amount;
   userWallet.save();
   const transaction = new UserTransactions({
     WalletAdress: address,
@@ -201,14 +214,14 @@ const withdrawZepx = catchAsync(async (req, res) => {
   transaction.save();
   const response = responseObject(true, false, {
     address: address,
-    balance: userWallet.WalletBalance,
-    msg: "recharged succesfully",
+    balance: Number(userWallet.ZepxBalance),
+    msg: "withdrawl succesfully",
   });
   return res.status(httpStatus.OK).json(response);
 });
 
 const getTransactions = catchAsync(async (req, res) => {
-  const { address } = req.payload;
+  const { address } = req.userPayload;
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 2;
   const type = req.query.type || "ALL";
@@ -244,6 +257,18 @@ const getTransactions = catchAsync(async (req, res) => {
     },
     {
       $limit: limit,
+    },
+    {
+      $addFields: {
+        amount: { $toString: "$amount" },
+      },
+    },
+    {
+      $project: {
+        type: 1,
+        status: 1,
+        amount: { $toDouble: "$amount" },
+      },
     },
   ]);
   const response = responseObject(true, false, {

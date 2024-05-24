@@ -1,25 +1,28 @@
-let currentLotteryId = 1;
+const { emitSocketEvent } = require("../socket/socket");
+
+let PredictionId = 1;
+let upcomingPredictions = [];
+let previousPredictions = [];
 let PredictionDb = {
   id: 0,
   PredictionUp: {
     TotalAmount: 0,
     TotalParticpatedUsers: 0,
-    ParticpatedUsers: [],
   },
   PredictionDown: {
     TotalAmount: 0,
     TotalParticpatedUsers: 0,
-    ParticpatedUsers: [],
   },
   PredictionHold: {
     TotalAmount: 0,
     TotalParticpatedUsers: 0,
-    ParticpatedUsers: [],
   },
+  ParticpatedUsers: [],
   startingTimestamp: 0,
   endingTimestamp: 0,
   TotalParticpatedUser: 0,
   TotalAmount: 0,
+  Winner: null,
 };
 
 const getRandomNumber = (min, max) => {
@@ -28,47 +31,65 @@ const getRandomNumber = (min, max) => {
 
 const startNewPrediction = async () => {
   try {
+    previousPredictions.push({ ...PredictionDb });
+
+    // Keep only the last 5 predictions
+    if (previousPredictions.length > 5) {
+      previousPredictions.shift();
+    }
     // Saving Previous Prediction Data and reseting Prediction Db
-    checkWinner();
-    currentLotteryId++;
+    const winner = checkWinner();
+    distributePredictionWinnings(winner);
+    emitSocketEvent("hi", "hi");
+    PredictionId++;
     PredictionDb = resetPredictionDb();
     // Starting New Prediction From Here
-    PredictionDb.id = currentLotteryId;
+    PredictionDb.id = PredictionId;
     PredictionDb.startingTimestamp = Date.now();
     PredictionDb.endingTimestamp = Date.now() + 5 * 60 * 1000;
-    PredictionBot(getRandomNumber(1, 100));
-    // console.log(currentLotteryId, PredictionDb);
+    PredictionDb.Winner = winner
+    PredictionBot(getRandomNumber(1, 40));
+    // console.log(PredictionId, PredictionDb);
+    generateUpcomingPredictions();
   } catch (error) {
-    console.log("error in Prediction");
+    console.log("error in Prediction", error);
   }
 };
 
 const PredictionBot = (userCount) => {
   for (let i = 0; i < userCount; i++) {
-    const user = {
-      Address: getRandomNumber(1, 100000),
-      amount: getRandomNumber(1, 1000),
-    };
+    let type;
     const category = getRandomNumber(1, 3);
+    const amount = getRandomNumber(1, 1000);
     switch (category) {
       case 1:
-        PredictionDb.PredictionUp.ParticpatedUsers.push(user);
-        PredictionDb.PredictionUp.TotalAmount += user.amount;
+        type = "UP";
+        PredictionDb.PredictionUp.TotalAmount += amount;
         PredictionDb.PredictionUp.TotalParticpatedUsers += 1;
         break;
       case 2:
-        PredictionDb.PredictionDown.ParticpatedUsers.push(user);
-        PredictionDb.PredictionDown.TotalAmount += user.amount;
+        type = "DOWN";
+        PredictionDb.PredictionDown.TotalAmount += amount;
         PredictionDb.PredictionDown.TotalParticpatedUsers += 1;
         break;
       case 3:
-        PredictionDb.PredictionHold.ParticpatedUsers.push(user);
-        PredictionDb.PredictionHold.TotalAmount += user.amount;
+        type = "HOLD";
+        PredictionDb.PredictionHold.TotalAmount += amount;
         PredictionDb.PredictionHold.TotalParticpatedUsers += 1;
         break;
     }
-    PredictionDb.TotalAmount += user.amount;
+    const user = {
+      Address: i,
+      amount: amount,
+      type: type,
+    };
+    PredictionDb.ParticpatedUsers.push(user);
+    PredictionDb.TotalAmount += amount;
     PredictionDb.TotalParticpatedUser += 1;
+    // emitSocketEvent("newPredictionPlaced", {
+    //   ...user,
+    //   predictionId: PredictionId,
+    // });
   }
 };
 
@@ -78,26 +99,38 @@ const resetPredictionDb = () => {
     PredictionUp: {
       TotalAmount: 0,
       TotalParticpatedUsers: 0,
-      ParticpatedUsers: [],
     },
     PredictionDown: {
       TotalAmount: 0,
       TotalParticpatedUsers: 0,
-      ParticpatedUsers: [],
     },
     PredictionHold: {
       TotalAmount: 0,
       TotalParticpatedUsers: 0,
-      ParticpatedUsers: [],
     },
+    ParticpatedUsers: [],
+    startingTimestamp: 0,
+    endingTimestamp: 0,
     TotalParticpatedUser: 0,
     TotalAmount: 0,
+    Winner: null,
   };
+};
+
+const generateUpcomingPredictions = () => {
+  upcomingPredictions = [];
+  for (let i = 1; i <= 2; i++) {
+    const upcomingPrediction = resetPredictionDb();
+    upcomingPrediction.id = PredictionId + i;
+    upcomingPrediction.startingTimestamp = Date.now() + i * 5 * 60 * 1000;
+    upcomingPrediction.endingTimestamp =
+      upcomingPrediction.startingTimestamp + 5 * 60 * 1000;
+    upcomingPredictions.push(upcomingPrediction);
+  }
 };
 
 const checkWinner = () => {
   let Winner;
-
   if (
     PredictionDb.PredictionUp.TotalAmount <=
       PredictionDb.PredictionDown.TotalAmount &&
@@ -120,6 +153,92 @@ const checkWinner = () => {
   return Winner;
 };
 
+const joinPredictionInternal = (predictionId, amount, address, type) => {
+  if (predictionId != PredictionId) {
+    return {
+      succes: false,
+      msg: "inavalid Prediction Id",
+    };
+  }
+  const arePlacedBet = userExists(PredictionDb.ParticpatedUsers, address);
+  if (arePlacedBet) {
+    return {
+      succes: false,
+      msg: "User Cannot Place Multiple Bet",
+    };
+  }
+
+  switch (type) {
+    case "UP":
+      PredictionDb.PredictionUp.TotalAmount += amount;
+      PredictionDb.PredictionUp.TotalParticpatedUsers += 1;
+      break;
+    case "DOWN":
+      PredictionDb.PredictionDown.TotalAmount += amount;
+      PredictionDb.PredictionDown.TotalParticpatedUsers += 1;
+      break;
+    case "HOLD":
+      PredictionDb.PredictionHold.TotalAmount += amount;
+      PredictionDb.PredictionHold.TotalParticpatedUsers += 1;
+      break;
+  }
+  const user = {
+    Address: address,
+    amount: amount,
+    type: type,
+  };
+  PredictionDb.ParticpatedUsers.push(user);
+  PredictionDb.TotalAmount += amount;
+  PredictionDb.TotalParticpatedUser += 1;
+  emitSocketEvent("newPredictionPlaced", {
+    ...user,
+    predictionId: PredictionId,
+  });
+  return {
+    succes: true,
+    msg: "Bet Placed Succesfully",
+  };
+};
+
+const getPredictionDataInternal = () => {
+  const data = {
+    previousPredictions: previousPredictions,
+    currentPrediction: PredictionDb,
+    upcomingPredictions: upcomingPredictions,
+  };
+  return data;
+};
+
+const distributePredictionWinnings = (Winner) => {
+  try {
+    const winnerList = PredictionDb.ParticpatedUsers.filter(
+      (participation) => participation.type === Winner
+    );
+    console.log("winner list", winnerList);
+    winnerList.forEach((winner) => {
+      console.log(
+        `Winner Address: ${String(winner.Address).length}, Amount: ${
+          winner.amount
+        }, Type: ${winner.type}`
+      );
+      if (String(winner.Address).length > 4) {
+        console.log("this is real user", winner.Address);
+      }
+    });
+  } catch (error) {}
+};
+
+const userExists = (participations, userAddress) => {
+  return participations.some(
+    (participation) => participation.Address === userAddress
+  );
+};
+
 setInterval(startNewPrediction, 1000);
 
-console.log("perdictiondb", PredictionDb.PredictionDown.ParticpatedUsers);
+console.log("perdictiondb", PredictionDb.ParticpatedUsers);
+
+module.exports = {
+  joinPredictionInternal,
+  getPredictionDataInternal,
+};

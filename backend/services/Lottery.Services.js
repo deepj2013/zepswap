@@ -6,4 +6,3 @@ const lottery = () => {
   
 }
 
-const joinLottery = f
