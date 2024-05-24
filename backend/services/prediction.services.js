@@ -16,6 +16,8 @@ let PredictionDb = {
     TotalParticpatedUsers: 0,
     ParticpatedUsers: [],
   },
+  startingTimestamp: 0,
+  endingTimestamp: 0,
   TotalParticpatedUser: 0,
   TotalAmount: 0,
 };
@@ -26,10 +28,16 @@ const getRandomNumber = (min, max) => {
 
 const startNewPrediction = async () => {
   try {
+    // Saving Previous Prediction Data and reseting Prediction Db
+    checkWinner();
     currentLotteryId++;
     PredictionDb = resetPredictionDb();
+    // Starting New Prediction From Here
     PredictionDb.id = currentLotteryId;
+    PredictionDb.startingTimestamp = Date.now();
+    PredictionDb.endingTimestamp = Date.now() + 5 * 60 * 1000;
     PredictionBot(getRandomNumber(1, 100));
+    // console.log(currentLotteryId, PredictionDb);
   } catch (error) {
     console.log("error in Prediction");
   }
@@ -85,6 +93,31 @@ const resetPredictionDb = () => {
     TotalParticpatedUser: 0,
     TotalAmount: 0,
   };
+};
+
+const checkWinner = () => {
+  let Winner;
+
+  if (
+    PredictionDb.PredictionUp.TotalAmount <=
+      PredictionDb.PredictionDown.TotalAmount &&
+    PredictionDb.PredictionUp.TotalAmount <=
+      PredictionDb.PredictionHold.TotalAmount
+  ) {
+    Winner = "UP";
+  } else if (
+    PredictionDb.PredictionDown.TotalAmount <=
+      PredictionDb.PredictionUp.TotalAmount &&
+    PredictionDb.PredictionDown.TotalAmount <=
+      PredictionDb.PredictionHold.TotalAmount
+  ) {
+    Winner = "DOWN";
+  } else {
+    Winner = "Hold";
+  }
+
+  console.log("Winner Is", Winner);
+  return Winner;
 };
 
 setInterval(startNewPrediction, 1000);

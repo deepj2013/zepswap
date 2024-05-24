@@ -17,20 +17,35 @@ const schema = new Schema(
       type: Number,
       default: 0,
     },
+    Group_C_Amount: {
+      type: Number,
+      default: 0,
+    },
     Winner: {
       type: String,
-      enum: ["GroupA", "GroupB"],
+      enum: ["GroupA", "GroupB", "GroupC"],
     },
     status: {
       type: String,
       enum: ["OPEN", "CLOSED", "UPCOMING"],
     },
-    closingTime:{
-        type:Date,
+    TotalAmount: {
+      type: Number,
+      default:0
+    },
+    TotalUserParticipated: {
+      type: Number,
+      default: 0,
+    },
+    closingTime: {
+      type: Date,
+    },
+    openingTime:{
+      type:Date
     }
   },
   { timestamps: true }
 );
 
-const PayementRequest = mongoose.model("Payements", schema);
+const PayementRequest = mongoose.model("PridictionData", schema);
 module.exports = PayementRequest;

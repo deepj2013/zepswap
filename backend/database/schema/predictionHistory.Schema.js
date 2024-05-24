@@ -10,7 +10,7 @@ const schema = new Schema(
       indexd: true,
     },
     Amount: {
-      type: Number,
+      type: mongoose.Schema.Types.Decimal128,
       default: 0,
     },
     WalletAdress: {
@@ -19,14 +19,21 @@ const schema = new Schema(
     },
     PredictedOn: {
       type: String,
-      enum: ["GroupA", "GroupB"],
+      enum: ["UP", "DOWN","HOLD" ],
     },
     hash:{
         type:String
+    },
+    winning:{
+      type:Boolean,
+    },
+    winningAmount:{
+      type: mongoose.Schema.Types.Decimal128,
+      default:0
     }
   },
   { timestamps: true }
 );
 
-const PayementRequest = mongoose.model("PredictionHistory", schema);
-module.exports = PayementRequest;
+const PredictionHistory = mongoose.model("PredictionHistory", schema);
+module.exports = PredictionHistory;
