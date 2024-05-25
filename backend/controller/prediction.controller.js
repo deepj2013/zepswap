@@ -29,7 +29,7 @@ const JoinPrediction = catchAsync(async (req, res) => {
   if (Number(userWallet.ZepxBalance) < amount) {
     const response = responseObject(false, true, {
       address: address,
-      balance: userWallet.ZepxBalance,
+      balance: Number(userWallet.ZepxBalance),
       msg: "Insufficient Balance",
     });
     return res.status(httpStatus.NOT_ACCEPTABLE).json(response);
@@ -53,7 +53,7 @@ const JoinPrediction = catchAsync(async (req, res) => {
     await saveHistory.save();
     const response = responseObject(true, false, {
       address: address,
-      balance: userWallet.ZepxBalance,
+      balance: Number(userWallet.ZepxBalance),
       msg: "Bet Placed Succesfully",
     });
     return res.status(httpStatus.OK).json(response);

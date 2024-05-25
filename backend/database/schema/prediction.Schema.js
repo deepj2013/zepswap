@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
   Address: {
-    type: Number,
+    type: String,
     required: true,
   },
   amount: {

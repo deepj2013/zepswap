@@ -5,7 +5,7 @@ const { verifyJwtToken } = require("../utils/jwtUtlis");
 
 // API => GET
 router.get("/get-prediction-data", predictionController.getPredictionData);
-router.get("/get-prediction-history", predictionController.getPredictionHistory);
+router.get("/get-prediction-history",verifyJwtToken, predictionController.getPredictionHistory);
 // API => POST
 router.post("/place-bet",verifyJwtToken,predictionController.JoinPrediction);
 
