@@ -2,50 +2,78 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
-const schema = new Schema(
+const userSchema = new Schema({
+  Address: {
+    type: Number,
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  type: {
+    type: String,
+    required: true,
+  },
+});
+
+const predictionSubSchema = new Schema({
+  TotalAmount: {
+    type: Number,
+    default: 0,
+  },
+  TotalParticipatedUsers: {
+    type: Number,
+    default: 0,
+  },
+});
+
+const predictionSchema = new Schema(
   {
-    PredictionId: {
+    id: {
       type: Number,
+      index: true,
       unique: true,
-      indexd: true,
     },
-    Group_A_Amount: {
+    PredictionUp: {
+      type: predictionSubSchema,
+      default: () => ({}),
+    },
+    PredictionDown: {
+      type: predictionSubSchema,
+      default: () => ({}),
+    },
+    PredictionHold: {
+      type: predictionSubSchema,
+      default: () => ({}),
+    },
+    ParticpatedUsers: {
+      type: [userSchema],
+      default: [],
+    },
+    startingTimestamp: {
       type: Number,
       default: 0,
     },
-    Group_B_Amount: {
+    endingTimestamp: {
       type: Number,
       default: 0,
     },
-    Group_C_Amount: {
+    TotalParticipatedUser: {
+      type: Number,
+      default: 0,
+    },
+    TotalAmount: {
       type: Number,
       default: 0,
     },
     Winner: {
       type: String,
-      enum: ["GroupA", "GroupB", "GroupC"],
+      default: "",
     },
-    status: {
-      type: String,
-      enum: ["OPEN", "CLOSED", "UPCOMING"],
-    },
-    TotalAmount: {
-      type: Number,
-      default:0
-    },
-    TotalUserParticipated: {
-      type: Number,
-      default: 0,
-    },
-    closingTime: {
-      type: Date,
-    },
-    openingTime:{
-      type:Date
-    }
   },
   { timestamps: true }
 );
 
-const PayementRequest = mongoose.model("PridictionData", schema);
-module.exports = PayementRequest;
+const PredictionDataSchema = mongoose.model("PredictionData", predictionSchema);
+module.exports = PredictionDataSchema;

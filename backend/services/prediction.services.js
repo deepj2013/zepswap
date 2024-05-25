@@ -1,3 +1,6 @@
+const PredictionData = require("../database/schema/prediction.Schema");
+const PredictionHistory = require("../database/schema/predictionHistory.Schema");
+const UserWallet = require("../database/schema/userWallet.Schema");
 const { emitSocketEvent } = require("../socket/socket");
 
 let PredictionId = 1;
@@ -31,26 +34,31 @@ const getRandomNumber = (min, max) => {
 
 const startNewPrediction = async () => {
   try {
-    previousPredictions.push({ ...PredictionDb });
-
-    // Keep only the last 5 predictions
-    if (previousPredictions.length > 5) {
-      previousPredictions.shift();
-    }
     // Saving Previous Prediction Data and reseting Prediction Db
-    const winner = checkWinner();
-    distributePredictionWinnings(winner);
-    emitSocketEvent("hi", "hi");
+    if (PredictionDb.startingTimestamp != 0) {
+      const winner = checkWinner();
+      distributePredictionWinnings(winner);
+      PredictionDb.Winner = winner;
+      previousPredictions.push({ ...PredictionDb });
+
+      // Keep only the last 5 predictions
+      if (previousPredictions.length > 5) {
+        previousPredictions.shift();
+      }
+      savePredictionData(PredictionDb);
+    }
+
     PredictionId++;
+    generateUpcomingPredictions();
+    emitSocketEvent("updatedPredictionData", getPredictionDataInternal());
     PredictionDb = resetPredictionDb();
     // Starting New Prediction From Here
     PredictionDb.id = PredictionId;
     PredictionDb.startingTimestamp = Date.now();
     PredictionDb.endingTimestamp = Date.now() + 5 * 60 * 1000;
-    PredictionDb.Winner = winner
+
     PredictionBot(getRandomNumber(1, 40));
     // console.log(PredictionId, PredictionDb);
-    generateUpcomingPredictions();
   } catch (error) {
     console.log("error in Prediction", error);
   }
@@ -153,7 +161,7 @@ const checkWinner = () => {
   return Winner;
 };
 
-const joinPredictionInternal = (predictionId, amount, address, type) => {
+const joinPredictionInternal = async (predictionId, amount, address, type) => {
   if (predictionId != PredictionId) {
     return {
       succes: false,
@@ -209,13 +217,18 @@ const getPredictionDataInternal = () => {
   return data;
 };
 
-const distributePredictionWinnings = (Winner) => {
+const savePredictionData = async (data) => {
+  const predictionData = new PredictionData(data);
+  await predictionData.save();
+};
+
+const distributePredictionWinnings = async (Winner,id) => {
   try {
     const winnerList = PredictionDb.ParticpatedUsers.filter(
       (participation) => participation.type === Winner
     );
     console.log("winner list", winnerList);
-    winnerList.forEach((winner) => {
+    winnerList.forEach(async (winner) => {
       console.log(
         `Winner Address: ${String(winner.Address).length}, Amount: ${
           winner.amount
@@ -223,6 +236,18 @@ const distributePredictionWinnings = (Winner) => {
       );
       if (String(winner.Address).length > 4) {
         console.log("this is real user", winner.Address);
+        const winningAmount = amount * 1.8
+        const userWallet = await UserWallet.findOne({ WalletAdress: address });
+        userWallet.ZepxBalance = Number(userWallet.ZepxBalance) + winningAmount;
+        userWallet.save();
+        const UserPredictionHistory = await PredictionHistory.findOne({
+          PredictionId:id,
+          WalletAdress:winner.Address,
+          winningAmount:winningAmount,
+          winning:true
+        })
+        await UserPredictionHistory.save();
+        return
       }
     });
   } catch (error) {}
@@ -234,11 +259,17 @@ const userExists = (participations, userAddress) => {
   );
 };
 
-setInterval(startNewPrediction, 1000);
+const StartPrediction = async () => {
+  const previousPredictionsCount = await PredictionData.countDocuments([]);
+  console.log("previous prediction count", previousPredictionsCount);
+  PredictionId = previousPredictionsCount;
+  setInterval(startNewPrediction, 1000);
+};
 
 console.log("perdictiondb", PredictionDb.ParticpatedUsers);
 
 module.exports = {
   joinPredictionInternal,
   getPredictionDataInternal,
+  StartPrediction,
 };

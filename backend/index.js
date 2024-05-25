@@ -34,6 +34,7 @@ app.use(
 
 const { default: helmet } = require("helmet");
 const { transactionMonitorSystem } = require("./services/transactionMonitor");
+const { StartPrediction } = require("./services/prediction.services");
 
 
 
@@ -56,6 +57,7 @@ databaseConnection(() => {
   server.listen(Port, () => {
     console.log(`server is running in port ${Port}`);
     socketIoConnection(io);
+    StartPrediction();
     // transactionMonitorSystem();
   });
 });

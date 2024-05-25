@@ -6,7 +6,6 @@ const schema = new Schema(
   {
     PredictionId: {
       type: Number,
-      unique: true,
       indexd: true,
     },
     Amount: {
@@ -26,6 +25,7 @@ const schema = new Schema(
     },
     winning:{
       type:Boolean,
+      default:false
     },
     winningAmount:{
       type: mongoose.Schema.Types.Decimal128,
