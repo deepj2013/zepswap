@@ -13,7 +13,8 @@ import Stack from './pages/Stack/Stack'
 import Pool from './pages/Pool/Pool'
 import NavBar2 from './component/NavBar2'
 import Buy from './pages/Buy/BuyPage'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -43,6 +44,8 @@ function App() {
         
         
       </Routes>
+      <ToastContainer />
+
    </div>
    
 

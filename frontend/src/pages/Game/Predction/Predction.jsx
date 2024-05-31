@@ -1,15 +1,100 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import HorizontalScroll from '../../../component/Common/HorizontalScroll';
 import { twMerge } from 'tailwind-merge';
 import { IoMdArrowRoundDown } from 'react-icons/io';
 import { FaAngleDown } from 'react-icons/fa6';
+import { useEthersSigner } from '../../../blockchain/contractSigner';
+import { currentPredctionServices, getBalanceServices, loginServices,  } from '../../../services/Services';
+import { DialogWithForm } from '../../../component/Common/WalletModal';
+import { Button } from '@material-tailwind/react';
 
 const Predction = () => {
+
+  const signer = useEthersSigner();
+  const [userBalance,setUserBalance] =useState({})
+  const [currentPredctionList,setCurrentPredctionList] = useState([])
+  const [open, setOpen] = React.useState(false);
+
+
+
+  const loginHandler = async () => {
+    // http://localhost:3097/user/login
+    try {
+      let obj = {
+        "address": signer._address
+      }
+      let response = await loginServices(obj)
+
+      console.log(response);
+      if(response?.data?.success){
+        localStorage.setItem("token",response?.data?.jwt)
+        getUserBalance(response?.data?.jwt)
+      }
+      else{
+        console.log('ero');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+  const getUserBalance=async(token)=>{
+    try {
+      let response = await getBalanceServices(token)
+      if(response?.data?.success){
+        setUserBalance(response?.data)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  const currentPredictionList = async () => {
+    try {
+      let response = await currentPredctionServices();
+      let previousPredictions = Array.isArray(response?.data?.previousPredictions) ? response.data.previousPredictions : [];
+      let currentPrediction = Array.isArray(response?.data?.currentPrediction) ? response.data.currentPrediction : [];
+      let upcomingPredictions = Array.isArray(response?.data?.upcomingPredictions) ? response.data.upcomingPredictions : [];
+  
+      let temp = [
+        ...previousPredictions,
+        ...currentPrediction,
+        ...upcomingPredictions
+      ];
+  
+      console.log(upcomingPredictions);
+      setCurrentPredctionList(temp); // Pass the temp array to the function
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if(signer?._address){
+      loginHandler()
+    }
+  }, [signer?._address])
+  
+
+
+  useEffect(() => {
+    currentPredictionList()
+  }, [])
+  
+
+
   return (
     <div className='h-screen w-screen bg-theme flex flex-col justify-center overflow-hidden '>
 
+
+
+
       <div className='px-4 flex justify-between'>
-        <div className='flex items-center'>
+        <div className='flex items-center  w-full justify-between'>
+          <div className='flex items-center border'>
           <img className='h-30 w-16' src='https://assets.pancakeswap.finance/web/chains/56.png' />
           <div>
             <div className='flex bg-secondry text-white items-center gap-6 p-1 px-4 rounded-2xl'>
@@ -23,7 +108,15 @@ const Predction = () => {
 
             </div>
           </div>
+          </div>
+          <button
+          onClick={()=>setOpen(true)}
+           className='bg-secondry  w-[200px] text-white    rounded-lg py-2 mt-3'>
+        Walltet $ {userBalance?.balance}
+      </button>
         </div>
+
+
 
 
         {/* 
@@ -66,7 +159,7 @@ const Predction = () => {
         <HorizontalScroll>
           {/* Add your content here */}
           <div className='flex b'>
-            {Array.from({ length: 3 }).map((_, index) => (
+            {currentPredctionList?.map((_, index) => (
               <div
                 className={twMerge('rounded-2xl', index == 2 && 'bg-gradient-to-r from-purple-400 via-lightTheme-500 to-red-600 p-0.5 overflow-hidden rounded-2xl')}
                 key={index} style={{ width: '330px', height: '350px', margin: '10px' }}>
@@ -80,7 +173,7 @@ const Predction = () => {
                     </div>
                   </div>
 
-              {index==0 &&    <div class="w-24 h-24 absolute top-10 left-1/2 transform -translate-x-1/2">
+                  {index == 0 && <div class="w-24 h-24 absolute top-10 left-1/2 transform -translate-x-1/2">
                     <div class="absolute inset-0 overflow-hidden">
                       <svg class="h-full w-full text-yellow-400" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none">
                         <polygon points="50,0 100,25 100,75 50,100 0,75 0,25" />
@@ -89,17 +182,17 @@ const Predction = () => {
                     <div class="absolute inset-0 flex flex-col items-center justify-center rounded">
 
                       <p className='font-bold text-2xl'>
-                      Up
+                        Up
                       </p>
 
                       <p>
-                      1.56x
+                        1.56x
                       </p>
                     </div>
                   </div>}
 
 
-                  {index==2 &&    <div class="w-24 h-24 absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                  {index == 2 && <div class="w-24 h-24 absolute bottom-4 left-1/2 transform -translate-x-1/2">
                     <div class="absolute inset-0 overflow-hidden">
                       <svg class="h-full w-full text-yellow-400" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none">
                         <polygon points="50,0 100,25 100,75 50,100 0,75 0,25" />
@@ -107,12 +200,12 @@ const Predction = () => {
                     </div>
                     <div class="absolute inset-0 flex items-center justify-center rounded flex-col">
 
-                    <p className='font-bold text-2xl'>
-                      Down
+                      <p className='font-bold text-2xl'>
+                        Down
                       </p>
 
                       <p>
-                      1.56x
+                        1.56x
                       </p>
                     </div>
                   </div>}
@@ -166,7 +259,7 @@ const Predction = () => {
                   {/* Next */}
 
 
-                  {(index == 1 || index==2)&& <div className={twMerge('border-2 border-theme w-[85%] mx-auto rounded-2xl p-3 mt-5 z-30 bg-secondry')}>
+                  {(index == 1 || index == 2) && <div className={twMerge('border-2 border-theme w-[85%] mx-auto rounded-2xl p-3 mt-5 z-30 bg-secondry')}>
 
 
 
@@ -189,8 +282,15 @@ const Predction = () => {
                       </button>
 
 
+
+
                       <button className='bg-[#A8CD9F] text-white w-full rounded-lg py-1.5 mt-3'>
-                        Enter Up
+                        Enter Hold
+                      </button>
+
+
+                      <button className='bg-[#A8CD9F] text-white w-full rounded-lg py-1.5 mt-3'>
+                        Enter Down
                       </button>
 
                     </div>
@@ -202,7 +302,9 @@ const Predction = () => {
             ))}
           </div>
 
+
         </HorizontalScroll>
+        <DialogWithForm open={open} setOpen={setOpen}/>
       </div>
     </div>
   );
