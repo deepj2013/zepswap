@@ -1,0 +1,8 @@
+const LotteryDb = {
+
+};
+
+const lottery = () => {
+  
+}
+
