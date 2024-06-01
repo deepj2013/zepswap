@@ -30,7 +30,7 @@ const rechargeWallet = catchAsync(async (req, res) => {
     });
     return res.status(httpStatus.OK).json(response);
   }
-  userWallet.ZepxBalance = Number(userWallet.ZepxBalance) + amount;
+  userWallet.ZepxBalance = Number(userWallet.ZepxBalance) + Number(amount);
   userWallet.save();
   const transaction = new UserTransactions({
     WalletAdress: address,
