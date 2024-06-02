@@ -20,6 +20,7 @@ const schema = new Schema(
     Winners: {
       type: Array,
     },
+    tickets:[],
     closingTime: {
       type: Date,
       default: Date.now(),

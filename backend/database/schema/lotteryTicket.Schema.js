@@ -6,11 +6,10 @@ const schema = new Schema(
   {
     LotteryId: {
       type: Number,
-      unique: true,
       indexd: true,
     },
     TicketId: {
-      type: Number,
+      type: String,
       indexd: true,
       default: 0,
     },
