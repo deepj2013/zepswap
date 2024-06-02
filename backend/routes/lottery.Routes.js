@@ -10,7 +10,7 @@ router.get("/user-lottery-history/:id",lotteryController.GetUserLotteryHistoryBy
 
 // API => POST
 router.post("/join-lottery",lotteryController.ParticipateInLottery);
-router.post("/claim-winning-amount",lotteryController.ClaimWinningAmount);
+
 
 
 

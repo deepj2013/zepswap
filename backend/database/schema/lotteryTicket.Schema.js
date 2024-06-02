@@ -15,15 +15,13 @@ const schema = new Schema(
       default: 0,
     },
     WalletAdress: {
-      type: Number,
-      default: 0,
-    },
-    PaymentHash: {
       type: String,
+      indexd: true,
+      default: 0,
     },
   },
   { timestamps: true }
 );
 
-const PayementRequest = mongoose.model("lotterTickets", schema);
-module.exports = PayementRequest;
+const LotteryTicketsSchema = mongoose.model("lotterTickets", schema);
+module.exports = LotteryTicketsSchema;

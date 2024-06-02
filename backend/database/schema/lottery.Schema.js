@@ -13,6 +13,10 @@ const schema = new Schema(
       type: Number,
       default: 0,
     },
+    TicketPrice:{
+      type:Number,
+      default:0
+    },
     Winners: {
       type: Array,
     },
@@ -24,5 +28,5 @@ const schema = new Schema(
   { timestamps: true }
 );
 
-const PayementRequest = mongoose.model("Payements", schema);
-module.exports = PayementRequest;
+const LotterySchema = mongoose.model("Lottery", schema);
+module.exports = LotterySchema;
