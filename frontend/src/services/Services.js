@@ -35,8 +35,9 @@ export const loginServices = async (payload) => {
 
 
   export const placeBidServices = async (payload) => {
+    let token=localStorage.getItem('token');
     let url = `${BASE_URL}prediction/place-bet`;
-    return await axios.post(url,payload,getAxiosHeader());
+    return await axios.post(url,payload,getAxiosHeader(token));
   };  
 
   export const getBalanceServices = async (token) => {
@@ -56,3 +57,16 @@ export const loginServices = async (payload) => {
     return await axios.get(url,getAxiosHeader());
   };
 
+
+
+  export const getLotteryListServices = async (payload) => {
+    let url = `${BASE_URL}lottery/live-lottery`;
+    return await axios.get(url,getAxiosHeader());
+  };
+
+
+  export const participateLotteryServices = async (payload) => {
+    let token=localStorage.getItem('token');
+    let url = `${BASE_URL}participate-lottery`;
+    return await axios.post(url,payload,getAxiosHeader(token));
+  };  

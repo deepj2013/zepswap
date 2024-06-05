@@ -24,13 +24,7 @@ const Predction = () => {
 
 
   const loginHandler = async () => {
-    // http://localhost:3097/user/login
 
-    // if(!signer?._address===undefined){
-    //   openConnectModal()
-    //   console.log('sss');
-    //   return
-    // }
 
     try {
       let obj = {
