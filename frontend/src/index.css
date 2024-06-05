@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Urbanist&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Urbanist:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Reggae+One&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Warnes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Black+And+White+Picture&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -257,3 +260,297 @@ h2 {
         bottom: -27.5px; /* -(height / 2) */
         border-top: 27.5px solid #ffcc00; /* (height / 2) */
     }
+
+
+
+
+    .coupon {
+      width: 400px;
+      height: 200px;
+      border-radius: 10px;
+      overflow: hidden;
+      /* margin: auto; */
+      filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.5));
+      display: flex;
+      align-items: stretch;
+      position: relative;
+      text-transform: uppercase;
+    }
+    .coupon::before,
+    .coupon::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      z-index: -1;
+    }
+    
+    .coupon::before {
+      left: 0;
+      background-image: radial-gradient(
+        circle at 0 50%,
+        transparent 25px,
+        gold 26px
+      );
+    }
+    
+    .coupon::after {
+      right: 0;
+      background-image: radial-gradient(
+        circle at 100% 50%,
+        transparent 25px,
+        gold 26px
+      );
+    }
+    
+    .coupon > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .left {
+      width: 20%;
+      border-right: 2px dashed rgba(0, 0, 0, 0.13);
+    }
+    .left div {
+      transform: rotate(-90deg);
+      white-space: nowrap;
+      font-weight: bold;
+    }
+    
+    .center {
+      flex-grow: 1;
+      text-align: center;
+    }
+    
+    .right {
+      width: 120px;
+      background-image: radial-gradient(
+        circle at 100% 50%,
+        transparent 25px,
+        #fff 26px
+      );
+    }
+    .right div {
+      font-family: "Libre Barcode 128 Text", cursive;
+      font-size: 2.5rem;
+      font-weight: 400;
+      transform: rotate(-90deg);
+    }
+    
+    .center h2 {
+      background: #000;
+      color: gold;
+      padding: 0 10px;
+      font-size: 2.15rem;
+      white-space: nowrap;
+    }
+    
+    .center h3 {
+      font-size: 2.15rem;
+    }
+    .center small {
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+    }
+    
+    @media screen and (max-width:500px){
+      .coupon {
+        display:grid;
+        grid-template-columns:1fr;
+
+      }
+      .left div {
+        transform: rotate(0deg);
+      }
+      .right div {
+        transform: rotate(0deg);
+        
+      }
+    }
+
+
+    .text6 {
+      text-shadow: 0 13.36px 8.896px #2B3E4C, 0 -2px 1px #E5A759;
+     letter-spacing: -2px;
+     color: #000000;
+ }
+
+
+ /* Lottery tickets css */
+
+ /* Main Ticket Style */
+.ticketContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background:'red'
+}
+.ticket{
+  animation: bouncingCard 0.6s ease-out infinite alternate;
+  background-color: white;
+  color: darkslategray;
+  border-radius: 12px;
+}
+.ticketShadow{
+  animation: bouncingShadow 0.6s ease-out infinite alternate;
+  margin-top: 4px;
+  width: 95%;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.4);
+  filter: blur(12px);
+}
+
+/* Ticket Content */
+.ticketTitle{
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 12px 16px 4px;
+}
+hr{
+  width: 90%;
+  border: 1px solid #efefef;
+}
+.ticketDetail{
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 4px 16px;
+}
+.ticketSubDetail{
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  padding: 12px 16px;
+}
+.ticketSubDetail .code{
+  margin-right: 24px;
+}
+
+/* Ticket Ripper */
+.ticketRip{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.circleLeft{
+  width: 12px;
+  height: 24px;
+  background-color: #edc531;
+  border-radius: 0 12px 12px 0;
+}
+.ripLine{
+  width: 100%;
+  border-top: 3px solid #edc531;
+  border-top-style: dashed ;
+}
+.circleRight{
+  width: 12px;
+  height: 24px;
+  background-color: #edc531;
+  border-radius: 12px 0 0 12px;
+}
+
+/* Ticket Bouncing Animation */
+@keyframes bouncingCard {
+  from { transform: translateY(0);}
+  to {transform: translateY(-18px);}
+}
+@keyframes bouncingShadow {
+  from { transform: translateY(0px);}
+  to {transform: translateY(4px);}
+}
+
+
+/* Jackpot Text */
+
+
+.neon {
+   margin: auto;
+  margin-top: 12px;
+  color: #fff;
+  text-shadow: 0 0 10px #0ebeff, 0 0 20px #0ebeff, 0 0 50px #0ebeff,
+    0 0 100px #0ebeff, 0 0 200px #0ebeff;
+    font-family: "Black And White Picture", system-ui;
+
+}
+
+.hover {
+  text-shadow: unset;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.hover:hover {
+  text-shadow: 0 0 10px #0ebeff, 0 0 20px #0ebeff, 0 0 50px #0ebeff,
+    0 0 100px #0ebeff, 0 0 200px #0ebeff;
+}
+
+.neon2 {
+  --color: #edc531;
+  color: #000;
+  letter-spacing: 16px;
+  cursor: pointer;
+  font-family: "Black And White Picture", system-ui;
+
+}
+
+
+
+.neon2 span {
+  /* animation: flicker 1s linear forwards; */
+  animation: flicker 1s linear infinite;
+
+}
+
+.neon2:hover #e {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+.neon2:hover #o {
+  -webkit-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+}
+
+.neon2:hover #n2 {
+  -webkit-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
+
+.neon2:hover #n3 {
+  -webkit-animation-delay: 1.8s;
+  animation-delay: 1.8s;
+}
+
+.neon2:hover #n4 {
+  -webkit-animation-delay: 2.10s;
+  animation-delay: 2.10s;
+}
+
+.neon2:hover #n5 {
+  -webkit-animation-delay: 3.16s;
+  animation-delay: 3.16s;
+}
+@keyframes flicker {
+  0% {
+    color: #333;
+  }
+  5%,
+  15%,
+  25%,
+  30%,
+  100% {
+    color: #000;
+    text-shadow: 0px 0px 5px var(--color), 0px 0px 10px var(--color),
+      0px 0px 20px var(--color), 0px 0px 50px var(--color);
+  }
+  10%,
+  20% {
+    color: #333;
+    text-shadow: none;
+  }
+}

@@ -172,10 +172,12 @@ const GetUserLotteryData = catchAsync(async (req, res) => {
     });
 
     if (!userLotteryData || userLotteryData.length === 0) {
-      const err = responseObject(false, true, {
+      const err = responseObject(true, false, {
         message: "No lottery data found for the specified lottery and user",
+        userLotteryData: [],
+
       });
-      return res.status(httpStatus.NOT_FOUND).json(err);
+      return res.status(httpStatus.OK).json(err);
     }
 
     const successResponse = responseObject(true, false, {

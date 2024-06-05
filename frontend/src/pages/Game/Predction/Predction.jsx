@@ -9,6 +9,8 @@ import { DialogWithForm } from '../../../component/Common/WalletModal';
 import { Button } from '@material-tailwind/react';
 import { PlacebidModal } from '../../../component/Common/PlacebidModal';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
+import predction from '../../../assets/predction.png'
+
 
 const Predction = () => {
 
@@ -129,28 +131,15 @@ const Predction = () => {
   }, [currentPredctionList]);
 
   return (
-    <div className='h-screen w-screen bg-theme flex flex-col justify-center overflow-hidden '>
+    <div className=' w-screen bg-theme flex flex-col justify-center overflow-hidden '>
 
 
 
 
       <div className='px-4 flex justify-between'>
         <div className='flex items-center  w-full justify-between'>
-          <div className='flex items-center '>
-            <img className='h-30 w-16' src='https://assets.pancakeswap.finance/web/chains/56.png' />
-            <div>
-              <div className='flex bg-secondry text-white items-center gap-6 p-1 px-4 rounded-2xl'>
-                <p className='text20 font-semibold'>BNB Chain</p>
+        <img className='h-[300px] object-contain mt-10' src={predction} />
 
-                <div className='flex items-center gap-4 '>
-                  <p className='text-gray font-normal '>$ 2000</p>
-
-                  <FaAngleDown className='text-sm' />
-                </div>
-
-              </div>
-            </div>
-          </div>
           <button
             onClick={() => {
               if (signer?._address === undefined) {

@@ -6,17 +6,18 @@ import {
   useSpring,
 } from "framer-motion";
 import { FiMousePointer } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
-const Card = ({tittle,desc,image}) => {
+const Card = ({tittle,desc,image,link}) => {
   return (
-      <TiltCard tittle={tittle} desc={desc} image={image} />
+      <TiltCard tittle={tittle} desc={desc} image={image} link={link} />
   );
 };
 
 const ROTATION_RANGE = 32.5;
 const HALF_ROTATION_RANGE = 32.5 / 2;
 
-const TiltCard = ({tittle,desc,image}) => {
+const TiltCard = ({tittle,desc,image,link}) => {
   const ref = useRef(null);
 
   const x = useMotionValue(0);
@@ -61,7 +62,8 @@ const TiltCard = ({tittle,desc,image}) => {
       }}
       className="relative h-96 w-[90vw] mx-auto lg:w-72  bg-purpleShade rounded-xl to-violet-300"
     >
-      <div
+      <Link
+      to={link}
         style={{
           transform: "translateZ(75px)",
           transformStyle: "preserve-3d",
@@ -83,7 +85,7 @@ const TiltCard = ({tittle,desc,image}) => {
         </p>
 
         <p className="mt-2">{desc}</p>
-      </div>
+      </Link>
     </motion.div>
   );
 };
