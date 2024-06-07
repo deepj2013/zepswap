@@ -10,7 +10,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useEthersSigner } from "../../blockchain/contractSigner";
 import toast from "react-hot-toast";
 import { imagesConstant } from "../../utils/ImageConstant";
-import { Usdt_Address, Zepx_Address, Zepx_swap } from "../../blockchain/config";
+import { Usdt_Address, Zepx_Address, Zepx_swap , ZepStake_Address } from "../../blockchain/config";
 
 function Swap() {
   const { openConnectModal } = useConnectModal();

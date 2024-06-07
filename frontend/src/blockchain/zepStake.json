@@ -1,8 +1,71 @@
 [
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_poolId",
+				"type": "uint256"
+			}
+		],
+		"name": "claimRewards",
+		"outputs": [],
 		"stateMutability": "nonpayable",
-		"type": "constructor"
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_stakingToken",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_rewardToken",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_apr",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_lockingPeriod",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_instantReferralReward",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_mutrityReferralReward",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_mutrityPeriod",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_mutrityReward",
+				"type": "uint256"
+			}
+		],
+		"name": "createPool",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "pause",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [
@@ -12,20 +75,31 @@
 				"type": "uint256"
 			},
 			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
 				"internalType": "address",
-				"name": "_account",
+				"name": "_refredBy",
 				"type": "address"
 			}
 		],
-		"name": "TotalStaked",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
+		"name": "stake",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "unpause",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -34,9 +108,103 @@
 				"internalType": "uint256",
 				"name": "_poolId",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_newLockingPeriod",
+				"type": "uint256"
 			}
 		],
-		"name": "claimRewards",
+		"name": "updateLockingPeriod",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_poolId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_newMaturityPeriod",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_newMaturityRewardPercentage",
+				"type": "uint256"
+			}
+		],
+		"name": "updateMaturityInfo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_poolId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_newAPR",
+				"type": "uint256"
+			}
+		],
+		"name": "updatePoolAPR",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_poolId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_newIntstantRefralReward",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_newMaturityRefralReward",
+				"type": "uint256"
+			}
+		],
+		"name": "updateRefrealReward",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "updateRewards",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_poolId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "withdraw",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -63,34 +231,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_stakingToken",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_rewardToken",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_apr",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_lockingPeriod",
-				"type": "uint256"
-			}
-		],
-		"name": "createPool",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -128,13 +268,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "pause",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -207,6 +340,26 @@
 				"internalType": "uint256",
 				"name": "lockingPeriod",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "mutrityPeriod",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "mutrityReward",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "instantReferralReward",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "mutrityReferralReward",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -229,24 +382,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_poolId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "stake",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -286,7 +421,7 @@
 				"type": "address"
 			}
 		],
-		"name": "unlockedIn",
+		"name": "TotalStaked",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -298,10 +433,27 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "unpause",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_poolId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "TotalWithdrawableAmount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -312,57 +464,20 @@
 				"type": "uint256"
 			},
 			{
+				"internalType": "address",
+				"name": "_account",
+				"type": "address"
+			}
+		],
+		"name": "unlockedIn",
+		"outputs": [
+			{
 				"internalType": "uint256",
-				"name": "_newLockingPeriod",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "updateLockingPeriod",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_poolId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_newAPR",
-				"type": "uint256"
-			}
-		],
-		"name": "updatePoolAPR",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "updateRewards",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_poolId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "withdraw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	}
 ]
