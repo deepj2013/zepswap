@@ -20,9 +20,9 @@ function Swap() {
   const [img2, setimg2] = useState(imagesConstant.UsdtLogo);
   const [token1, settoken1] = useState("ZEPX");
   const [token2, settoken2] = useState("USDT");
-  const [BuyingPrice, setBuyingPrice] = useState(600);
-  const [SellingPrice, setSellingPrice] = useState(900);
-  const [Token1Amount, setToken1Amount] = useState(900);
+  const [BuyingPrice, setBuyingPrice] = useState(1200);
+  const [SellingPrice, setSellingPrice] = useState(1500);
+  const [Token1Amount, setToken1Amount] = useState(1500);
   const [Token2Amount, setToken2Amount] = useState(1);
   const signer = useEthersSigner();
 

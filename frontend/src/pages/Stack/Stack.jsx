@@ -18,7 +18,9 @@ import { stackingData } from "../../utils/Contant";
 
 const Stack = () => {
 
-  const [stakModal,setStakeModal]=useState(false)
+  const [stakModal,setStakeModal]=useState(false);
+  const [poolId, setpoolId] = useState(0)
+
   return (
     <div className="h-screen w-screen   overflow-scroll">
 
@@ -34,7 +36,7 @@ const Stack = () => {
                 {
                   stackingData[key]?.map((ele, ind) => {
                     return (
-                      <Card setStakeModal={setStakeModal} stakModal={stakModal} item={ele} />
+                      <Card setStakeModal={setStakeModal} stakModal={stakModal} setpoolId={setpoolId}  item={ele} />
 
                     )
                   })
@@ -45,7 +47,7 @@ const Stack = () => {
         }
         )
       }
-      <StackModal open={stakModal}/>
+      <StackModal open={stakModal} PoolId={poolId} />
     </div>
   );
 };
@@ -54,7 +56,7 @@ export default Stack;
 
 
 
-const Card = ({ item,setStakeModal }) => {
+const Card = ({ item,setStakeModal, setpoolId }) => {
   const [refferer, setrefferer] = useState(
     "0x0000000000000000000000000000000000000000"
   );
@@ -82,6 +84,7 @@ const Card = ({ item,setStakeModal }) => {
         }
         setEarnedReward(rewaradAmount);
       }
+      setpoolId(0)
     };
     fn();
   }, [signer]);
