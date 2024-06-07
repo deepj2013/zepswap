@@ -13,8 +13,48 @@ import {
   WithdrawFromStake,
 } from "../../blockchain/contractUtlis";
 import toast from "react-hot-toast";
+import { StackModal } from "../../component/Modal/StackModal";
+import { stackingData } from "../../utils/Contant";
 
 const Stack = () => {
+
+  const [stakModal,setStakeModal]=useState(false)
+  return (
+    <div className="h-screen w-screen   overflow-scroll">
+
+
+
+      {
+        Object.keys(stackingData)?.map((key) => {
+          return (
+
+            <div className=" container mx-auto  bg-white !mt-20">
+              <p className="text-center text60">{key}</p>
+              <div className="flex flex-wrap ">
+                {
+                  stackingData[key]?.map((ele, ind) => {
+                    return (
+                      <Card setStakeModal={setStakeModal} stakModal={stakModal} item={ele} />
+
+                    )
+                  })
+                }
+              </div>
+            </div>
+          )
+        }
+        )
+      }
+      <StackModal open={stakModal}/>
+    </div>
+  );
+};
+
+export default Stack;
+
+
+
+const Card = ({ item,setStakeModal }) => {
   const [refferer, setrefferer] = useState(
     "0x0000000000000000000000000000000000000000"
   );
@@ -47,7 +87,7 @@ const Stack = () => {
   }, [signer]);
 
   const stakeFunction = async (amount) => {
-    if (signer._address === undefined) {
+    if (signer?._address === undefined) {
       toast.error("wallet not connected");
       return;
     }
@@ -99,7 +139,7 @@ const Stack = () => {
       } else {
         await ClaimReward(poolId, signer);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const withdrawFunction = async (poolId, Amount) => {
@@ -113,78 +153,86 @@ const Stack = () => {
       toast.error(error?.error?.data?.message);
     }
   };
-
   return (
-    <div className="h-screen w-screen   overflow-scroll">
-      <div className=" container mx-auto  bg-white !mt-20">
-        <div className="flex flex-wrap ">
-          {[1].map((ele, ind) => {
-            return (
-              <div className="w-[90vw] mx-auto mt-6 md:w-[45%] border  items-center gap-2 p-5 rounded-md  hover:bg-lightTheme">
-                <div className="flex justify-between w-full">
-                  <div className="flex">
-                    <img
-                      className="h-10 w-10"
-                      src="https://traderjoexyz.com/static/media/sJoe.bfecc45e4aaf8e7cad43.webp"
-                    />
-                    <p>sJOE</p>
-                  </div>
-                  <div>Earn USD Stablecoin</div>
-                </div>
+    <div className="w-[90vw] mx-auto mt-6 md:w-[19%] border  items-center gap-2 p-5 rounded-md  hover:bg-lightTheme">
 
-                <div className="flex justify-between w-full mt-6">
-                  <div className="">
-                    <p className="text-sm text-gray-800">Total Stacked</p>
-                    <p className="text-xl text-gray-800">
-                      ${poolInfo.TotalStaked}
-                    </p>
-                  </div>
-                  <div className="">
-                    <p className="text-sm text-gray-800">Your Stacke</p>
-                    <p className="text-xl text-gray-800">${myStaking}</p>
-                  </div>
-                </div>
+      <p className="text-center text-xl mb-4 font-bold">{item?.name}</p>
+ 
 
-                <div className="flex justify-between w-full mt-6">
-                  <div className="">
-                    <p className="text-sm text-gray-800">Apr</p>
-                    <p className="text-xl text-gray-800">{poolInfo?.apr}%</p>
-                  </div>
-                  <div className="">
-                    <p className="text-sm text-gray-800">Your Earning</p>
-                    <p className="text-xl text-gray-800">{EarnedReward}</p>
-                  </div>
-                </div>
-                <div className="flex justify-between w-full mt-6">
-                  <button
-                    onClick={() => {
-                      stakeFunction(1000);
-                    }}
-                  >
-                    Stake
-                  </button>
-                  <button
-                    onClick={() => {
-                      claimFunction(0);
-                    }}
-                  >
-                    Claim Reward
-                  </button>
-                  <button
-                    onClick={() => {
-                      withdrawFunction(0, 10);
-                    }}
-                  >
-                    Withdraw
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+      <div className="flex justify-between w-full mt-6">
+        <div className="">
+          <p className="text-sm text-gray-800">Investment</p>
+          <p className="text-xl text-gray-800">
+            {item?.investment}
+          </p>
+        </div>
+        <div className="">
+          <p className="text-sm text-gray-800">ROI</p>
+          <p className="text-xl text-gray-800">{item?.roi} <span className="text-xs">pm</span></p>
         </div>
       </div>
-    </div>
-  );
-};
 
-export default Stack;
+
+      <div className="flex justify-between w-full mt-6">
+        <div className="">
+          <p className="text-sm text-gray-800">Maturity</p>
+          <p className="text-xl text-gray-800">
+            {item?.maturity}
+          </p>
+        </div>
+        <div className="">
+          <p className="text-sm text-gray-800">Time</p>
+          <p className="text-xl text-gray-800">{item?.time_period} <span className="text-xs"></span></p>
+        </div>
+      </div>
+
+      <div className="flex justify-between w-full mt-6">
+        <div className="">
+          <p className="text-sm text-gray-800">Total Stacked</p>
+          <p className="text-xl text-gray-800">
+            ${poolInfo.TotalStaked}
+          </p>
+        </div>
+        <div className="">
+          <p className="text-sm text-gray-800">Your Stacke</p>
+          <p className="text-xl text-gray-800">${myStaking}</p>
+        </div>
+      </div>
+
+      <div className="flex justify-between w-full mt-6">
+        <div className="">
+          <p className="text-sm text-gray-800">Apr</p>
+          <p className="text-xl text-gray-800">{poolInfo?.apr}%</p>
+        </div>
+        <div className="">
+          <p className="text-sm text-gray-800">Your Earning</p>
+          <p className="text-xl text-gray-800">{EarnedReward}</p>
+        </div>
+      </div>
+      <div className="flex justify-between w-full mt-6">
+        <button
+          onClick={() => {
+            // stakeFunction(1000);
+            setStakeModal(true)
+          }}
+        >
+          Stake
+        </button>
+        <button
+          onClick={() => {
+            claimFunction(0);
+          }}
+        >
+          Claim Reward
+        </button>
+        <button
+          onClick={() => {
+            withdrawFunction(0, 10);
+          }}
+        >
+          Withdraw
+        </button>
+      </div>
+    </div>
+  )
+}
