@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const { Decimal128 } = mongoose.Types;
 
 const rechargeWallet = catchAsync(async (req, res) => {
-  console.log("req", req.userPayload);
+  
   const { address } = req.userPayload;
 
   const { amount } = req.body;

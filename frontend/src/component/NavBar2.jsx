@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { CustomWalletBtn } from "../blockchain/connectBtn";
-import Logo from '../assets/Logo.png'
+import Logo from '../assets/logo.png'
 function NavBar2() {
   const [hover, setHover] = useState(false);
   return (

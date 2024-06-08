@@ -209,7 +209,7 @@ const GetUserLotteryHistoryById = catchAsync(async (req, res) => {
 });
 const GetUserLotteryHistoryByWallet = catchAsync(async (req, res) => {
   const { walletAddress } = req.body;
-console.log(walletAddress);
+
   if (!walletAddress) {
     return res.status(400).json({ message: 'Wallet address is required' });
   }

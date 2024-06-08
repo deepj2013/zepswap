@@ -29,7 +29,7 @@ const getSocketConnectedUsers = () => {
 
 const emitSocketEvent = (eventName, eventData) => {
   if (ioInstance) {
-    ioInstance.emit(eventName, eventData);
+    // ioInstance.emit(eventName, eventData);
     console.log(`Event ${eventName} emitted with data:`, eventData);
   } else {
     console.error('Socket instance not initialized.');

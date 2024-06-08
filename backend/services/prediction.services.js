@@ -49,11 +49,11 @@ const startNewPrediction = async () => {
     }
 
     PredictionId++;
-    generateUpcomingPredictions();
-    emitSocketEvent("updatedPredictionData", getPredictionDataInternal());
-    PredictionDb = resetPredictionDb();
+    // generateUpcomingPredictions();
+    // emitSocketEvent("updatedPredictionData", getPredictionDataInternal());
+    // PredictionDb = resetPredictionDb();
     // Starting New Prediction From Here
-    PredictionDb.id = PredictionId;
+    // PredictionDb.id = PredictionId;
     PredictionDb.startingTimestamp = Date.now();
     PredictionDb.endingTimestamp = Date.now() + 5 * 60 * 1000;
 

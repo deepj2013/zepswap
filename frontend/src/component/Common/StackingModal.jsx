@@ -16,12 +16,12 @@ import { rechargeWalletServices, widthrawWalletServices } from "../../services/S
 import { errorToast, sucessToast } from "../../utils/Helper";
 import { useEthersSigner } from "../../blockchain/contractSigner";
 import toast from "react-hot-toast";
-import { StakeZepx, checkErcApprovals, getTokenBalance } from "../../blockchain/contractUtlis";
-import { Zepx_Address } from "../../blockchain/config";
+import { StakeZepx, approveERC20, checkErcApprovals, getTokenBalance } from "../../blockchain/contractUtlis";
+import { ZepStake_Address, Zepx_Address } from "../../blockchain/config";
 
 export function StackingModal({ open, setOpen }) {
 
-    const [poolId, setpoolId] = useState(0)
+    const [PoolId, setpoolId] = useState(0)
     const handleOpen = () => setOpen((cur) => !cur);
     const [selectedOption, setSelectedOption] = useState("Stake");
     const [amount, setAmount] = useState(0);
