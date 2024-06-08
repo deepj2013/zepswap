@@ -16,9 +16,11 @@ import toast from "react-hot-toast";
 import { StackModal } from "../../component/Modal/StackModal";
 import { stackingData } from "../../utils/Contant";
 import StackBaner from '../../assets/StackBaner.png'
+import { StackingModal } from "../../component/Common/StackingModal";
 const Stack = () => {
 
   const [stakModal, setStakeModal] = useState(false);
+  const [staking,setStaking]=useState(false);
   const [poolId, setpoolId] = useState(0)
 
   return (
@@ -36,7 +38,11 @@ const Stack = () => {
             <h8  className="text-3xl lg:text-6xl leading-normal"> Personalized Staking </h8>
 
 
-            <button className="text-lg bg-[#ffa500] text-white  p-3 px-8 rounded-lg font-semibold mt-6">
+            <button
+            onClick={()=>{
+              setStaking(true)
+            }}
+             className="text-lg bg-[#ffa500] text-white  p-3 px-8 rounded-lg font-semibold mt-6">
               Stack
             </button>
 
@@ -66,7 +72,8 @@ const Stack = () => {
         }
         )
       }
-      <StackModal open={stakModal} PoolId={poolId} />
+      <StackModal open={stakModal} PoolId={poolId}  setOpen={setStakeModal}/>
+      <StackingModal open={staking} PoolId={poolId} setOpen={setStaking}  />
     </div>
   );
 };
