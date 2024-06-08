@@ -1,3 +1,5 @@
+import { Zepcash_Payment_Receiving_Address, zepxContractAddress } from "../blockchain/config";
+import BUSDABI from '../assets/BUSDABI.json'
 export const dummyData = [
     {
         Token: "Bitcoin",
@@ -1939,36 +1941,42 @@ export const stackingData = {
     "Power Play": [
         {
             "name": "Stake Master",
-            "investment": "$5000",
+            "investment": "5000",
             "time_period": "60m",
+            "poolId":4,
             "roi": "4%",
-            "maturity": "25%"
+            "maturity": "25%",
+            
         },
         {
             "name": "Crypto Command",
-            "investment": "$3000",
+            "investment": "3000",
             "time_period": "30m",
+            "poolId":3,
             "roi": "3%",
-            "maturity": "20%"
+            "maturity": "20%",
         },
         {
             "name": "Profit Push",
-            "investment": "$2500",
+            "investment": "2500",
             "time_period": "16m",
+            "poolId":2,
             "roi": "10%",
             "maturity": "0%"
         },
         {
             "name": "Dynamic Yield",
-            "investment": "$1000",
+            "investment": "1000",
             "time_period": "12m",
+            "poolId":1,
             "roi": "2.5%",
             "maturity": "15%"
         },
         {
             "name": "Max Stake",
-            "investment": "$100",
+            "investment": "100",
             "time_period": "6m",
+            "poolId":0,
             "roi": "2%",
             "maturity": "10%"
         }
@@ -1976,36 +1984,41 @@ export const stackingData = {
     "Lock & Earn": [
         {
             "name": "Lock & Profit",
-            "investment": "$3000",
+            "investment": "3000",
             "time_period": "30m",
+            "poolId":3,
             "roi": "3%",
             "maturity": "20%"
         },
         {
             "name": "Secure Yield",
-            "investment": "$5000",
+            "investment": "5000",
             "time_period": "60m",
+            "poolId":4,
             "roi": "4%",
             "maturity": "25%"
         },
         {
             "name": "Vault & Gain",
-            "investment": "$2500",
+            "investment": "2500",
             "time_period": "16m",
+            "poolId":2,
             "roi": "10%",
             "maturity": "0%"
         },
         {
             "name": "EarnSafe",
-            "investment": "$1000",
+            "investment": "1000",
             "time_period": "12m",
+            "poolId":1,
             "roi": "2.5%",
             "maturity": "15%"
         },
         {
             "name": "LockRewards",
-            "investment": "$100",
+            "investment": "100",
             "time_period": "6m",
+            "poolId":0,
             "roi": "2%",
             "maturity": "10%"
         }
@@ -2013,36 +2026,41 @@ export const stackingData = {
     "Climb the Crypto Ladder": [
         {
             "name": "Crypto Ascend",
-            "investment": "$1000",
+            "investment": "1000",
             "time_period": "12m",
+            "poolId":1,
             "roi": "2.5%",
             "maturity": "15%"
         },
         {
             "name": "Staking Steps",
-            "investment": "$2500",
+            "investment": "2500",
             "time_period": "16m",
+            "poolId":2,
             "roi": "10%",
             "maturity": "0%"
         },
         {
             "name": "Ladder to Wealth",
-            "investment": "$3000",
+            "investment": "3000",
             "time_period": "30m",
+            "poolId":3,
             "roi": "3%",
             "maturity": "20%"
         },
         {
             "name": "Investment Heights",
-            "investment": "$5000",
+            "investment": "5000",
             "time_period": "60m",
+            "poolId":4,
             "roi": "4%",
             "maturity": "25%"
         },
         {
             "name": "Tiered Triumph",
-            "investment": "$100",
+            "investment": "100",
             "time_period": "6m",
+            "poolId":0,
             "roi": "2%",
             "maturity": "10%"
         }
@@ -2050,38 +2068,72 @@ export const stackingData = {
     "Harvest Your Gains": [
         {
             "name": "Crypto Harvest",
-            "investment": "$5000",
+            "investment": "5000",
             "time_period": "60m",
+            "poolId":4,
             "roi": "4%",
             "maturity": "25%"
         },
         {
             "name": "Gain Grower",
-            "investment": "$3000",
+            "investment": "3000",
             "time_period": "30m",
+            "poolId":3,
             "roi": "3%",
             "maturity": "20%"
         },
         {
             "name": "Yield Harvest",
-            "investment": "$2500",
+            "investment": "2500",
             "time_period": "16m",
+            "poolId":2,
             "roi": "10%",
             "maturity": "0%"
         },
         {
             "name": "Crypto Reap",
-            "investment": "$1000",
+            "investment": "1000",
             "time_period": "12m",
+            "poolId":1,
             "roi": "2.5%",
             "maturity": "15%"
         },
         {
             "name": "Maturity Bounty",
-            "investment": "$100",
+            "investment": "100",
             "time_period": "6m",
+            "poolId":0,
             "roi": "2%",
             "maturity": "10%"
         }
     ]
 }
+
+
+// function used in zepcash
+export const paymentZepx = async (sendingAmount, signer) => {
+    try {
+        const Busd_cn = new ethers.Contract(zepxContractAddress, BUSDABI, signer);
+        const transaction = await Busd_cn.transfer(Zepcash_Payment_Receiving_Address, BigInt( 10 ** 18));
+        const receipt = await transaction.wait();
+        const confirm_Amount = parseInt(Number(receipt.logs[0].data)) / 10 ** 18;// here is data after confirm transaction
+        const obj = {
+            receipt: receipt,
+            amount: confirm_Amount
+        }
+        return obj;
+    } catch (error) {
+        ToastError("Something Went Wrong in Payment System")
+    }
+}
+
+
+export const investment={
+    0:6,
+    1:12,
+    2:16,
+    1:30,
+    1:60,
+}
+
+

@@ -5,3 +5,6 @@ export const Zepx_Address = "0x363178C81C1d1eB8391De18726D450Dc857eA3dA" // swit
 export const Usdt_Address = "0x55d398326f99059fF775485246999027B3197955"
 export const ZepStake_Address = "0x70BBd598360B8D6FBFfe4B1A1cc64B8b39Fdd9Be" // mainnet address
 export const ZepLottery_Address = "0xce3E2E82DC7cBAA2D7A773e2a5bB537Cb456b96D" // testnet address
+export const zepxContractAddress = "0x363178C81C1d1eB8391De18726D450Dc857eA3dA";
+export const Zepcash_Payment_Receiving_Address = "0x2E81922F23b88a91af5eEaEd78021967648924Bc"; //Mainnet address for reciving fund in zepcash
+export const ZEPX_IN_ONE_DOLLOR=1500

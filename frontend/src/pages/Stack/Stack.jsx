@@ -17,12 +17,13 @@ import { StackModal } from "../../component/Modal/StackModal";
 import { stackingData } from "../../utils/Contant";
 import StackBaner from '../../assets/StackBaner.png'
 import { StackingModal } from "../../component/Common/StackingModal";
+import { getRandomColor } from "../../utils/Helper";
 const Stack = () => {
 
   const [stakModal, setStakeModal] = useState(false);
   const [staking,setStaking]=useState(false);
   const [poolId, setpoolId] = useState(0)
-
+  const [selectedCard,setSelectedCard]=useState({})
   return (
     <div className="h-screen w-screen   overflow-scroll">
 
@@ -61,7 +62,7 @@ const Stack = () => {
                 {
                   stackingData[key]?.map((ele, ind) => {
                     return (
-                      <Card setStakeModal={setStakeModal} stakModal={stakModal} setpoolId={setpoolId} item={ele} />
+                      <Card setSelectedCard={setSelectedCard} setStakeModal={setStakeModal} stakModal={stakModal} setpoolId={setpoolId} item={ele} />
 
                     )
                   })
@@ -72,7 +73,7 @@ const Stack = () => {
         }
         )
       }
-      <StackModal open={stakModal} PoolId={poolId}  setOpen={setStakeModal}/>
+      <StackModal selectedCard={selectedCard} open={stakModal} PoolId={poolId}  setOpen={setStakeModal}/>
       <StackingModal open={staking} PoolId={poolId} setOpen={setStaking}  />
     </div>
   );
@@ -82,9 +83,9 @@ export default Stack;
 
 
 
-const Card = ({ item, setStakeModal, setpoolId }) => {
+const Card = ({ item, setStakeModal, setpoolId ,setSelectedCard}) => {
   const [refferer, setrefferer] = useState(
-    "0x0000000000000000000000000000000000000000"
+    "0x2BE885C25F24D8D9a7e2bfAC89FC173c39989050"
   );
   const [loading, setloading] = useState(false);
   const [myStaking, setmyStaking] = useState(0);
@@ -183,16 +184,17 @@ const Card = ({ item, setStakeModal, setpoolId }) => {
     }
   };
   return (
-    <div className="w-[90vw] mx-auto mt-6 md:w-[19%] border  items-center gap-2 p-5 rounded-md  hover:bg-lightTheme">
+    <div className="w-[90vw] mx-auto mt-6 md:w-[19%] border  items-center gap-2 p-2 rounded-md  ">
 
       <p className="text-center text-xl mb-4 font-bold">{item?.name}</p>
 
 
-      <div className="flex justify-between w-full mt-6">
+      <div style={{background:getRandomColor()}} className="p-2 rounded-md">
+      <div className="flex justify-between w-full ">
         <div className="">
           <p className="text-sm text-gray-800">Investment</p>
           <p className="text-xl text-gray-800">
-            {item?.investment}
+            ${item?.investment}
           </p>
         </div>
         <div className="">
@@ -214,40 +216,21 @@ const Card = ({ item, setStakeModal, setpoolId }) => {
           <p className="text-xl text-gray-800">{item?.time_period} <span className="text-xs"></span></p>
         </div>
       </div>
-
-      <div className="flex justify-between w-full mt-6">
-        <div className="">
-          <p className="text-sm text-gray-800">Total Stacked</p>
-          <p className="text-xl text-gray-800">
-            ${poolInfo.TotalStaked}
-          </p>
-        </div>
-        <div className="">
-          <p className="text-sm text-gray-800">Your Stacke</p>
-          <p className="text-xl text-gray-800">${myStaking}</p>
-        </div>
       </div>
 
-      <div className="flex justify-between w-full mt-6">
-        <div className="">
-          <p className="text-sm text-gray-800">Apr</p>
-          <p className="text-xl text-gray-800">{poolInfo?.apr}%</p>
-        </div>
-        <div className="">
-          <p className="text-sm text-gray-800">Your Earning</p>
-          <p className="text-xl text-gray-800">{EarnedReward}</p>
-        </div>
-      </div>
+  
       <div className="flex justify-between w-full mt-6">
         <button
+          className="bg-theme text-black font-semibold text-center mx-auto w-full py-2 rounded-md"
           onClick={() => {
             // stakeFunction(1000);
+            setSelectedCard(item)
             setStakeModal(true)
           }}
         >
           Stake
         </button>
-        <button
+        {/* <button
           onClick={() => {
             claimFunction(0);
           }}
@@ -260,7 +243,7 @@ const Card = ({ item, setStakeModal, setpoolId }) => {
           }}
         >
           Withdraw
-        </button>
+        </button> */}
       </div>
     </div>
   )

@@ -138,11 +138,11 @@ function GameLottery() {
     }
 
     let obj = {
-      walletAddress: signer?._address
+      WalletAdress: signer?._address
     }
     try {
       let response = await myLotteryHistory(obj)
-      let temp = response?.data?.userLotteryData
+      let temp = response?.data?.tickets
       setMyTicket(temp)
     } catch (error) {
       setMyTicket([])

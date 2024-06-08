@@ -12,11 +12,16 @@ import {
 } from "@material-tailwind/react";
 import { rechargeWalletServices, widthrawWalletServices } from "../../services/Services";
 import { errorToast, sucessToast } from "../../utils/Helper";
+import { getTokenBalance } from "../../blockchain/contractUtlis";
+import { Zepx_Address } from "../../blockchain/config";
+import { useEthersSigner } from "../../blockchain/contractSigner";
+import { paymentZepx } from "../../utils/Contant";
 
-export function DialogWithForm({ open, setOpen }) {
+export function DialogWithForm({ open, setOpen, userBalance }) {
     const handleOpen = () => setOpen((cur) => !cur);
     const [selectedOption, setSelectedOption] = useState('withdraw');
     const [amount, setAmount] = useState(0);
+    const signer = useEthersSigner();
 
     const widthrawHandler = async () => {
         let payLoad = {
@@ -37,23 +42,34 @@ export function DialogWithForm({ open, setOpen }) {
         let payLoad = {
             amount: amount
         }
-        try {
+
+        const bal = await getTokenBalance(Zepx_Address, signer?._address);
+        if (bal >= amount) {
+            const transaction = await paymentZepx(sendingamount, signer)
+            console.log(transaction);
             let response = await rechargeWalletServices(payLoad)
             sucessToast('Deposite Successfully')
             handleOpen()
+        }
+        else {
+            errorToast('Insufficient Balance')
+            return
+        }
+        try {
+       
         } catch (error) {
             console.log(error);
         }
     }
 
-    const continueHandler = async () =>{
-        if(selectedOption=="withdraw"){
+    const continueHandler = async () => {
+        if (selectedOption == "withdraw") {
             widthrawHandler()
         }
-        else{
+        else {
             depositeHandler()
         }
-    }   
+    }
     return (
         <>
             <Dialog
@@ -68,11 +84,11 @@ export function DialogWithForm({ open, setOpen }) {
                             Zepex
                         </Typography>
                         <Typography
-
-                            className="mb-3 font-normal"
-                            variant="paragraph"
+                            variant="h4"
+                            className="mb-3 font-urbanist font-semibold "
                             color="gray"
                         >
+                            Game Coins : <span className="font-bold text-black">{userBalance?.balance} zep</span>
                             {/* Enter your email and password to Sign In. */}
                         </Typography>
 
