@@ -6,14 +6,4 @@
 {"code":11000,"index":0,"keyPattern":{"LotteryId":1},"keyValue":{"LotteryId":1},"level":"error","timestamp":"2024-06-02T12:53:10.502Z"}
 {"code":11000,"index":0,"keyPattern":{"LotteryId":1},"keyValue":{"LotteryId":1},"level":"error","timestamp":"2024-06-02T12:53:37.335Z"}
 {"level":"error","timestamp":"2024-06-02T13:00:21.879Z"}
-{"level":"error","timestamp":"2024-06-08T18:30:36.856Z"}
-{"level":"error","timestamp":"2024-06-08T18:30:37.165Z"}
-{"level":"error","timestamp":"2024-06-08T18:30:37.838Z"}
-{"level":"error","timestamp":"2024-06-08T18:30:38.252Z"}
-{"level":"error","timestamp":"2024-06-08T18:30:43.152Z"}
-{"level":"error","timestamp":"2024-06-08T18:30:43.396Z"}
-{"level":"error","timestamp":"2024-06-08T18:30:57.903Z"}
-{"level":"error","timestamp":"2024-06-08T18:30:58.167Z"}
-{"level":"error","timestamp":"2024-06-08T18:31:37.090Z"}
-{"level":"error","timestamp":"2024-06-08T18:32:02.015Z"}
-{"level":"error","timestamp":"2024-06-08T18:32:02.276Z"}
+{"level":"error","timestamp":"2024-06-08T18:40:33.566Z"}
