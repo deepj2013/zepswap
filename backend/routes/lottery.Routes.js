@@ -9,6 +9,7 @@ router.post("/user-lottery-tickets",verifyJwtToken,lotteryController.GetUserLott
 router.get("/user-lottery-history",lotteryController.GetUserLotteryHistory);
 router.get("/user-lottery-history/:id",lotteryController.GetUserLotteryHistoryById);
 
+router.post("/user-lottery-historybyWallet",lotteryController.GetUserLotteryHistoryByWallet);
 // API => POST
 router.post("/participate-lottery",verifyJwtToken,lotteryController.ParticipateInLottery);
 router.post("/create-new-lottery",lotteryController.createNewLottery)
