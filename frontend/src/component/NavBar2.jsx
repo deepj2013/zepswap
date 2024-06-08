@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { CustomWalletBtn } from "../blockchain/connectBtn";
-
+import Logo from '../assets/Logo.png'
 function NavBar2() {
   const [hover, setHover] = useState(false);
   return (
     <nav class="bg-secondry dark:bg-gray-900 sticky w-full z-20 top-0 start-0  dark:border-gray-600">
       <div class=" container flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-          <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">
-            ZEPSWAP
-          </span>
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse bg-gradient-to-r from-rose-100 to-teal-100">
+         <img className="h-20 bg-white absolute w-20 top-0" src={Logo}/>
         </a>
         <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <CustomWalletBtn />
@@ -80,40 +78,30 @@ function NavBar2() {
                 Stake
               </a>
             </li>
-            <li className="relative">
+
+
+            <li>
               <a
-                onClick={() => setHover(false)}
-                onMouseEnter={() => setHover(true)}
-                href="#"
+                href="/GameLottery"
                 class="block py-2 px-3 text-white "
                 aria-current="page"
               >
-                Game
+                Lottery
               </a>
-
-              {hover && (
-                <div className=" absolute p-3 rounded-md  bg-lightTheme w-[100px]">
-                  <li>
-                    <a
-                      href="/GameLottery"
-                      class="block   text-theme "
-                      aria-current="page"
-                    >
-                      Lottery
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/Predction"
-                      class="block   text-theme "
-                      aria-current="page"
-                    >
-                      Predction
-                    </a>
-                  </li>
-                </div>
-              )}
             </li>
+
+
+
+            <li>
+              <a
+                href="/Predction"
+                class="block py-2 px-3 text-white "
+                aria-current="page"
+              >
+                Predction
+              </a>
+            </li>
+        
           </ul>
         </div>
       </div>

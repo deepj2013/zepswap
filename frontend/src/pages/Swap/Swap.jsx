@@ -10,7 +10,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useEthersSigner } from "../../blockchain/contractSigner";
 import toast from "react-hot-toast";
 import { imagesConstant } from "../../utils/ImageConstant";
-import { Usdt_Address, Zepx_Address, Zepx_swap } from "../../blockchain/config";
+import { Usdt_Address, Zepx_Address, Zepx_swap , ZepStake_Address } from "../../blockchain/config";
 
 function Swap() {
   const { openConnectModal } = useConnectModal();
@@ -20,9 +20,9 @@ function Swap() {
   const [img2, setimg2] = useState(imagesConstant.UsdtLogo);
   const [token1, settoken1] = useState("ZEPX");
   const [token2, settoken2] = useState("USDT");
-  const [BuyingPrice, setBuyingPrice] = useState(600);
-  const [SellingPrice, setSellingPrice] = useState(900);
-  const [Token1Amount, setToken1Amount] = useState(900);
+  const [BuyingPrice, setBuyingPrice] = useState(1200);
+  const [SellingPrice, setSellingPrice] = useState(1500);
+  const [Token1Amount, setToken1Amount] = useState(1500);
   const [Token2Amount, setToken2Amount] = useState(1);
   const signer = useEthersSigner();
 

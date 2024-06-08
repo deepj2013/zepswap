@@ -1931,3 +1931,157 @@ export const poolData =
             "txCount": "55180852"
         }
     ]
+
+
+
+
+export const stackingData = {
+    "Power Play": [
+        {
+            "name": "Stake Master",
+            "investment": "$5000",
+            "time_period": "60m",
+            "roi": "4%",
+            "maturity": "25%"
+        },
+        {
+            "name": "Crypto Command",
+            "investment": "$3000",
+            "time_period": "30m",
+            "roi": "3%",
+            "maturity": "20%"
+        },
+        {
+            "name": "Profit Push",
+            "investment": "$2500",
+            "time_period": "16m",
+            "roi": "10%",
+            "maturity": "0%"
+        },
+        {
+            "name": "Dynamic Yield",
+            "investment": "$1000",
+            "time_period": "12m",
+            "roi": "2.5%",
+            "maturity": "15%"
+        },
+        {
+            "name": "Max Stake",
+            "investment": "$100",
+            "time_period": "6m",
+            "roi": "2%",
+            "maturity": "10%"
+        }
+    ],
+    "Lock & Earn": [
+        {
+            "name": "Lock & Profit",
+            "investment": "$3000",
+            "time_period": "30m",
+            "roi": "3%",
+            "maturity": "20%"
+        },
+        {
+            "name": "Secure Yield",
+            "investment": "$5000",
+            "time_period": "60m",
+            "roi": "4%",
+            "maturity": "25%"
+        },
+        {
+            "name": "Vault & Gain",
+            "investment": "$2500",
+            "time_period": "16m",
+            "roi": "10%",
+            "maturity": "0%"
+        },
+        {
+            "name": "EarnSafe",
+            "investment": "$1000",
+            "time_period": "12m",
+            "roi": "2.5%",
+            "maturity": "15%"
+        },
+        {
+            "name": "LockRewards",
+            "investment": "$100",
+            "time_period": "6m",
+            "roi": "2%",
+            "maturity": "10%"
+        }
+    ],
+    "Climb the Crypto Ladder": [
+        {
+            "name": "Crypto Ascend",
+            "investment": "$1000",
+            "time_period": "12m",
+            "roi": "2.5%",
+            "maturity": "15%"
+        },
+        {
+            "name": "Staking Steps",
+            "investment": "$2500",
+            "time_period": "16m",
+            "roi": "10%",
+            "maturity": "0%"
+        },
+        {
+            "name": "Ladder to Wealth",
+            "investment": "$3000",
+            "time_period": "30m",
+            "roi": "3%",
+            "maturity": "20%"
+        },
+        {
+            "name": "Investment Heights",
+            "investment": "$5000",
+            "time_period": "60m",
+            "roi": "4%",
+            "maturity": "25%"
+        },
+        {
+            "name": "Tiered Triumph",
+            "investment": "$100",
+            "time_period": "6m",
+            "roi": "2%",
+            "maturity": "10%"
+        }
+    ],
+    "Harvest Your Gains": [
+        {
+            "name": "Crypto Harvest",
+            "investment": "$5000",
+            "time_period": "60m",
+            "roi": "4%",
+            "maturity": "25%"
+        },
+        {
+            "name": "Gain Grower",
+            "investment": "$3000",
+            "time_period": "30m",
+            "roi": "3%",
+            "maturity": "20%"
+        },
+        {
+            "name": "Yield Harvest",
+            "investment": "$2500",
+            "time_period": "16m",
+            "roi": "10%",
+            "maturity": "0%"
+        },
+        {
+            "name": "Crypto Reap",
+            "investment": "$1000",
+            "time_period": "12m",
+            "roi": "2.5%",
+            "maturity": "15%"
+        },
+        {
+            "name": "Maturity Bounty",
+            "investment": "$100",
+            "time_period": "6m",
+            "roi": "2%",
+            "maturity": "10%"
+        }
+    ]
+}

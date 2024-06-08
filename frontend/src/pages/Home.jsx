@@ -3,40 +3,48 @@ import Card from "../component/Home/Card";
 import MemeCoinTable from "../component/Home/MemeCoinTable";
 import PopularTable from "../component/Home/PopularTable";
 import PopularSlider from "../component/Home/PopularSlider";
-
+import Logo from '../assets/Logo.png';
+import lottery from '../assets/icon/lottery.png';
+import predction from '../assets/icon/predction.png';
+import Stack from '../assets/icon/Stack.png';
+import swap from '../assets/icon/swap.png';
 
 function Home() {
 
   const data = [
     {
-      tittle: 'Trade',
+      tittle: 'Swap',
       desc: 'Swap tokens with low fees',
-      image: 'https://traderjoexyz.com/static/media/trade_2x.048e477a3ff27d4ea77e.webp'
-    },
-    {
-      tittle: 'Poll',
-      desc: 'Swap tokens with low fees',
-      image: 'https://traderjoexyz.com/static/media/pool_2x.f6a82d52ecbfa395257e.webp'
+      image: swap,
+      link: '/Swap'
     },
     {
       tittle: 'Stake',
-      desc: 'Swap tokens with low fees',
-      image: 'https://traderjoexyz.com/static/media/stake_2x.fdda42678ccbb1695331.webp'
+      desc: 'Get more ROI',
+      image: Stack,
+      link: '/Stack'
     },
     {
-      tittle: 'Nft',
-      desc: 'Swap tokens with low fees',
-      image: 'https://traderjoexyz.com/static/media/nft_2x.a31a1f7035dad469312e.webp'
+      tittle: 'Lottery',
+      desc: 'Dream Big , Win Bigger',
+      image: lottery,
+      link: '/GameLottery'
+    },
+    {
+      tittle: 'Predction',
+      desc: 'Guess and Win',
+      image: predction,
+      link: '/Predction'
     },
   ]
 
 
-  
+
   return (
     <div className="">
       <div className="bg-theme w-screen h-[70vh] relative">
         <div className="mx-auto  flex flex-col items-center h-full justify-center z-50">
-          <p className="text-yellow-600 font-semibold text20">
+          <p className="text-black font-semibold text20">
             WELCOME TO THE PARTY
           </p>
           <p className="text60 mt- text-center text-secondry font-semibold ">
@@ -45,12 +53,10 @@ function Home() {
           </p>
 
           <p className="text60 mt-3 text-center text-white font-semibold ">
-            ZepSwap  yet
+            Swaping Website
           </p>
 
-          <button className="bg-yellowShade text20 p-2.5 mt-7 rounded-full px-8">
-              Unlock Wallet
-          </button>
+          <img className="h-28  mt-6 w-28" src={Logo} />
         </div>
         <img className="absolute bottom-0 hidden lg:flex" src="https://partyswap.io/app-sub/static/media/home-hero-bonnie.b0376a1a.svg" />
         <img className="absolute right-0 bottom-0" src="https://partyswap.io/app-sub/static/media/home-hero-trent.60dcda17.svg" />
@@ -68,6 +74,7 @@ function Home() {
                   tittle={ele.tittle}
                   desc={ele.desc}
                   image={ele.image}
+                  link={ele.link}
                   key={ind}
                 />
               )
@@ -76,12 +83,12 @@ function Home() {
 
         </div>
       </div>
-      
-      <MemeCoinTable/>
-          <div className="mt-2x0"></div>
-      <PopularTable/>
 
-      <PopularSlider/>
+      <MemeCoinTable />
+      <div className="mt-2x0"></div>
+      <PopularTable />
+
+      <PopularSlider />
     </div>
   );
 }

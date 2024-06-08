@@ -1,3 +1,8 @@
 {"level":"error","timestamp":"2024-05-24T18:10:17.323Z"}
 {"level":"error","timestamp":"2024-05-24T18:11:10.387Z"}
 {"level":"error","timestamp":"2024-05-24T18:14:18.402Z"}
+{"level":"error","timestamp":"2024-06-02T12:21:46.038Z"}
+{"_message":"lotterTickets validation failed","errors":{"TicketId":{"kind":"Number","message":"Cast to Number failed for value \"JO5299\" (type string) at path \"TicketId\"","name":"CastError","path":"TicketId","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"JO5299\"","value":"JO5299","valueType":"string"}},"level":"error","timestamp":"2024-06-02T12:51:19.033Z"}
+{"code":11000,"index":0,"keyPattern":{"LotteryId":1},"keyValue":{"LotteryId":1},"level":"error","timestamp":"2024-06-02T12:53:10.502Z"}
+{"code":11000,"index":0,"keyPattern":{"LotteryId":1},"keyValue":{"LotteryId":1},"level":"error","timestamp":"2024-06-02T12:53:37.335Z"}
+{"level":"error","timestamp":"2024-06-02T13:00:21.879Z"}
