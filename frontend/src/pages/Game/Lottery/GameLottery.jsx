@@ -138,11 +138,11 @@ function GameLottery() {
     }
 
     let obj = {
-      "lotteryId": id
+      walletAddress: signer?._address
     }
     try {
       let response = await myLotteryHistory(obj)
-      let temp = [...myTicket, ...response?.data?.userLotteryData]
+      let temp = response?.data?.userLotteryData
       setMyTicket(temp)
     } catch (error) {
       setMyTicket([])
@@ -156,15 +156,15 @@ function GameLottery() {
 
 
   const getHistory = () => {
-    let temp = lotteries.map((ele) => getMyLotteryList(ele?.LotteryId))
+    // let temp = lotteries.map((ele) => getMyLotteryList(ele?.LotteryId))
+    getMyLotteryList()
   }
 
 
   useEffect(() => {
-    if (lotteries.length > 0) {
 
       getHistory()
-    }
+    
     return () => {
       setMyTicket([])
     }
@@ -321,16 +321,16 @@ function GameLottery() {
 
 
                         <button
-                         onClick={() => {
-                          if (signer?._address === undefined) {
-                            loginHandler()
-                            return
-                          }
-                          else {
-                            participateLottery(ele)
-                          }
-                        }}
-                         className='absolute top-0 right-10 bg-theme p-2 px-6 rounded'>
+                          onClick={() => {
+                            if (signer?._address === undefined) {
+                              loginHandler()
+                              return
+                            }
+                            else {
+                              participateLottery(ele)
+                            }
+                          }}
+                          className='absolute top-0 right-10 bg-theme p-2 px-6 rounded'>
                           Buy
                         </button>
                       </div>

@@ -74,6 +74,6 @@ export const loginServices = async (payload) => {
 
   export const myLotteryHistory = async (payload) => {
     let token=localStorage.getItem('token');
-    let url = `${BASE_URL}lottery/user-lottery-tickets`;
+    let url = `${BASE_URL}lottery/user-lottery-historybyWallet`;
     return await axios.post(url,payload,getAxiosHeader(token));
   };  
