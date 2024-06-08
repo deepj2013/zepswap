@@ -40,6 +40,7 @@ const { StartPrediction } = require("./services/prediction.services");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use("/", router);
 app.use("/lottery", lotteryRouter);
 app.use("/user", userRouter);

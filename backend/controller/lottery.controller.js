@@ -209,12 +209,12 @@ const GetUserLotteryHistoryById = catchAsync(async (req, res) => {
 });
 const GetUserLotteryHistoryByWallet = catchAsync(async (req, res) => {
   const { walletAddress } = req.body;
-
+console.log(walletAddress);
   if (!walletAddress) {
     return res.status(400).json({ message: 'Wallet address is required' });
   }
 
-  const userLotteryHistory = await lottertickets.find({ walletAddress });
+  const userLotteryHistory = await LotteryTicketsSchema.find({ walletAddress });
 
   if (userLotteryHistory.length === 0) {
     return res.status(404).json({ message: 'No tickets purchased' });
