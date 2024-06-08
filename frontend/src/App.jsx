@@ -1,9 +1,9 @@
-import React, { useEffect,  } from 'react'
-import  { ComplexNavbar } from './component/Navbar'
+import React, { useEffect, } from 'react'
+import { ComplexNavbar } from './component/Navbar'
 import Home from './pages/Home'
 import { Route, Routes, useLocation } from 'react-router'
 import Aos from 'aos'
-import "aos/dist/aos.css"; 
+import "aos/dist/aos.css";
 import { IoLogoFlickr } from "react-icons/io5";
 import Swap from './pages/Swap/Swap'
 import Predction from './pages/Game/Predction/Predction'
@@ -20,16 +20,16 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   useEffect(() => {
     Aos.init({
-      duration:0,
-      delay:0, // Animation duration (in milliseconds)
+      duration: 0,
+      delay: 0, // Animation duration (in milliseconds)
       //   once: , // Whether animation should happen only once
     });
   }, []);
 
 
   return (
-   <div className='w-screen overflow-hidden'>
-   <NavBar2/>
+    <div className='w-screen overflow-hidden'>
+      <NavBar2 />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Swap" element={<Swap />} />
@@ -40,14 +40,14 @@ function App() {
         <Route path="/Pool" element={<Pool />} />
         <Route path="/Buy" element={<Buy />} />
 
-        
-        
-        
-      </Routes>
-      <ToastContainer />
 
-   </div>
-   
+
+
+      </Routes>
+    
+
+    </div>
+
 
   );
 }

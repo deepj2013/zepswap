@@ -10,6 +10,7 @@ import { bsc, bscTestnet } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { phantomWallet } from "@rainbow-me/rainbowkit/wallets";
 import { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
 
 const { chains, publicClient } = configureChains(
   [bsc, bscTestnet],
@@ -43,7 +44,21 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       >
         <Router>
           <App />
-          <Toaster position="right-top" />
+          <Toaster
+          
+           position="right-top" />
+          <ToastContainer
+        containerStyle={{
+          zIndex: '9999 !important'
+        }}
+        // position={settings.toastPosition}
+        toastOptions={{
+          className: 'react-hot-toast',
+          style: {
+            zIndex: '9999 !important'
+          }
+        }}
+      />
         </Router>
       </RainbowKitProvider>
     </WagmiConfig>

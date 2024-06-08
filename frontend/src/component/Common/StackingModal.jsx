@@ -18,6 +18,7 @@ import { useEthersSigner } from "../../blockchain/contractSigner";
 import toast from "react-hot-toast";
 import { StakeZepx, approveERC20, checkErcApprovals, getTokenBalance } from "../../blockchain/contractUtlis";
 import { ZepStake_Address, Zepx_Address } from "../../blockchain/config";
+import { ToastContainer } from "react-toastify";
 
 export function StackingModal({ open, setOpen }) {
 
@@ -38,7 +39,7 @@ export function StackingModal({ open, setOpen }) {
         try {
             setloading(true);
 
-            toast.success("staking please wait");
+            sucessToast("staking please wait");
             const bal = await getTokenBalance(Zepx_Address, signer?._address);
             console.log("bal: ", bal);
 
@@ -63,7 +64,7 @@ export function StackingModal({ open, setOpen }) {
                 setloading(false);
                 setOpen(false)
                 return;
-            } else toast.error("insufficent balance");
+            } else errorToast("insufficent balance");
         } catch (error) {
             setloading(false);
             console.log("error in staking", error);
@@ -85,8 +86,8 @@ export function StackingModal({ open, setOpen }) {
 
 
     const continueHandler = async () => {
-            stakeFunction();
-     
+        stakeFunction();
+
     };
 
 
@@ -98,6 +99,8 @@ export function StackingModal({ open, setOpen }) {
                 handler={handleOpen}
                 className="bg-transparent shadow-none"
             >
+                <ToastContainer />
+
                 <Card className="mx-auto w-full max-w-[24rem]">
                     <CardBody className="flex flex-col gap-4">
                         <Typography variant="h4" color="blue-gray">
@@ -134,7 +137,7 @@ export function StackingModal({ open, setOpen }) {
                         }} label="Enter Amount" size="lg" />
 
 
-<Typography className="-mb-2" variant="h6">
+                        <Typography className="-mb-2" variant="h6">
                             Referred by <span className="text-xs">(optional)</span>
                         </Typography>
                         <Input onChange={(val) => {
