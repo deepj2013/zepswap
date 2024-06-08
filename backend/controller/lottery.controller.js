@@ -208,14 +208,15 @@ const GetUserLotteryHistoryById = catchAsync(async (req, res) => {
 
 });
 const GetUserLotteryHistoryByWallet = catchAsync(async (req, res) => {
-  const { walletAddress } = req.body;
+  const { WalletAdress } = req.body;
 
-  if (!walletAddress) {
+  if (!WalletAdress) {
     return res.status(400).json({ message: 'Wallet address is required' });
   }
 
-  const userLotteryHistory = await LotteryTicketsSchema.find({ walletAddress });
+  const userLotteryHistory = await LotteryTicketsSchema.find({ WalletAdress });
 
+  console.log(userLotteryHistory);
   if (userLotteryHistory.length === 0) {
     return res.status(404).json({ message: 'No tickets purchased' });
   }
