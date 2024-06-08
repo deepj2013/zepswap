@@ -9,6 +9,7 @@ import Countdown from 'react-countdown'
 import { FaHandPointDown } from "react-icons/fa";
 import jackpot from '../../../assets/jackpot.png'
 import FlipCountdown from '@rumess/react-flip-countdown';
+import toast from 'react-hot-toast';
 
 function GameLottery() {
 
@@ -48,6 +49,7 @@ function GameLottery() {
     }
     try {
       let response = await participateLotteryServices(obj)
+      toast.success('Congratulations! Your lottery ticket purchase was successful. Good luck!')
     } catch (error) {
       console.log(error);
     }
@@ -82,7 +84,7 @@ function GameLottery() {
     getLoteryDetails()
   }, [])
 
-  const targetDate = new Date('June 6, 2024 9:15:00').getTime();
+  // const targetDate = new Date('June 8, 2024 9:15:00').getTime();
 
 
   // Initial target date
@@ -93,7 +95,7 @@ function GameLottery() {
     // Create a new date object for the next day at 9:15 AM
     const nextDay = new Date(date);
     nextDay.setDate(nextDay.getDate());
-    nextDay.setHours(9, 15, 0, 0); // Set time to 9:15:00 AM
+    nextDay.setHours(23, 59, 0, 0); // Set time to 9:15:00 AM
 
     return nextDay;
   }
@@ -101,11 +103,25 @@ function GameLottery() {
   // Usage
   const nextDayTargetDate = getNextDayTarget(initialTargetDate);
 
+  var lastDayOfMonth = moment().endOf('month').format('YYYY-MM-DD HH:mm:ss');
+  // var todayNoon = moment().hour(12).minute(0).second(0).format('YYYY-MM-DD HH:mm:ss');
+  // var nextDayNoon = moment().add(1, 'day').hour(12).minute(0).second(0).format('YYYY-MM-DD HH:mm:ss');
+  var nextDayTwelveOhOneAM = moment().add(1, 'day').startOf('day').hour(0).minute(1).second(0).format('YYYY-MM-DD HH:mm:ss');
+
+
+  // Assuming moment.js is already included in your project
+  var currentWeekSunday = moment().day(7).hour(23).minute(59).second(59).format('YYYY-MM-DD HH:mm:ss');
+
+
+  const timmer = {
+    1: nextDayTwelveOhOneAM,
+    2: currentWeekSunday,
+    3: lastDayOfMonth
+  }
 
 
 
-
-  // console.log(nextDayTargetDate);
+  // endAt={'2022-12-12 01:26:58'}
 
   const getEndTime = (item) => {
     const targetDate = new Date(item).getTime();
@@ -116,6 +132,11 @@ function GameLottery() {
 
   const getMyLotteryList = async (id) => {
 
+    if (signer?._address === undefined) {
+      // openConnectModal()
+      return
+    }
+
     let obj = {
       "lotteryId": id
     }
@@ -124,7 +145,11 @@ function GameLottery() {
       let temp = [...myTicket, ...response?.data?.userLotteryData]
       setMyTicket(temp)
     } catch (error) {
-      console.log(error);
+      setMyTicket([])
+      console.log(error.response.data.status);
+      if (error?.response?.data?.status === 401) {
+        // localStorage.clear()
+      }
     }
   }
 
@@ -137,6 +162,7 @@ function GameLottery() {
 
   useEffect(() => {
     if (lotteries.length > 0) {
+
       getHistory()
     }
     return () => {
@@ -144,6 +170,11 @@ function GameLottery() {
     }
   }, [lotteries])
 
+
+  console.log(lotteries);
+
+
+  // Assuming moment.js is already included in your project
 
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
@@ -250,20 +281,20 @@ function GameLottery() {
                         theme='dark' // Options (Default: dark): dark, light.
 
                         size='small' // Options (Default: medium): large, medium, small, extra-small.
-                        endAt={nextDayTargetDate} // Date/Time
+                        endAt={timmer[ele?.LotteryId]} // Date/Time
                       />
                       {/* <Countdown
                         date={nextDayTargetDate}
                         renderer={renderer}
                       /> */}
-                       <div class="ticketRip">
+                      <div class="ticketRip">
                         <div class="circleLeft"></div>
                         <div class="ripLine"></div>
                         <div class="circleRight"></div>
                       </div>
 
 
-                      <div class="ticketTitle text-center ">{ticketType[ind + 1]}</div>
+                      <div class="ticketTitle text-center ">{ticketType[ele?.LotteryId]}</div>
                       {/* <hr> */}
 
                       <div class="ticketRip">
@@ -286,10 +317,20 @@ function GameLottery() {
 
 
                         </p>
-                        <div className='text-center   text40'><span className='bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 text-transparent bg-clip-text text60'>{type[ind + 1]} </span>  </div>
+                        <div className='text-center   text40'><span className='bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 text-transparent bg-clip-text text60'>{type[ele?.LotteryId]} </span>  </div>
 
 
-                        <button className='absolute top-0 right-10 bg-theme p-2 px-6 rounded'>
+                        <button
+                         onClick={() => {
+                          if (signer?._address === undefined) {
+                            loginHandler()
+                            return
+                          }
+                          else {
+                            participateLottery(ele)
+                          }
+                        }}
+                         className='absolute top-0 right-10 bg-theme p-2 px-6 rounded'>
                           Buy
                         </button>
                       </div>
@@ -300,7 +341,7 @@ function GameLottery() {
                       </div>
                       <div class="ticketSubDetail">
                         <div class="code">Next Drawn Date</div>
-                        <div class="date">{moment(nextDayTargetDate).format('MMMM Do, h:mm A')}</div>
+                        <div class="date">{timmer[ele?.LotteryId]}</div>
                       </div>
                     </div>
                     <div class="ticketShadow"></div>

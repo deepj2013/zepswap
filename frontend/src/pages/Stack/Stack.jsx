@@ -15,15 +15,29 @@ import {
 import toast from "react-hot-toast";
 import { StackModal } from "../../component/Modal/StackModal";
 import { stackingData } from "../../utils/Contant";
-
+import StackBaner from '../../assets/StackBaner.png'
 const Stack = () => {
 
-  const [stakModal,setStakeModal]=useState(false);
+  const [stakModal, setStakeModal] = useState(false);
   const [poolId, setpoolId] = useState(0)
 
   return (
     <div className="h-screen w-screen   overflow-scroll">
 
+      <div className="relative">
+        <img className='' src={StackBaner} />
+
+        <div className="lg:absolute  bg-black lg:rounded-2xl right-0 h-full w-full lg:w-[50%] flex justify-center items-center flex-col lg:bg-black/40 top-0">
+          <div className="h-[90%] gap-4 w-[90%] flex items-center justify-center flex-col  rounded-2xl text-5xl text-center uppercase">
+          
+
+            <h8  className="text-6xl">Unlock Potential  </h8>
+            <h8 className="mt-3" > with </h8>
+            <h8  className="text-6xl leading-normal"> Personalized Staking </h8>
+
+          </div>
+        </div>
+      </div>
 
 
       {
@@ -36,7 +50,7 @@ const Stack = () => {
                 {
                   stackingData[key]?.map((ele, ind) => {
                     return (
-                      <Card setStakeModal={setStakeModal} stakModal={stakModal} setpoolId={setpoolId}  item={ele} />
+                      <Card setStakeModal={setStakeModal} stakModal={stakModal} setpoolId={setpoolId} item={ele} />
 
                     )
                   })
@@ -56,7 +70,7 @@ export default Stack;
 
 
 
-const Card = ({ item,setStakeModal, setpoolId }) => {
+const Card = ({ item, setStakeModal, setpoolId }) => {
   const [refferer, setrefferer] = useState(
     "0x0000000000000000000000000000000000000000"
   );
@@ -160,7 +174,7 @@ const Card = ({ item,setStakeModal, setpoolId }) => {
     <div className="w-[90vw] mx-auto mt-6 md:w-[19%] border  items-center gap-2 p-5 rounded-md  hover:bg-lightTheme">
 
       <p className="text-center text-xl mb-4 font-bold">{item?.name}</p>
- 
+
 
       <div className="flex justify-between w-full mt-6">
         <div className="">
