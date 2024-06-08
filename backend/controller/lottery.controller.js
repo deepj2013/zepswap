@@ -22,6 +22,7 @@ const ParticipateInLottery = catchAsync(async (req, res) => {
     });
     return res.status(httpStatus.BAD_REQUEST).json(err);
   }
+
   const lotteryDetails = await LotterySchema.findOne({ LotteryId: lotteryId });
   if (!lotteryDetails) {
     const err = responseObject(false, true, {
@@ -33,7 +34,6 @@ const ParticipateInLottery = catchAsync(async (req, res) => {
   let tickets = ticketNumbers;
 
   if (ticketNumbers.length === 0) {
-    for (let i = 0; i < TicketAmount; i++) {
       let newTicket = generateLotteryTicket(existingTickets);
       let validationResult = validateTickets([newTicket], existingTickets);
       if (validationResult.valid) {
@@ -42,7 +42,7 @@ const ParticipateInLottery = catchAsync(async (req, res) => {
       } else {
         i--;
       }
-    }
+    
   } else {
     let validationResult = validateTickets(tickets, existingTickets);
     if (!validationResult.valid) {
@@ -195,9 +195,33 @@ const GetUserLotteryData = catchAsync(async (req, res) => {
   }
 });
 
-const GetUserLotteryHistory = catchAsync(async (req, res) => {});
-const GetUserLotteryHistoryById = catchAsync(async (req, res) => {});
+const GetUserLotteryHistory = catchAsync(async (req, res) => {
 
+});
+const GetUserLotteryHistoryById = catchAsync(async (req, res) => {
+  const { WalletAdress } = req.body;
+  const { address } = req.userPayload;
+
+  if (!WalletAdress) {
+    return res.status(httpStatus.BAD_REQUEST).json(err);
+  }
+
+});
+const GetUserLotteryHistoryByWallet = catchAsync(async (req, res) => {
+  const { walletAddress } = req.body;
+
+  if (!walletAddress) {
+    return res.status(400).json({ message: 'Wallet address is required' });
+  }
+
+  const userLotteryHistory = await lottertickets.find({ walletAddress });
+
+  if (userLotteryHistory.length === 0) {
+    return res.status(404).json({ message: 'No tickets purchased' });
+  }
+
+  res.status(200).json({ tickets: userLotteryHistory });
+});
 module.exports = {
   ParticipateInLottery,
   GetUserLotteryData,
@@ -205,4 +229,5 @@ module.exports = {
   GetCurrentLotteryGame,
   createNewLottery,
   GetUserLotteryHistoryById,
+  GetUserLotteryHistoryByWallet
 };
