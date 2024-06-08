@@ -162,10 +162,9 @@ function GameLottery() {
 
 
   useEffect(() => {
-    if (lotteries.length > 0) {
 
       getHistory()
-    }
+    
     return () => {
       setMyTicket([])
     }
