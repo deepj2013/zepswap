@@ -63,6 +63,13 @@ const Login = catchAsync(async (req, res) => {
     return res.status(httpStatus.BAD_REQUEST).json(err);
   }
   const jwt = await createJwtToken({ address: address });
+  const userWallet = await UserWallet.findOne({ WalletAdress: address });
+  if (!userWallet) {
+    const newWallet = new UserWallet();
+    newWallet.WalletAdress = address;
+    newWallet.ZepxBalance = 0;
+    newWallet.save();
+  }
   const response = responseObject(true, false, {
     address: address,
     jwt: jwt,
