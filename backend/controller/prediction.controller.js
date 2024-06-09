@@ -10,7 +10,7 @@ const { catchAsync, responseObject, httpStatus } = require("../utils/helper");
 const JoinPrediction = catchAsync(async (req, res) => {
   const { predictionId, amount, predictionType } = req.body;
   const { address } = req.userPayload;
-  if (!address || !predictionId || !amount || !predictionType) {
+  if (!address  || !amount || !predictionType) {
     const err = responseObject(false, true, {
       message: "empty Parameters",
     });
@@ -60,7 +60,7 @@ const JoinPrediction = catchAsync(async (req, res) => {
   }
   const response = responseObject(false, true, {
     address: address,
-    balance: userWallet.ZepxBalance,
+    balance: Number(userWallet.ZepxBalance),
     msg: joiningStatus.msg,
   });
   return res.status(httpStatus.NOT_ACCEPTABLE).json(response);

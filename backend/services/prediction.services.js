@@ -48,7 +48,7 @@ const startNewPrediction = async () => {
       savePredictionData(PredictionDb);
     }
 
-    PredictionId = Date.now();
+    PredictionId =+1;
     generateUpcomingPredictions();
     emitSocketEvent("updatedPredictionData", getPredictionDataInternal());
     PredictionDb = resetPredictionDb();
@@ -163,6 +163,7 @@ const checkWinner = () => {
 
 const joinPredictionInternal = async (predictionId, amount, address, type) => {
   if (predictionId != PredictionId) {
+    console.log("Prediction ",PredictionId,predictionId)
     return {
       succes: false,
       msg: "inavalid Prediction Id",
@@ -260,10 +261,10 @@ const userExists = (participations, userAddress) => {
 };
 
 const StartPrediction = async () => {
-  // const previousPredictionsCount = await PredictionData.countDocuments([]);
-  // console.log("previous prediction count", previousPredictionsCount);
-  // PredictionId = previousPredictionsCount;
-  setInterval(startNewPrediction, 300000);
+  const previousPredictionsCount = await PredictionData.countDocuments([]);
+  console.log("previous prediction count", previousPredictionsCount);
+  PredictionId = previousPredictionsCount +1;
+  setInterval(startNewPrediction, 600000);
 };
 
 // console.log("perdictiondb", PredictionDb.ParticpatedUsers);
