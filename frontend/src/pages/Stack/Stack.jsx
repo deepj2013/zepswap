@@ -218,7 +218,7 @@ const Card = ({ item, setStakeModal, setpoolId, setSelectedCard }) => {
           <div className="">
             <p className="text-sm text-gray-800">Investment</p>
             <p className="text-xl text-gray-800">
-              ${item?.investment}
+              z-{item?.investment}
             </p>
           </div>
           <div className="">
