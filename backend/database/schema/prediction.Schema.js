@@ -33,7 +33,7 @@ const predictionSchema = new Schema(
     id: {
       type: Number,
       index: true,
-      unique: true,
+      // unique: true,
     },
     PredictionUp: {
       type: predictionSubSchema,
