@@ -18,7 +18,10 @@ function GameLottery() {
   const signer = useEthersSigner();
   const { openConnectModal } = useConnectModal();
   const [myTicket, setMyTicket] = useState([])
-  const [ticketCount,setTicketCount]=useState(1)
+  const [purchaseTicketModal, setPurchaseTicketModal] = useState(false)
+  const [selectedCard, setSelectedCard] = useState(null)
+  const [ticketCount, setTicketCount] = useState(1)
+  const [loading, setLoading] = useState(false)
   const type = {
     1: '1K',
     2: '10K',
@@ -42,17 +45,22 @@ function GameLottery() {
   }
 
 
-  const participateLottery = async (ele) => {
-    console.log(ele);
+  const participateLottery = async () => {
     let obj = {
-      "lotteryId": ele?.LotteryId,
+      "lotteryId": selectedCard?.LotteryId,
       "ticketNumbers": [],
-      "TicketAmount": ele?.TicketPrice
+      "TicketAmount": ticketCount
     }
     try {
+      setLoading(true)
       let response = await participateLotteryServices(obj)
+      setPurchaseTicketModal(false)
+      setLoading(false)
       toast.success('Congratulations! Your lottery ticket purchase was successful. Good luck!')
     } catch (error) {
+      setLoading(false)
+      setPurchaseTicketModal(false)
+
       console.log(error);
     }
   }
@@ -329,7 +337,10 @@ function GameLottery() {
                               return
                             }
                             else {
-                              participateLottery(ele)
+
+                              setPurchaseTicketModal(true)
+                              setSelectedCard(ele)
+                              // participateLottery(ele)
                             }
                           }}
                           className='absolute top-0 right-10 bg-theme p-2 px-6 rounded'>
@@ -447,7 +458,7 @@ function GameLottery() {
           </div>
         }
 
-        <PurchaseTicketModal ticketCount={ticketCount}  open={true} />
+        <PurchaseTicketModal loading={loading} participateLottery={participateLottery} ticketCount={ticketCount} setSelectedCard={setSelectedCard} selectedCard={selectedCard} setTicketCount={setTicketCount} open={purchaseTicketModal} setOpen={setPurchaseTicketModal} />
 
       </div>
 
