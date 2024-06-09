@@ -34,6 +34,7 @@ const ParticipateInLottery = catchAsync(async (req, res) => {
   let tickets = ticketNumbers;
 
   if (ticketNumbers.length === 0) {
+    for (let i = 0; i < TicketAmount; i++) {
       let newTicket = generateLotteryTicket(existingTickets);
       let validationResult = validateTickets([newTicket], existingTickets);
       if (validationResult.valid) {
@@ -42,6 +43,7 @@ const ParticipateInLottery = catchAsync(async (req, res) => {
       } else {
         i--;
       }
+    }
     
   } else {
     let validationResult = validateTickets(tickets, existingTickets);
