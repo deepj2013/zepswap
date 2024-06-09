@@ -264,7 +264,7 @@ const StartPrediction = async () => {
   const previousPredictionsCount = await PredictionData.countDocuments([]);
   console.log("previous prediction count", previousPredictionsCount);
   PredictionId = previousPredictionsCount +1;
-  setInterval(startNewPrediction, 300000);
+  setInterval(startNewPrediction, 600000);
 };
 
 // console.log("perdictiondb", PredictionDb.ParticpatedUsers);
