@@ -11,6 +11,8 @@ import { PlacebidModal } from '../../../component/Common/PlacebidModal';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import predction from '../../../assets/predction.png'
 import { ALLCOINS } from '../../../utils/Coins';
+import FlipCountdown from '@rumess/react-flip-countdown';
+import moment from 'moment';
 
 
 const Predction = () => {
@@ -126,38 +128,38 @@ const Predction = () => {
 
 
 
-  const getRandomObject = async() => {
+  const getRandomObject = async () => {
     // Filter out objects where symbol is "-"
     const filteredArray = ALLCOINS?.filter((ele) => ele?.symbol !== "-");
-  
+
     // Check if the filtered array has any elements
     if (filteredArray.length === 0) {
       return null; // or handle this case as needed
     }
-  
+
     // Generate a random index
     const randomIndex = Math.floor(Math.random() * filteredArray.length);
-  
+
     // Select the random object
     const randomObject = filteredArray[randomIndex];
 
     let response = await getCurrentPrice(randomObject?.symbol)
     // console.log(Object.values(response.data));
-    let temp=Object.values(response.data)
+    let temp = Object.values(response.data)
     // setLivePrice(temp[0]?.USD)
 
 
-    let obj={
-      symbol:randomObject?.symbol,
-      logo:randomObject?.logo,
-      currentPrice:temp[0]?.USD
+    let obj = {
+      symbol: randomObject?.symbol,
+      logo: randomObject?.logo,
+      currentPrice: temp[0]?.USD
     }
 
     console.log(obj);
     setRandomCoin(obj)
-  
+
   };
-  
+
   // Example usage
   // const randomObject = await getRandomObject();
   console.log(randomCoin);
@@ -166,11 +168,17 @@ const Predction = () => {
     getRandomObject()
 
   }, [])
-  
+
 
   useEffect(() => {
     scrollTo();
   }, [currentPredctionList]);
+
+
+  const timer = (time) => {
+    return moment(time).format('YYYY-MM-DD HH:mm:ss');
+
+  }
 
   return (
     <div className=' w-screen bg-theme flex flex-col justify-center overflow-hidden '>
@@ -180,7 +188,7 @@ const Predction = () => {
 
       <div className='px-4 flex justify-between'>
         <div className='flex items-center  w-full justify-between'>
-        <img className=' object-contain mt-10' src={predction} />
+          <img className=' object-contain mt-10' src={predction} />
         </div>
 
       </div>
@@ -290,31 +298,31 @@ const Predction = () => {
               {/* Next */}
 
 
-              {ele?.active==2 && <div className='flex flex-col items-center mt-10'>
+              {ele?.active == 2 && <div className='flex flex-col items-center mt-10'>
                 <img className='h-20 w-20' src={randomCoin?.logo} alt="" />
                 <div className='text-white'>
-                  ${randomCoin?.currentPrice?randomCoin?.currentPrice:'-'}
+                  ${randomCoin?.currentPrice ? randomCoin?.currentPrice : '-'}
                 </div>
-                </div>}
+              </div>}
 
 
               {ele?.active == 2 && <div className={twMerge('border-2 border-theme w-[85%] mx-auto rounded-2xl p-3 mt-5 z-30 bg-secondry')}>
 
 
-              <p className='font-semibold text-theme text-center text-base '>
-                    {randomCoin?.symbol}
-                  </p>
+                <p className='font-semibold text-theme text-center text-base '>
+                  {randomCoin?.symbol}
+                </p>
 
 
 
                 <div className='flex justify-between items-center'>
-                  
+
                   <p className='font-semibold text-theme text-base '>
                     Price Pool:
                   </p>
 
 
-               
+
 
                   <div className=' text-white text px-2 p-1 rounded-md flex items-center'>
                     $5000
@@ -335,7 +343,7 @@ const Predction = () => {
 
                     }}
                     className='bg-green-600 text-white w-full rounded-lg py-1.5 mt-2'>
-                     Buy
+                    Buy
                   </button>
 
 
@@ -353,7 +361,7 @@ const Predction = () => {
 
                     }}
                     className='bg-gray-400 text-white w-full rounded-lg py-1.5 mt-3'>
-                     Hold
+                    Hold
                   </button>
 
 
@@ -369,12 +377,32 @@ const Predction = () => {
 
                     }}
                     className='bg-red-600 text-white w-full rounded-lg py-1.5 mt-3'>
-                     Sell
+                    Sell
                   </button>
 
                 </div>
 
               </div>}
+
+
+              {
+                ele?.active == 3 && <div>
+                  <div className='bg-white w-[90%] mx-auto pb-5 pt-2 rounded-md'>
+                  <FlipCountdown
+
+                    hideYear
+                    hideMonth
+                    // hideDay
+                    theme='dark' // Options (Default: dark): dark, light.
+
+                    size='small' // Options (Default: medium): large, medium, small, extra-small.
+                    endAt={timer(ele?.endingTimestamp)} // Date/Time
+                  />
+
+                  <p className='text-center mx-auto mt-3 text-2xl'>Next Bid will be start</p>
+                  </div>
+                </div>
+              }
 
             </div>
           </div>
