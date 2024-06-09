@@ -9,13 +9,14 @@ import { useEthersSigner } from "../blockchain/contractSigner";
 import { DialogWithForm } from "./Common/WalletModal";
 import { errorToast } from "../utils/Helper";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { twMerge } from "tailwind-merge";
 function NavBar2() {
   const [hover, setHover] = useState(false);
   const [userBalance, setUserBalance] = useState({})
   const signer = useEthersSigner();
   const [open, setOpen] = React.useState(false);
   const { openConnectModal } = useConnectModal();
-
+  const [toogle, setToogle] = useState(false);
 
 
   const loginHandler = async () => {
@@ -55,6 +56,26 @@ function NavBar2() {
   }
 
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 900) {
+        setToogle(true);
+      } else {
+        setToogle(false);
+      }
+    };
+
+    // Call handleResize on mount to set the initial state
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
 
 
@@ -86,6 +107,9 @@ function NavBar2() {
           <CustomWalletBtn />
 
           <button
+            onClick={()=>{
+              setToogle(!toogle)
+            }}
             data-collapse-toggle="navbar-sticky"
             type="button"
             class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -111,10 +135,10 @@ function NavBar2() {
           </button>
         </div>
         <div
-          class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          class="items-center justify-between  w-full md:flex md:w-auto md:order-1"
           id="navbar-sticky"
         >
-          <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  ">
+          <ul class={twMerge("flex flex-col p-4 md:p-0 mt-4 font-medium   md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  ",toogle?'flex':'hidden')}>
             <li>
               <a
                 href="/"
