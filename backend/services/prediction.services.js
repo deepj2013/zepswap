@@ -48,12 +48,12 @@ const startNewPrediction = async () => {
       savePredictionData(PredictionDb);
     }
 
-    PredictionId++;
-    // generateUpcomingPredictions();
-    // emitSocketEvent("updatedPredictionData", getPredictionDataInternal());
-    // PredictionDb = resetPredictionDb();
+    PredictionId = Date.now();
+    generateUpcomingPredictions();
+    emitSocketEvent("updatedPredictionData", getPredictionDataInternal());
+    PredictionDb = resetPredictionDb();
     // Starting New Prediction From Here
-    // PredictionDb.id = PredictionId;
+    PredictionDb.id = PredictionId;
     PredictionDb.startingTimestamp = Date.now();
     PredictionDb.endingTimestamp = Date.now() + 5 * 60 * 1000;
 
@@ -260,13 +260,13 @@ const userExists = (participations, userAddress) => {
 };
 
 const StartPrediction = async () => {
-  const previousPredictionsCount = await PredictionData.countDocuments([]);
-  console.log("previous prediction count", previousPredictionsCount);
-  PredictionId = previousPredictionsCount;
-  setInterval(startNewPrediction, 10000);
+  // const previousPredictionsCount = await PredictionData.countDocuments([]);
+  // console.log("previous prediction count", previousPredictionsCount);
+  // PredictionId = previousPredictionsCount;
+  setInterval(startNewPrediction, 300000);
 };
 
-console.log("perdictiondb", PredictionDb.ParticpatedUsers);
+// console.log("perdictiondb", PredictionDb.ParticpatedUsers);
 
 module.exports = {
   joinPredictionInternal,

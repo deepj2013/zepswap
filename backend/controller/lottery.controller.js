@@ -207,6 +207,8 @@ const GetUserLotteryHistoryById = catchAsync(async (req, res) => {
   }
 
 });
+
+
 const GetUserLotteryHistoryByWallet = catchAsync(async (req, res) => {
   const { WalletAdress } = req.body;
 
@@ -223,6 +225,12 @@ const GetUserLotteryHistoryByWallet = catchAsync(async (req, res) => {
 
   res.status(200).json({ tickets: userLotteryHistory });
 });
+
+
+const GetLotteryResults = catchAsync(async (req, res) =>{
+  
+})
+
 module.exports = {
   ParticipateInLottery,
   GetUserLotteryData,

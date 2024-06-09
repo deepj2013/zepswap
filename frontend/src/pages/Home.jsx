@@ -3,7 +3,7 @@ import Card from "../component/Home/Card";
 import MemeCoinTable from "../component/Home/MemeCoinTable";
 import PopularTable from "../component/Home/PopularTable";
 import PopularSlider from "../component/Home/PopularSlider";
-import Logo from '../assets/Logo.png';
+import Logo from '../assets/logo.png';
 import lottery from '../assets/icon/lottery.png';
 import predction from '../assets/icon/predction.png';
 import Stack from '../assets/icon/Stack.png';

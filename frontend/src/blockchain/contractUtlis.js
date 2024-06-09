@@ -3,7 +3,16 @@ import contractAbi from "./token.json";
 import buyContractAbi from "./zepxBuy.json";
 import swapContractAbi from "./zepxSwap.json";
 import stakeContractAbi from "./zepStake.json";
-import { Rpc_Url, ZepStake_Address, Zepx_buy, Zepx_swap } from "./config";
+import paymentAbi from "./PaymentProtocol.json";
+import {
+  Payment_Protocol_Contract,
+  Rpc_Url,
+  Zepcash_Payment_Receiving_Address,
+  ZepStake_Address,
+  Zepx_buy,
+  Zepx_swap,
+  zepxContractAddress,
+} from "./config";
 import toast from "react-hot-toast";
 
 const provider = new ethers.providers.JsonRpcProvider(
@@ -12,19 +21,19 @@ const provider = new ethers.providers.JsonRpcProvider(
 
 export async function getCurrentBlockTimestamp() {
   const block = await provider.getBlock("latest");
-console.log("blocktimestamp",block.timestamp)
+  console.log("blocktimestamp", block.timestamp);
   return block?.timestamp;
 }
 
-getCurrentBlockTimestamp()
+getCurrentBlockTimestamp();
 
 export async function getTokenBalance(TokenAdress, adress) {
   console.log("checking balance...", TokenAdress, adress);
   try {
     const contract = new ethers.Contract(TokenAdress, contractAbi, provider);
-    const decimal = await contract.balanceOf(adress);
-    console.log("va", decimal);
-    return Number(decimal.toString());
+    const bal = await contract.balanceOf(adress);
+    console.log("va", bal);
+    return Number(bal);
   } catch (error) {
     console.log("Error checking balance:", error);
     return 0;
@@ -108,7 +117,7 @@ export async function getPoolInfo(poolId) {
       ),
       TotalStaked: new Intl.NumberFormat("en-US", {
         maximumFractionDigits: 20,
-      }).format(poolInfo[3]/10**18),
+      }).format(poolInfo[3] / 10 ** 18),
       lockingPeriod: new Intl.NumberFormat("en-US", {
         maximumFractionDigits: 20,
       }).format(poolInfo[6]),
@@ -124,7 +133,7 @@ export async function getPoolInfo(poolId) {
   }
 }
 
-getPoolInfo(0);
+// getPoolInfo(0);
 
 export async function BuyZepx(amount, signer) {
   try {
@@ -266,7 +275,7 @@ export async function StakeZepx(poolId, amount, referer, signer) {
     throw error;
   }
 }
-export async function WithdrawFromStake(poolId,amount, signer) {
+export async function WithdrawFromStake(poolId, amount, signer) {
   try {
     console.log("signer", signer);
     const contract = new ethers.Contract(
@@ -291,7 +300,7 @@ export async function WithdrawFromStake(poolId,amount, signer) {
         poolId,
         (amount * 10 ** 18).toLocaleString("fullwide", {
           useGrouping: false,
-        })
+        }),
       ]),
       nonce: await signer.getTransactionCount(),
     };
@@ -389,5 +398,50 @@ export async function getUserStakedAmount(poolId, userAddress) {
   } catch (error) {
     console.log("Error checking approval amount:", error);
     return 0;
+  }
+}
+
+export async function paymentFunction(userAdress, amount, signer) {
+  try {
+    const contract = new ethers.Contract(
+      Payment_Protocol_Contract,
+      paymentAbi,
+      signer
+    );
+
+    const gasPrice = await signer.getGasPrice();
+    const gasLimit = await contract.estimateGas.DirectPayment(
+      "ZEPSWAP",
+      userAdress,
+      zepxContractAddress,
+      Zepcash_Payment_Receiving_Address,
+      (amount * 10 ** 18).toLocaleString("fullwide", {
+        useGrouping: false,
+      })
+    );
+
+    const rawTransaction = {
+      to: Payment_Protocol_Contract,
+      gasPrice,
+      gasLimit,
+      data: contract.interface.encodeFunctionData("DirectPayment", [
+        "ZEPSWAP",
+        userAdress,
+        zepxContractAddress,
+        Zepcash_Payment_Receiving_Address,
+        (amount * 10 ** 18).toLocaleString("fullwide", {
+          useGrouping: false,
+        }),
+      ]),
+      nonce: await signer.getTransactionCount(),
+    };
+
+    const transactionResponse = await signer.sendTransaction(rawTransaction);
+    const receipt = await transactionResponse.wait();
+    toast.success("Payment Completed");
+    return receipt;
+  } catch (error) {
+    console.log("error in payment function" , error)
+    throw error
   }
 }

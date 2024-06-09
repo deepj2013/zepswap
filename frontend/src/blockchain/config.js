@@ -7,4 +7,5 @@ export const ZepStake_Address = "0x70BBd598360B8D6FBFfe4B1A1cc64B8b39Fdd9Be" // 
 export const ZepLottery_Address = "0xce3E2E82DC7cBAA2D7A773e2a5bB537Cb456b96D" // testnet address
 export const zepxContractAddress = "0x363178C81C1d1eB8391De18726D450Dc857eA3dA";
 export const Zepcash_Payment_Receiving_Address = "0x2E81922F23b88a91af5eEaEd78021967648924Bc"; //Mainnet address for reciving fund in zepcash
+export const Payment_Protocol_Contract = "0xA469C1Cc6052Ef5093e85729BFD55eAbb622F2e4" // payment protocol mainnet adresss
 export const ZEPX_IN_ONE_DOLLOR=1500
