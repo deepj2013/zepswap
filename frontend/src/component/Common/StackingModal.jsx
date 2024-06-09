@@ -27,7 +27,7 @@ export function StackingModal({ open, setOpen }) {
     const [selectedOption, setSelectedOption] = useState("Stake");
     const [amount, setAmount] = useState(ZEPX_IN_ONE_DOLLOR);
     const [loading, setloading] = useState(false);
-    const [dollor,setDollor]=useState(86)
+    const [dollor,setDollor]=useState(1)
     const [refferer, setrefferer] = useState("0x2BE885C25F24D8D9a7e2bfAC89FC173c39989050");
     const signer = useEthersSigner();
     const [income,setIncome]=useState(0)
@@ -196,9 +196,9 @@ export function StackingModal({ open, setOpen }) {
                         </Typography>
                         <Input onChange={(val) => {
                             setrefferer(val.target.value)
-                        }} type="text" containerProps={{
+                        }}  containerProps={{
                             className: 'outline-none',
-                        }} label="Enter Wallet Address" size="lg" />
+                        }} placeholder="Enter Wallet Address" size="lg" />
 
                     </CardBody>
                     <CardFooter className="pt-0">

@@ -4,6 +4,7 @@ import { LOGO, dummyData } from '../../utils/Contant'
 import { getCoinsList, getCurrentPrice } from '../../services/Services'
 import { ALLCOINS } from '../../utils/Coins'
 import { getRandomColor } from '../../utils/Helper'
+import { ThreeDots } from 'react-loader-spinner'
 
 
 
@@ -99,15 +100,19 @@ const Crad=({ele,startIndex,ind})=>{
 
 
     const [livePice,setLivePrice]=useState(0)
-
+    const [loading,setLoading]=useState(false)
     const getLivePrice=async(symbol)=>{
         try {
+            setLoading(true)
             let response = await getCurrentPrice(symbol)
             let temp=Object.values(response.data)
             console.log(temp[0]?.USD);
             setLivePrice(temp[0]?.USD)
-        
+            setLoading(false)
+
         } catch (error) {
+            setLoading(false)
+
             console.log(error);
         }
     }
@@ -150,13 +155,24 @@ const Crad=({ele,startIndex,ind})=>{
         </td>
 
         <td>
-          <button
+        {!loading &&  <button
           onClick={()=>{
             getLivePrice(ele?.symbol)
           }}
            className='text-sm font-semibold text-gray-600 got font-urbanist border min-w-[120px] rounded-lg py-2 bg-theme'>
              {livePice==0?'Live Price':`$ ${livePice}`}
-          </button>
+          </button>}
+
+          <ThreeDots
+  visible={loading}
+  height="30"
+  width="30"
+  color="green"
+  radius="9"
+  ariaLabel="three-dots-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  />
         </td>
       </tr>
     )
