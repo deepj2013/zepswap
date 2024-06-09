@@ -17,7 +17,7 @@ import { StackModal } from "../../component/Modal/StackModal";
 import { investment, stackingData } from "../../utils/Contant";
 import StackBaner from '../../assets/StackBaner.png'
 import { StackingModal } from "../../component/Common/StackingModal";
-import { getRandomColor, getRandomColorDarkColor } from "../../utils/Helper";
+import { getRandomColor, getRandomColorDarkColor, toFixnumber } from "../../utils/Helper";
 const Stack = () => {
 
   const [stakModal, setStakeModal] = useState(false);
@@ -63,7 +63,7 @@ const Stack = () => {
         </button>
 
         {myStaking &&
-          <div className="flex justify-between">
+          <div className="flex justify-between flex-wrap">
             <Card2 poolId={0} />
             <Card2 poolId={1} />
             <Card2 poolId={2} />
@@ -309,7 +309,7 @@ const Card2 = ({ item, setStakeModal, setpoolId, setSelectedCard, poolId }) => {
           }
           setEarnedReward(rewaradAmount);
         }
-        setpoolId(poolId)
+        // setpoolId(poolId)
       } catch (error) {
         console.log(error);
       }
@@ -371,16 +371,18 @@ const Card2 = ({ item, setStakeModal, setpoolId, setSelectedCard, poolId }) => {
           </div>
         </div>
 
-        <div className="flex justify-between w-full mt-6">
+        <div className="flex justify-center w-full mt-6">
           <div className="">
-            <p className="text-sm text-gray-800">Apr</p>
+            <p className="text-sm  text-center text-gray-800">Apr</p>
             <p className="text-xl text-gray-800">{poolInfo?.apr}%</p>
           </div>
-          <div className="">
-            <p className="text-sm text-gray-800">Your Earning</p>
-            <p className="text-xl text-gray-800">{EarnedReward.toFixed(0)}</p>
-          </div>
+       
         </div>
+
+        <div className="mt-4 flex flex-col  justify-center items-center">
+            <p className="text-sm text-gray-800">Your Earning</p>
+            <p className="text-sm text-gray-800">{EarnedReward}</p>
+          </div>
       </div>
 
 

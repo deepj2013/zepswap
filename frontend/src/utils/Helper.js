@@ -47,3 +47,12 @@ export const errorToast=(msg)=>{
     return hexColor;
   }
   
+
+  export const toFixnumber=(num)=>{
+    console.log(num,'09090');
+    try {
+        Number(num).toFixed(2)
+    } catch (error) {
+      return 0
+    }
+  }

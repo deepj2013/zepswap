@@ -18,7 +18,7 @@ function GameLottery() {
   const signer = useEthersSigner();
   const { openConnectModal } = useConnectModal();
   const [myTicket, setMyTicket] = useState([])
-
+  const [ticketCount,setTicketCount]=useState(1)
   const type = {
     1: '1K',
     2: '10K',
@@ -447,7 +447,7 @@ function GameLottery() {
           </div>
         }
 
-        <PurchaseTicketModal open={true} />
+        <PurchaseTicketModal ticketCount={ticketCount}  open={true} />
 
       </div>
 
