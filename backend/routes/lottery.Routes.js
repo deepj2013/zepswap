@@ -14,7 +14,9 @@ router.post("/user-lottery-historybyWallet",lotteryController.GetUserLotteryHist
 router.post("/participate-lottery",verifyJwtToken,lotteryController.ParticipateInLottery);
 router.post("/create-new-lottery",lotteryController.createNewLottery)
 
-
+// router.post('/daily', lotteryController.saveDailyResults);
+// router.post('/weekly', lotteryController.saveWeeklyResults);
+// router.post('/monthly', lotteryController.saveMonthlyResults);
 
 
 module.exports = router;
