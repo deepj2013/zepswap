@@ -29,7 +29,6 @@ import { ToastContainer } from "react-toastify";
 export function StackModal({ open, setOpen, selectedCard }) {
     const handleOpen = () => setOpen((cur) => !cur);
     let PoolId = selectedCard?.poolId
-    console.log(PoolId);
     const [selectedOption, setSelectedOption] = useState("Stake");
     const [amount, setAmount] = useState(selectedCard?.investment * ZEPX_IN_ONE_DOLLOR);
     const [loading, setloading] = useState(false);
@@ -166,9 +165,9 @@ export function StackModal({ open, setOpen, selectedCard }) {
                                         setAmount(val.target.value);
                                     }}
                                     type="text"
-                                    className="w-[100px]"
+                                    className="!w-[120px]"
                                     containerProps={{
-                                        className: "outline-none mt-2 min-w-[100px]",
+                                        className: "outline-none mt-2 !min-w-[120px]",
 
                                     }}
                                     label="Enter Amount"
@@ -190,9 +189,9 @@ export function StackModal({ open, setOpen, selectedCard }) {
                                     }}
                                     type="text"
                                     containerProps={{
-                                        className: "outline-none mt-2 min-w-[100px]",
+                                        className: "outline-none mt-2 !min-w-[120px]",
                                     }}
-                                    className="w-[100px]"
+                                    className="!w-[120px]"
                                     label="Enter Amount"
                                     size="lg"
                                 />

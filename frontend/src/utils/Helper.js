@@ -34,3 +34,16 @@ export const errorToast=(msg)=>{
     return colors[randomIndex];
   };
   
+
+  export function getRandomColorDarkColor() {
+    // Generate random values for red, green, and blue
+    var r = Math.floor(Math.random() * 256); // Random value between 0 and 255
+    var g = Math.floor(Math.random() * 256); // Random value between 0 and 255
+    var b = Math.floor(Math.random() * 256); // Random value between 0 and 255
+  
+    // Convert RGB to a hexadecimal color representation
+    var hexColor = '#' + r.toString(16) + g.toString(16) + b.toString(16);
+  
+    return hexColor;
+  }
+  

@@ -10,6 +10,7 @@ import { FaHandPointDown } from "react-icons/fa";
 import jackpot from '../../../assets/jackpot.png'
 import FlipCountdown from '@rumess/react-flip-countdown';
 import toast from 'react-hot-toast';
+import { PurchaseTicketModal } from '../../../component/Common/PurchaseTicketModal';
 
 function GameLottery() {
 
@@ -39,6 +40,7 @@ function GameLottery() {
       console.log(error);
     }
   }
+
 
   const participateLottery = async (ele) => {
     console.log(ele);
@@ -163,8 +165,8 @@ function GameLottery() {
 
   useEffect(() => {
 
-      getHistory()
-    
+    getHistory()
+
     return () => {
       setMyTicket([])
     }
@@ -444,6 +446,8 @@ function GameLottery() {
             <MemeCoinTable />
           </div>
         }
+
+        <PurchaseTicketModal open={true} />
 
       </div>
 
