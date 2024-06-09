@@ -29,12 +29,11 @@ import { ToastContainer } from "react-toastify";
 export function StackModal({ open, setOpen, selectedCard }) {
     const handleOpen = () => setOpen((cur) => !cur);
     let PoolId = selectedCard?.poolId
-    console.log(PoolId);
     const [selectedOption, setSelectedOption] = useState("Stake");
     const [amount, setAmount] = useState(selectedCard?.investment * ZEPX_IN_ONE_DOLLOR);
     const [loading, setloading] = useState(false);
     const [refferer, setrefferer] = useState(
-        "0x0000000000000000000000000000000000000000"
+        "0x2BE885C25F24D8D9a7e2bfAC89FC173c39989050"
     );
     const signer = useEthersSigner();
 
@@ -166,9 +165,9 @@ export function StackModal({ open, setOpen, selectedCard }) {
                                         setAmount(val.target.value);
                                     }}
                                     type="text"
-                                    className="w-[100px]"
+                                    className="!w-[120px]"
                                     containerProps={{
-                                        className: "outline-none mt-2 min-w-[100px]",
+                                        className: "outline-none mt-2 !min-w-[120px]",
 
                                     }}
                                     label="Enter Amount"
@@ -190,14 +189,24 @@ export function StackModal({ open, setOpen, selectedCard }) {
                                     }}
                                     type="text"
                                     containerProps={{
-                                        className: "outline-none mt-2 min-w-[100px]",
+                                        className: "outline-none mt-2 !min-w-[120px]",
                                     }}
-                                    className="w-[100px]"
+                                    className="!w-[120px]"
                                     label="Enter Amount"
                                     size="lg"
                                 />
                             </div>
+
                         </div>
+
+                        <Typography className="-mb-2" variant="h6">
+                            Referred by <span className="text-xs">(optional)</span>
+                        </Typography>
+                        <Input onChange={(val) => {
+                            setrefferer(val.target.value)
+                        }} type="text" containerProps={{
+                            className: 'outline-none',
+                        }} label="Enter Wallet Address" size="lg" />
                     </CardBody>
                     <CardFooter className="pt-0">
                         <Button

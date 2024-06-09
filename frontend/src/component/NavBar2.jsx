@@ -3,7 +3,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { CustomWalletBtn } from "../blockchain/connectBtn";
 import { CiWallet } from "react-icons/ci";
 
-import Logo from '../assets/logo.png'
+import Logo from '../assets/Logo.png'
 import { getBalanceServices, loginServices } from "../services/Services";
 import { useEthersSigner } from "../blockchain/contractSigner";
 import { DialogWithForm } from "./Common/WalletModal";
