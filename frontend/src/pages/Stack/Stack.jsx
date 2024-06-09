@@ -211,8 +211,6 @@ const Card = ({ item, setStakeModal, setpoolId, setSelectedCard }) => {
     <div className="w-[90vw] mx-auto mt-6 md:w-[19%] border  items-center gap-2 p-2 rounded-md  ">
 
       <p className="text-center text-xl mb-4 font-bold">{item?.name}</p>
-
-
       <div style={{ background: getRandomColor() }} className="p-2 rounded-md">
         <div className="flex justify-between w-full ">
           <div className="">
