@@ -1,7 +1,9 @@
 import { Zepcash_Payment_Receiving_Address, zepxContractAddress } from "../blockchain/config";
 import BUSDABI from '../assets/BUSDABI.json'
 import LOGOIMG from '../assets/Logo.png'
+import MAINBANNER from '../assets/MAINBANNER.png'
 
+export const HOMEBANNER =MAINBANNER
 export const LOGO=LOGOIMG
 export const dummyData = [
     {
