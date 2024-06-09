@@ -12,19 +12,23 @@ import {
 } from "@material-tailwind/react";
 import { placeBidServices, rechargeWalletServices, widthrawWalletServices } from "../../services/Services";
 import { errorToast, sucessToast } from "../../utils/Helper";
+import { ZEPX_IN_ONE_DOLLOR } from "../../blockchain/config";
 
 export function PlacebidModal({ open, setPlacebid ,bidDetails}) {
     const handleOpen = () => setPlacebid((cur) => !cur);
     const [selectedOption, setSelectedOption] = useState('withdraw');
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState(ZEPX_IN_ONE_DOLLOR);
+    const [dollor,setDollor]=useState(1)
 
 
-    console.log(bidDetails);
+
+    
+
 
     const placeBidHandler = async () => {
         let payLoad = {
             "predictionId":bidDetails?.id,
-            "amount":bidDetails?.TotalAmount,
+            "amount":amount,
             "predictionType":bidDetails?.predictionType
         }
         try {
@@ -37,6 +41,19 @@ export function PlacebidModal({ open, setPlacebid ,bidDetails}) {
         }
     }
 
+
+    const calculateZepex=(val)=>{
+        setAmount(val)
+        setDollor(val/ZEPX_IN_ONE_DOLLOR)
+        // let res= calculateROI(PoolId,investment[PoolId],20,amount)
+        // setIncome(res)
+    }
+
+
+    const calculateDollor=(val)=>{
+        setDollor(val)
+        setAmount(val*ZEPX_IN_ONE_DOLLOR)
+    }
     return (
         <>
             <Dialog
@@ -60,6 +77,51 @@ export function PlacebidModal({ open, setPlacebid ,bidDetails}) {
                         </Typography>
 
 
+
+                        <div className="flex flex-row-reverse justify-between">
+
+<div>
+    <Typography className="-mb-2" variant="h6">
+        USDT
+    </Typography>
+    <Input
+        value={dollor}
+        onChange={(val) => {
+            calculateDollor(val.target.value)
+            // setAmount(val.target.value);
+            
+        }}
+        type="text"
+        className="!w-[120px]"
+        containerProps={{
+            className: "outline-none mt-5 !min-w-[120px]",
+
+        }}
+        label="Enter Amount"
+        size="lg"
+    />
+</div>
+
+<div>
+
+    <Typography className="-mb-2" variant="h6">
+        ZEPX
+    </Typography>
+    <Input
+        value={amount}
+        onChange={(val) => {
+            calculateZepex(val.target.value)
+        }}
+        type="text"
+        containerProps={{
+            className: "outline-none mt-5 !min-w-[120px]",
+        }}
+        className="!w-[120px]"
+        label="Enter Amount"
+        size="lg"
+    />
+</div>
+</div>
        
 
                       

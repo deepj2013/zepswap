@@ -4,12 +4,13 @@ import { twMerge } from 'tailwind-merge';
 import { IoMdArrowRoundDown } from 'react-icons/io';
 import { FaAngleDown } from 'react-icons/fa6';
 import { useEthersSigner } from '../../../blockchain/contractSigner';
-import { currentPredctionServices, getBalanceServices, loginServices, } from '../../../services/Services';
+import { currentPredctionServices, getBalanceServices, getCurrentPrice, loginServices, } from '../../../services/Services';
 import { DialogWithForm } from '../../../component/Common/WalletModal';
 import { Button } from '@material-tailwind/react';
 import { PlacebidModal } from '../../../component/Common/PlacebidModal';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import predction from '../../../assets/predction.png'
+import { ALLCOINS } from '../../../utils/Coins';
 
 
 const Predction = () => {
@@ -22,6 +23,7 @@ const Predction = () => {
   const [bidDetails, setBidDetails] = useState({})
   const [bidId, setCurrentBidId] = useState(null)
   const { openConnectModal } = useConnectModal();
+  const [randomCoin, setRandomCoin] = useState(null);
 
 
 
@@ -70,11 +72,14 @@ const Predction = () => {
 
   function mergePredictions(data) {
     const previousPredictions = (data.previousPredictions || []).map(prediction => ({ ...prediction, active: 1 }));
+    const lastTwoPredictions = previousPredictions.slice(-2);
+    // return lastTwoPredictions;
+
     const currentPrediction = data.currentPrediction ? [{ ...data.currentPrediction, active: 2 }] : [];
     const upcomingPredictions = (data.upcomingPredictions || []).map(prediction => ({ ...prediction, active: 3 }));
 
     // Combine all predictions into one array
-    const allPredictions = [...previousPredictions, ...currentPrediction, ...upcomingPredictions];
+    const allPredictions = [...lastTwoPredictions, ...currentPrediction, ...upcomingPredictions];
 
     setCurrentPredctionList(allPredictions); // Pass the combined array to the function
   }
@@ -119,6 +124,50 @@ const Predction = () => {
     }
   };
 
+
+
+  const getRandomObject = async() => {
+    // Filter out objects where symbol is "-"
+    const filteredArray = ALLCOINS?.filter((ele) => ele?.symbol !== "-");
+  
+    // Check if the filtered array has any elements
+    if (filteredArray.length === 0) {
+      return null; // or handle this case as needed
+    }
+  
+    // Generate a random index
+    const randomIndex = Math.floor(Math.random() * filteredArray.length);
+  
+    // Select the random object
+    const randomObject = filteredArray[randomIndex];
+
+    let response = await getCurrentPrice(randomObject?.symbol)
+    // console.log(Object.values(response.data));
+    let temp=Object.values(response.data)
+    // setLivePrice(temp[0]?.USD)
+
+
+    let obj={
+      symbol:randomObject?.symbol,
+      logo:randomObject?.logo,
+      currentPrice:temp[0]?.USD
+    }
+
+    console.log(obj);
+    setRandomCoin(obj)
+  
+  };
+  
+  // Example usage
+  // const randomObject = await getRandomObject();
+  console.log(randomCoin);
+
+  useEffect(() => {
+    getRandomObject()
+
+  }, [])
+  
+
   useEffect(() => {
     scrollTo();
   }, [currentPredctionList]);
@@ -131,20 +180,7 @@ const Predction = () => {
 
       <div className='px-4 flex justify-between'>
         <div className='flex items-center  w-full justify-between'>
-        <img className='h-[300px] object-contain mt-10' src={predction} />
-
-          <button
-            onClick={() => {
-              if (signer?._address === undefined) {
-                openConnectModal()
-              }
-              else {
-                setOpen(true)
-              }
-            }}
-            className='bg-secondry  w-[200px] text-white    rounded-lg py-2 mt-3'>
-            Walltet $ {userBalance?.balance}
-          </button>
+        <img className=' object-contain mt-10' src={predction} />
         </div>
 
       </div>
@@ -156,7 +192,7 @@ const Predction = () => {
             ref={bidId == ele?.id ? selectedRef : null}
 
             className={twMerge('rounded-2xl', bidId == ele?.id && 'bg-gradient-to-r from-purple-400 via-lightTheme-500 to-red-600 p-0.5 overflow-hidden rounded-2xl')}
-            key={index} style={{ minWidth: '330px', height: '350px', margin: '10px' }}>
+            key={index} style={{ minWidth: '330px', height: '400px', margin: '10px' }}>
             <div className='h-full w-full flex flex-col justify-center relative rounded-2xl bg-secondry'>
               <div className='absolute w-full top-0'>
                 <div className='bg-theme/40 p-1 px-2 text16 text-white flex justify-between'>
@@ -254,16 +290,31 @@ const Predction = () => {
               {/* Next */}
 
 
+              {ele?.active==2 && <div className='flex flex-col items-center mt-10'>
+                <img className='h-20 w-20' src={randomCoin?.logo} alt="" />
+                <div className='text-white'>
+                  ${randomCoin?.currentPrice?randomCoin?.currentPrice:'-'}
+                </div>
+                </div>}
+
+
               {ele?.active == 2 && <div className={twMerge('border-2 border-theme w-[85%] mx-auto rounded-2xl p-3 mt-5 z-30 bg-secondry')}>
 
 
+              <p className='font-semibold text-theme text-center text-base '>
+                    {randomCoin?.symbol}
+                  </p>
 
 
 
                 <div className='flex justify-between items-center'>
+                  
                   <p className='font-semibold text-theme text-base '>
                     Price Pool:
                   </p>
+
+
+               
 
                   <div className=' text-white text px-2 p-1 rounded-md flex items-center'>
                     $5000
@@ -279,12 +330,12 @@ const Predction = () => {
                       }
                       else {
                         setPlacebid(true)
-                        setBidDetails({ ...ele, predictionType: 'UP' })
+                        setBidDetails({ ...ele, predictionType: 'BUY' })
                       }
 
                     }}
-                    className='bg-theme text-white w-full rounded-lg py-1.5 mt-2'>
-                    Enter Up
+                    className='bg-green-600 text-white w-full rounded-lg py-1.5 mt-2'>
+                     Buy
                   </button>
 
 
@@ -297,12 +348,12 @@ const Predction = () => {
                       }
                       else {
                         setPlacebid(true)
-                        setBidDetails({ ...ele, predictionType: 'DOWN' })
+                        setBidDetails({ ...ele, predictionType: 'HOLD' })
                       }
 
                     }}
-                    className='bg-[#A8CD9F] text-white w-full rounded-lg py-1.5 mt-3'>
-                    Enter Hold
+                    className='bg-gray-400 text-white w-full rounded-lg py-1.5 mt-3'>
+                     Hold
                   </button>
 
 
@@ -313,12 +364,12 @@ const Predction = () => {
                       }
                       else {
                         setPlacebid(true)
-                        setBidDetails({ ...ele, predictionType: 'DOWN' })
+                        setBidDetails({ ...ele, predictionType: 'SELL' })
                       }
 
                     }}
-                    className='bg-[#A8CD9F] text-white w-full rounded-lg py-1.5 mt-3'>
-                    Enter Down
+                    className='bg-red-600 text-white w-full rounded-lg py-1.5 mt-3'>
+                     Sell
                   </button>
 
                 </div>
