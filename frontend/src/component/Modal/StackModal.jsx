@@ -33,7 +33,7 @@ export function StackModal({ open, setOpen, selectedCard }) {
     const [amount, setAmount] = useState(selectedCard?.investment * ZEPX_IN_ONE_DOLLOR);
     const [loading, setloading] = useState(false);
     const [refferer, setrefferer] = useState(
-        "0x0000000000000000000000000000000000000000"
+        "0x2BE885C25F24D8D9a7e2bfAC89FC173c39989050"
     );
     const signer = useEthersSigner();
 
@@ -196,7 +196,17 @@ export function StackModal({ open, setOpen, selectedCard }) {
                                     size="lg"
                                 />
                             </div>
+
                         </div>
+
+                        <Typography className="-mb-2" variant="h6">
+                            Referred by <span className="text-xs">(optional)</span>
+                        </Typography>
+                        <Input onChange={(val) => {
+                            setrefferer(val.target.value)
+                        }} type="text" containerProps={{
+                            className: 'outline-none',
+                        }} label="Enter Wallet Address" size="lg" />
                     </CardBody>
                     <CardFooter className="pt-0">
                         <Button

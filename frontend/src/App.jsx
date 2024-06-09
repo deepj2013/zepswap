@@ -15,6 +15,7 @@ import NavBar2 from './component/NavBar2'
 import Buy from './pages/Buy/BuyPage'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FooterWithSocialLinks } from './component/Footer'
 
 
 function App() {
@@ -44,7 +45,7 @@ function App() {
 
 
       </Routes>
-    
+    <FooterWithSocialLinks/>
 
     </div>
 

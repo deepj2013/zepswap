@@ -26,7 +26,7 @@ const Stack = () => {
   const [poolId, setpoolId] = useState(0)
   const [selectedCard, setSelectedCard] = useState({})
   return (
-    <div className="h-screen w-screen   overflow-scroll">
+    <div className=" w-screen   overflow-scroll">
 
       <div className="relative">
         <img className='' src={StackBaner} />
@@ -79,7 +79,9 @@ const Stack = () => {
           return (
 
             <div className=" container mx-auto  bg-white !mt-0">
-              <p style={{color:getRandomColorDarkColor()}}  className="text-center text-5xl my-8 font-urbanist">{key}</p>
+              <div className="bg-theme/20 py-2 my-8 rounded-md">
+              <p style={{color:'black'}}  className="text-center text-5xl  font-urbanist">{key}</p>
+              </div>
               <div className="flex flex-wrap ">
                 {
                   stackingData[key]?.map((ele, ind) => {
@@ -295,18 +297,23 @@ const Card2 = ({ item, setStakeModal, setpoolId, setSelectedCard, poolId }) => {
 
   useEffect(() => {
     const fn = async () => {
-      if (signer?._address != undefined) {
-        const rewaradAmount = await getStakingRewardAmount(signer._address, poolId);
-        const pool = await getPoolInfo(poolId);
-        const myStake = await getUserStakedAmount(poolId, signer?._address);
-        console.log(pool);
-        setmyStaking(myStake);
-        if (pool.sucess) {
-          setpoolInfo(pool);
+      try {
+        if (signer?._address != undefined) {
+          const rewaradAmount = await getStakingRewardAmount(signer._address, poolId);
+          const pool = await getPoolInfo(poolId);
+          const myStake = await getUserStakedAmount(poolId, signer?._address);
+          console.log(pool);
+          setmyStaking(myStake);
+          if (pool.sucess) {
+            setpoolInfo(pool);
+          }
+          setEarnedReward(rewaradAmount);
         }
-        setEarnedReward(rewaradAmount);
+        setpoolId(poolId)
+      } catch (error) {
+        console.log(error);
       }
-      setpoolId(poolId)
+    
     };
     fn();
   }, [signer]);

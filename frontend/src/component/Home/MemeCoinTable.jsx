@@ -8,7 +8,7 @@ function MemeCoinTable() {
         <div>
             <section >
                 <div class="px-4 mx-auto w-full lg:w-[80%] 2xll:w-[70%] ">
-                    <div className='bg-theme/20 relative h-28 rounded-t-2xl '>
+                    {/* <div className='bg-theme/20 relative h-28 rounded-t-2xl '>
                         <img className='absolute w-40 -top-10 left-4' src="https://traderjoexyz.com/static/media/meme_farms_illustration.90966f097caaf5d948ee.png" />
                         <div className='ml-48 h-full  flex flex-col justify-center gap-2 '>
                             <p className='text26 font-semibold'>Meme Coin Rush</p>
@@ -20,7 +20,7 @@ function MemeCoinTable() {
                             </button>
                         </div>
 
-                    </div>
+                    </div> */}
                     <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
 
                         <div class="overflow-x-auto">
