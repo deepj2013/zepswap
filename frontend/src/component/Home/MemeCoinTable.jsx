@@ -1,124 +1,163 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaArrowRight } from 'react-icons/fa6'
-import { dummyData } from '../../utils/Contant'
+import { LOGO, dummyData } from '../../utils/Contant'
+import { getCoinsList, getCurrentPrice } from '../../services/Services'
+import { ALLCOINS } from '../../utils/Coins'
+import { getRandomColor } from '../../utils/Helper'
 
+
+
+const ALL_COINS = ALLCOINS;
+const ITEMS_PER_PAGE = 50;
 function MemeCoinTable() {
-   
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = Math.ceil(ALL_COINS.length / ITEMS_PER_PAGE);
+    const [coinsList, setCoinsList] = useState([]);
+    const handlePrevPage = () => {
+      setCurrentPage((prevPage) => Math.max(prevPage, 1));
+    };
+  
+    const handleNextPage = () => {
+      setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    };
+
+  
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const currentCoins = ALL_COINS.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
     return (
         <div>
-            <section >
-                <div class="px-4 mx-auto w-full lg:w-[80%] 2xll:w-[70%] ">
-                    {/* <div className='bg-theme/20 relative h-28 rounded-t-2xl '>
-                        <img className='absolute w-40 -top-10 left-4' src="https://traderjoexyz.com/static/media/meme_farms_illustration.90966f097caaf5d948ee.png" />
-                        <div className='ml-48 h-full  flex flex-col justify-center gap-2 '>
-                            <p className='text26 font-semibold'>Meme Coin Rush</p>
-                            <p className='text-gray font-normal '>Stake to earn points, the more you stake the more points you accrue.</p>
+
+<div className='bg-theme/20 relative h-28 rounded-t-2xl container mx-auto '>
+                        <img className='absolute w-20 top-6 left-4' src={LOGO} />
+                        <div className='ml-32 h-full  flex flex-col justify-center gap-2 '>
+                            <p className='text26 font-semibold'>Coins List</p>
+                            {/* <p className='text-gray font-normal '>Stake to earn points, the more you stake the more points you accrue.</p> */}
 
 
-                            <button className="bg-white gap-2 text20 p-2.5  rounded-full px-8  justify-center absolute flex items-center right-3">
-                                Visit Frams <FaArrowRight color='text-white' />
-                            </button>
                         </div>
 
-                    </div> */}
-                    <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
-
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="p-4">
-                                            <div class="flex items-center">
-                                            <th scope="col" class="px-4 py-3">#</th>
-
-                                            </div>
-                                        </th>
-                                        <th scope="col" class="px-4 py-3">Token</th>
-                                        <th scope="col" class="px-4 py-3">TOTAL STAKED</th>
-                                        <th scope="col" class="px-4 py-3">TOTAL STAKED (USD)</th>
-                                       
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    {
-                                    dummyData.map((ele, ind) => {
-                                            return (
-                                                <tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                    <td class="w-4 px-4 py-3">
-                                                        <div class="flex items-center">
-                                                        <span class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">{ind+1}</span>
-                                                        </div>
-                                                    </td>
-                                                    <th scope="row" class="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        <img src={ele?.img} alt="iMac Front Image" class="w-auto h-8 mr-3" />
-                                                        {ele.Token}
-                                                    </th>
-                                                    <td class="px-4 py-2">
-                                                        <span class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">{ele?.Stalked}</span>
-                                                    </td>
-                                                    <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        <div class="flex items-center">
-                                                        {ele?.USD}
-                                                        </div>
-                                                    </td>
-                                                  
-                                          
-                                                </tr>
-                                            )
-                                        })
-                                    }
-
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <nav class="flex flex-col items-start justify-between p-4 space-y-3 md:flex-row md:items-center md:space-y-0" aria-label="Table navigation">
-                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                Showing
-                                <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
-                                of
-                                <span class="font-semibold text-gray-900 dark:text-white">1000</span>
-                            </span>
-                            <ul class="inline-flex items-stretch -space-x-px">
-                                <li>
-                                    <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                        <span class="sr-only">Previous</span>
-                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                                </li>
-                                <li>
-                                    <a href="#" aria-current="page" class="z-10 flex items-center justify-center px-3 py-2 text-sm leading-tight border text-primary-600 bg-primary-50 border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                        <span class="sr-only">Next</span>
-                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
                     </div>
-                </div>
+            <section >
+           
+
+                <div className='container mx-auto overflow-scroll'>
+      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" className="px-4 py-3  text-start">#</th>
+            <th scope="col" className="px-4 py-3  text-start">Token</th>
+            <th scope="col" className="px-4 py-3  text-start">Symbol</th>
+            <th scope="col" className="px-4 py-3  text-start">Name</th>
+            <th scope="col" className="px-4 py-3  text-start">Chain</th>
+            <th scope="col" className="px-4 py-3  text-start">Chains</th>
+            <th scope="col" className=" py-3  text-start">LIve Price</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {currentCoins.map((ele, ind) => {
+            if (ele?.symbol !== "-") {
+              return (
+              <Crad ele={ele} ind={ind} startIndex={startIndex}/>
+              );
+            }
+            return null;
+          })}
+        </tbody>
+      </table>
+
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+          className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+        >
+          Previous
+        </button>
+        <span className="text-gray-800 dark:text-gray-200">Page {currentPage} of {totalPages}</span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+        >
+          Next
+        </button>
+      </div>
+    </div>
             </section>
         </div>
     )
 }
 
 export default MemeCoinTable
+
+
+
+const Crad=({ele,startIndex,ind})=>{
+
+
+    const [livePice,setLivePrice]=useState(0)
+
+    const getLivePrice=async(symbol)=>{
+        try {
+            let response = await getCurrentPrice(symbol)
+            let temp=Object.values(response.data)
+            console.log(temp[0]?.USD);
+            setLivePrice(temp[0]?.USD)
+        
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    return(
+        <tr key={ind} className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <td className="w-4 px-4 py-3">
+          <div className="flex items-center">
+            <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
+              {startIndex + ind + 1}
+            </span>
+          </div>
+        </td>
+        <th scope="row" className="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+          <img src={ele?.logo} alt="Token Logo" className="w-auto h-8 mr-3" />
+          {ele.Token}
+        </th>
+        <td className="px-4 py-2">
+          <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
+            {ele?.symbol}
+          </span>
+        </td>
+        <td className="px-4 py-2">
+          <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
+            {ele?.name}
+          </span>
+        </td>
+        <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+          <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
+            {ele?.chain}
+          </span>
+        </td>
+        <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+          <div className="w-[300px] flex-wrap flex gap-3">
+            {ele?.chains?.map((chain, index) => (
+              <span key={index} style={{ background: getRandomColor() }} className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
+                {chain}
+              </span>
+            ))}
+          </div>
+        </td>
+
+        <td>
+          <button
+          onClick={()=>{
+            getLivePrice(ele?.symbol)
+          }}
+           className='text-sm font-semibold text-gray-600 got font-urbanist border min-w-[120px] rounded-lg py-2 bg-theme'>
+             {livePice==0?'Live Price':`$ ${livePice}`}
+          </button>
+        </td>
+      </tr>
+    )
+}

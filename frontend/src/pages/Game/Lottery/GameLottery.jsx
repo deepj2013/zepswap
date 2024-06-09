@@ -225,6 +225,15 @@ function GameLottery() {
     }
   };
 
+
+  const lotteryStatus = (timeString) => {
+    // Parse the given time string into a Date object
+    const targetTime = new Date(timeString).getTime();
+    
+    // Compare the parsed time with the current time
+    return targetTime > Date.now();
+  };
+
   return (
     <div className=' w-screen bg-theme/40'>
 
@@ -234,14 +243,14 @@ function GameLottery() {
         <img className='mt-' src={jackpot} />
 
 
-        <div className='h-24 w-[250px] absolute  animate-wiggle animate-infinite '>
+        {/* <div className='h-24 w-[250px] absolute  animate-wiggle animate-infinite '>
           <img className='animate-bounce w-full h-auto  ' src={ticket} />
           <div className='h-full w-full flex justify-center items-center absolute  top-0 '>
             <button className='bg-theme p-3 px-10 ml-5 rounded-xl text-white mt-5'>
               Buy Ticket
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
 
 
@@ -431,9 +440,9 @@ function GameLottery() {
                     </div>
                     <div class="center">
                       <div>
-                        <h2>50% OFF</h2>
-                        <h3>Coupon</h3>
-                        <small>Created at {moment(ele?.createdAt).format(('MMMM Do YYYY, h:mm:ss a'))}</small>
+                        <h2>Status</h2>
+                      {!lotteryStatus(timmer[ele?.LotteryId]) ?  <p className='text-red-600 font-urbanist font-semibold'>Beller Luck <br/> next time</p> : <p className='text-gray-600 mt-2 font-urbanist font-semibold'>Wait for<br/>  next draw</p>}
+                        <small>Created at {timmer[ele?.LotteryId]}</small>
                       </div>
                     </div>
 
