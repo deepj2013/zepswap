@@ -344,7 +344,8 @@ const Card2 = ({ item, setStakeModal, setpoolId, setSelectedCard, poolId }) => {
     try {
       await WithdrawFromStake(poolId, Amount, signer);
     } catch (error) {
-      toast.error(error?.error?.data?.message);
+      console.log(error?.reason);
+      toast.error(error?.error?.data?.message?error?.error?.data?.message:error?.reason);
     }
   };
 

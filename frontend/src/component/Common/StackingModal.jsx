@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import { StakeZepx, approveERC20, checkErcApprovals, getTokenBalance } from "../../blockchain/contractUtlis";
 import { ZEPX_IN_ONE_DOLLOR, ZepStake_Address, Zepx_Address } from "../../blockchain/config";
 import { ToastContainer } from "react-toastify";
+import { Watch } from "react-loader-spinner";
 
 export function StackingModal({ open, setOpen }) {
 
@@ -27,10 +28,10 @@ export function StackingModal({ open, setOpen }) {
     const [selectedOption, setSelectedOption] = useState("Stake");
     const [amount, setAmount] = useState(ZEPX_IN_ONE_DOLLOR);
     const [loading, setloading] = useState(false);
-    const [dollor,setDollor]=useState(1)
+    const [dollor, setDollor] = useState(1)
     const [refferer, setrefferer] = useState("0x2BE885C25F24D8D9a7e2bfAC89FC173c39989050");
     const signer = useEthersSigner();
-    const [income,setIncome]=useState(0)
+    const [income, setIncome] = useState(0)
     const stakeFunction = async () => {
         if (signer?._address === undefined) {
             toast.error("wallet not connected");
@@ -68,6 +69,8 @@ export function StackingModal({ open, setOpen }) {
             } else errorToast("insufficent balance");
         } catch (error) {
             setloading(false);
+            setOpen(false)
+
             console.log("error in staking", error);
         }
     };
@@ -91,31 +94,49 @@ export function StackingModal({ open, setOpen }) {
 
     };
 
-    const calculateZepex=(val)=>{
+    const calculateZepex = (val) => {
         setAmount(val)
-        setDollor(val/ZEPX_IN_ONE_DOLLOR)
-        let res= calculateROI(PoolId,investment[PoolId],20,amount)
+        setDollor(val / ZEPX_IN_ONE_DOLLOR)
+        let res = calculateROI(PoolId, investment[PoolId], 20, amount)
         setIncome(res)
     }
 
 
-    const calculateDollor=(val)=>{
+    const calculateDollor = (val) => {
         setDollor(val)
-        setAmount(val*ZEPX_IN_ONE_DOLLOR)
+        setAmount(val * ZEPX_IN_ONE_DOLLOR)
     }
-    
+
 
     return (
         <>
             <Dialog
                 size="xs"
                 open={open}
-                handler={handleOpen}
+                handler={()=>{
+                    handleOpen()
+                    setloading(false)
+                }}
                 className="bg-transparent shadow-none"
+
             >
                 <ToastContainer />
 
                 <Card className="mx-auto w-full max-w-[24rem]">
+
+               {loading &&     <div className="absolute h-full flex-col w-full  bg-black/70 flex justify-center items-center z-50">
+                        <Watch
+                            visible={true}
+                            height="80"
+                            width="80"
+                            radius="48"
+                            color="#4fa94d"
+                            ariaLabel="watch-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        />
+                        <p className="text-white font-bold mt-2 font-urbanist">Please Wait</p>
+                    </div>}
                     <CardBody className="flex flex-col gap-4">
                         <Typography variant="h4" color="blue-gray">
                             Zepex
@@ -152,15 +173,14 @@ export function StackingModal({ open, setOpen }) {
                                     onChange={(val) => {
                                         calculateDollor(val.target.value)
                                         // setAmount(val.target.value);
-                                        
+
                                     }}
-                                    type="text"
                                     className="!w-[120px]"
                                     containerProps={{
                                         className: "outline-none mt-5 !min-w-[120px]",
 
                                     }}
-                                    label="Enter Amount"
+                                    placeholder="Enter Amount"
                                     size="lg"
                                 />
                             </div>
@@ -175,28 +195,27 @@ export function StackingModal({ open, setOpen }) {
                                     onChange={(val) => {
                                         calculateZepex(val.target.value)
                                     }}
-                                    type="text"
                                     containerProps={{
                                         className: "outline-none mt-5 !min-w-[120px]",
                                     }}
                                     className="!w-[120px]"
-                                    label="Enter Amount"
+                                    placeholder="Enter Amount"
                                     size="lg"
                                 />
                             </div>
                         </div>
 
 
-                        <div className="border border-green-700 rounded-md font-bold font-urbanist p-2 text-green-600">
+                        {/* <div className="border border-green-700 rounded-md font-bold font-urbanist p-2 text-green-600">
                             Income : <span>{income}</span>
-                        </div>
+                        </div> */}
 
                         <Typography className="-mb-2" variant="h6">
                             Referred by <span className="text-xs">(optional)</span>
                         </Typography>
                         <Input onChange={(val) => {
                             setrefferer(val.target.value)
-                        }}  containerProps={{
+                        }} containerProps={{
                             className: 'outline-none',
                         }} placeholder="Enter Wallet Address" size="lg" />
 
