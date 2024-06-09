@@ -26,18 +26,11 @@ const Predction = () => {
 
 
   const loginHandler = async () => {
-
-
     try {
       let obj = {
         "address": signer._address
       }
-
-
-
       let response = await loginServices(obj)
-
-      console.log(response);
       if (response?.data?.success) {
         localStorage.setItem("token", response?.data?.jwt)
         getUserBalance(response?.data?.jwt)
