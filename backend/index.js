@@ -1,4 +1,7 @@
 require("dotenv").config();
+['log', 'warn', 'error', 'info', 'debug'].forEach(function (method) {
+  console[method] = function () {};
+});
 const express = require("express");
 const Port = 3097;
 const bodyParser = require("body-parser");
