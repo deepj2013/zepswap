@@ -21,14 +21,14 @@ import { ZEPX_IN_ONE_DOLLOR, ZepStake_Address, Zepx_Address } from "../../blockc
 import { ToastContainer } from "react-toastify";
 import { LuPlus } from "react-icons/lu";
 import { FaMinus, FaPlus } from "react-icons/fa6";
+import { RotatingLines } from "react-loader-spinner";
 
-export function PurchaseTicketModal({ open, setOpen }) {
+export function PurchaseTicketModal({ open, setOpen, ticketCount, setTicketCount, selectedCard, setSelectedCard, participateLottery, loading }) {
 
     const [PoolId, setpoolId] = useState(0)
     const handleOpen = () => setOpen((cur) => !cur);
     const [selectedOption, setSelectedOption] = useState("Stake");
     const [amount, setAmount] = useState(ZEPX_IN_ONE_DOLLOR);
-    const [loading, setloading] = useState(false);
     const [dollor, setDollor] = useState(86)
     const [refferer, setrefferer] = useState("0x2BE885C25F24D8D9a7e2bfAC89FC173c39989050");
     const signer = useEthersSigner();
@@ -40,7 +40,7 @@ export function PurchaseTicketModal({ open, setOpen }) {
         }
 
         try {
-            setloading(true);
+            // setloading(true);
 
             sucessToast("staking please wait");
             const bal = await getTokenBalance(Zepx_Address, signer?._address);
@@ -58,18 +58,18 @@ export function PurchaseTicketModal({ open, setOpen }) {
                     await approveERC20(Zepx_Address, amount, signer, ZepStake_Address);
 
                     await StakeZepx(PoolId, amount, refferer, signer);
-                    setloading(false);
+                    // setloading(false);
 
                     return;
                 } else {
                     await StakeZepx(PoolId, amount, refferer, signer);
                 }
-                setloading(false);
+                // setloading(false);
                 setOpen(false)
                 return;
             } else errorToast("insufficent balance");
         } catch (error) {
-            setloading(false);
+            // setloading(false);
             console.log("error in staking", error);
         }
     };
@@ -110,20 +110,28 @@ export function PurchaseTicketModal({ open, setOpen }) {
 
     // Handler functions
     const incrementIncome = () => {
-        setIncome(income + 1);
+        setTicketCount(ticketCount + 1);
     };
 
     const decrementIncome = () => {
-        setIncome(income - 1);
+        if (ticketCount > 0) {
+            setTicketCount(ticketCount - 1);
+        }
     };
 
+
+    console.log(selectedCard);
 
     return (
         <>
             <Dialog
                 size="xs"
                 open={open}
-                handler={handleOpen}
+                handler={() => {
+                    handleOpen()
+                    setSelectedCard(null)
+                    setTicketCount(1)
+                }}
                 className="bg-transparent shadow-none"
             >
                 <ToastContainer />
@@ -154,7 +162,7 @@ export function PurchaseTicketModal({ open, setOpen }) {
                                 <FaMinus />
                             </button>
                             <div className="border w-[70px] flex justify-center px-6 border-green-700 rounded-md font-bold font-urbanist p-2 text-green-600">
-                                <span>{income}</span>
+                                <span>{ticketCount}</span>
                             </div>
                             <button
                                 className="mx-2 px-4 w-[70px] py-2 border border-green-600 text-green-600 justify-center flex items-center rounded-md"
@@ -170,13 +178,23 @@ export function PurchaseTicketModal({ open, setOpen }) {
                         </Typography>
 
                         <div>
-                            <p className="font-urbanist text-3xl text-green-600">Total Amount : <span>{10}</span></p>
+                            <p className="font-urbanist text-3xl text-green-600">Total Amount : <span>{ticketCount * selectedCard?.TicketPrice}</span></p>
                         </div>
 
                     </CardBody>
                     <CardFooter className="pt-0">
-                        <Button onClick={continueHandler} variant="gradient" color="green" fullWidth>
-                            Continue
+                        <Button disabled={loading} onClick={participateLottery} variant="gradient" color="green" fullWidth>
+                            {!loading ? 'Continue' : <RotatingLines
+                                visible={true}
+                                height="10"
+                                width="10"
+                                color="white"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                ariaLabel="rotating-lines-loading"
+                                wrapperStyle={{}}
+                                wrapperClass=""
+                            />}
                         </Button>
 
                         <Button variant="gradient" className="mt-3 bg-theme" onClick={handleOpen} fullWidth>
