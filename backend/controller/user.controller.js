@@ -10,9 +10,16 @@ const rechargeWallet = catchAsync(async (req, res) => {
   const { address } = req.userPayload;
 
   const { amount } = req.body;
+  console.log("body payload", req.body)
   if (!address) {
     const err = responseObject(false, true, {
       message: "empty address",
+    });
+    return res.status(httpStatus.BAD_REQUEST).json(err);
+  }
+  if (!amount) {
+    const err = responseObject(false, true, {
+      message: "Empty Payload",
     });
     return res.status(httpStatus.BAD_REQUEST).json(err);
   }
