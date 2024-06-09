@@ -8,6 +8,7 @@ import lottery from '../assets/icon/lottery.png';
 import predction from '../assets/icon/predction.png';
 import Stack from '../assets/icon/Stack.png';
 import swap from '../assets/icon/swap.png';
+import { HOMEBANNER } from "../utils/Contant";
 
 function Home() {
 
@@ -42,7 +43,9 @@ function Home() {
 
   return (
     <div className="">
-      <div className="bg-theme w-screen h-[70vh] relative">
+      <img src={HOMEBANNER}/>
+      {/* <div className="bg-theme w-screen h-[70vh] relative">
+        
         <div className="mx-auto  flex flex-col items-center h-full justify-center z-50">
           <p className="text-black font-semibold text20">
             WELCOME TO THE PARTY
@@ -61,7 +64,7 @@ function Home() {
         <img className="absolute bottom-0 hidden lg:flex" src="https://partyswap.io/app-sub/static/media/home-hero-bonnie.b0376a1a.svg" />
         <img className="absolute right-0 bottom-0" src="https://partyswap.io/app-sub/static/media/home-hero-trent.60dcda17.svg" />
 
-      </div>
+      </div> */}
       <div className="container  mx-auto py-20">
         <p className="text60 font-semibold text-center">One-stop decentralized trading</p>
 
