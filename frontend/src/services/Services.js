@@ -2,7 +2,6 @@ import axios from "axios";
 
 
 
-// const BASE_URL="https://api.codingyaari.com/English-Yaariapi"
 
 export const BASE_URL = "http://localhost:3097/"
 

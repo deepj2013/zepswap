@@ -87,7 +87,7 @@ export function DialogWithForm({ open, setOpen, userBalance }) {
 
           return;
         } else {
-          await paymentFunction(PoolId, amount, refferer, signer);
+          await paymentFunction( amount, signer);
           let response = await rechargeWalletServices(payLoad);
           sucessToast("Deposite Successfully");
           handleOpen();

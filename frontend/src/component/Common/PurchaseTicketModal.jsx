@@ -21,7 +21,7 @@ import { ZEPX_IN_ONE_DOLLOR, ZepStake_Address, Zepx_Address } from "../../blockc
 import { ToastContainer } from "react-toastify";
 import { LuPlus } from "react-icons/lu";
 import { FaMinus, FaPlus } from "react-icons/fa6";
-import { RotatingLines } from "react-loader-spinner";
+import { RotatingLines, Watch } from "react-loader-spinner";
 
 export function PurchaseTicketModal({ open, setOpen, ticketCount, setTicketCount, selectedCard, setSelectedCard, participateLottery, loading }) {
 
@@ -137,6 +137,22 @@ export function PurchaseTicketModal({ open, setOpen, ticketCount, setTicketCount
                 <ToastContainer />
 
                 <Card className="mx-auto w-full max-w-[24rem]">
+
+
+                {loading &&     <div className="absolute h-full flex-col w-full  bg-black/70 flex justify-center items-center z-50">
+                        <Watch
+                            visible={true}
+                            height="80"
+                            width="80"
+                            radius="48"
+                            color="#4fa94d"
+                            ariaLabel="watch-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        />
+                        <p className="text-white font-bold mt-2 font-urbanist">Please Wait</p>
+                    </div>}
+
                     <CardBody className="flex flex-col gap-4">
                         <Typography variant="h4" color="blue-gray">
                             Zepex
@@ -178,23 +194,13 @@ export function PurchaseTicketModal({ open, setOpen, ticketCount, setTicketCount
                         </Typography>
 
                         <div>
-                            <p className="font-urbanist text-3xl text-green-600">Total Amount : <span>{ticketCount * selectedCard?.TicketPrice}</span></p>
+                            <p className="font-urbanist text-3xl text-green-600">Total Amount : <span>{ticketCount * selectedCard?.TicketPrice} <span className="text-sm">zep</span> </span></p>
                         </div>
 
                     </CardBody>
                     <CardFooter className="pt-0">
                         <Button disabled={loading} onClick={participateLottery} variant="gradient" color="green" fullWidth>
-                            {!loading ? 'Continue' : <RotatingLines
-                                visible={true}
-                                height="10"
-                                width="10"
-                                color="white"
-                                strokeWidth="5"
-                                animationDuration="0.75"
-                                ariaLabel="rotating-lines-loading"
-                                wrapperStyle={{}}
-                                wrapperClass=""
-                            />}
+                        Buy
                         </Button>
 
                         <Button variant="gradient" className="mt-3 bg-theme" onClick={handleOpen} fullWidth>

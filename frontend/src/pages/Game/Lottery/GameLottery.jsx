@@ -11,6 +11,8 @@ import jackpot from '../../../assets/jackpot.png'
 import FlipCountdown from '@rumess/react-flip-countdown';
 import toast from 'react-hot-toast';
 import { PurchaseTicketModal } from '../../../component/Common/PurchaseTicketModal';
+import { ZEPX_IN_ONE_DOLLOR } from '../../../blockchain/config';
+import { errorToast } from '../../../utils/Helper';
 
 function GameLottery() {
 
@@ -60,8 +62,8 @@ function GameLottery() {
     } catch (error) {
       setLoading(false)
       setPurchaseTicketModal(false)
-
-      console.log(error);
+      alert(error.response.data.msg)
+      // console.log(error.response.data.msg);
     }
   }
 
@@ -322,7 +324,9 @@ function GameLottery() {
                         <div class="circleRight"></div>
                       </div>
                       <div class="ticketDetail  relative">
-                        <div>Price:&ensp; ${ele?.TicketPrice}</div>
+                        <div>ZEPEX:&ensp;{ele?.TicketPrice} zep</div>
+                        <div>USDT:&ensp; ${ele?.TicketPrice/ZEPX_IN_ONE_DOLLOR}</div>
+
                         {/* <div>Lottery type:&nbsp; {ele?.LotteryId}</div> */}
 
                         <p class="neon2 text60 mt-3">
