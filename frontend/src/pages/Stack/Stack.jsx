@@ -361,12 +361,12 @@ const Card2 = ({ item, setStakeModal, setpoolId, setSelectedCard, poolId }) => {
           <div className="">
             <p className="text-sm text-gray-800">Total Stacked</p>
             <p className="text-xl text-gray-800">
-              ${poolInfo.TotalStaked}
+              {poolInfo.TotalStaked} <span className="text-sm">zep</span>
             </p>
           </div>
           <div className="">
-            <p className="text-sm text-gray-800">Your Stacke</p>
-            <p className="text-xl text-gray-800">${myStaking}</p>
+            <p className="text-sm text-gray-800">Your Stacke </p>
+            <p className="text-xl text-gray-800">{myStaking} <span className="text-sm">zep</span></p>
           </div>
         </div>
 
