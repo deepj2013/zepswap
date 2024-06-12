@@ -17,6 +17,7 @@ const logErrors = require("./utils/errorLogger");
 const lotteryRouter = require('./routes/lottery.Routes')
 const predictionRouter = require('./routes/prediction.Routes')
 const userRouter = require('./routes/user.Routes')
+const cors = require('cors');
 
 const io = socketIO(server, {
   cors: {
@@ -53,7 +54,11 @@ app.use("/prediction", predictionRouter);
 app.use(logErrors);
 
 // routes using here
-
+app.use(cors({
+  origin: 'http://localhost:3000', // Replace with your frontend domain if different
+  methods: 'GET,POST,PUT,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type,Authorization'
+}));
 app.use(helmet());
 app.use(logger("common"));
 

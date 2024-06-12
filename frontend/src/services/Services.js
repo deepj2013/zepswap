@@ -3,7 +3,8 @@ import axios from "axios";
 
 
 
-export const BASE_URL = "http://localhost:3097/"
+// export const BASE_URL = "http://localhost:3097/"
+export const BASE_URL = "https://api.zepswap.com/"
 
 
 const getAxiosHeader = (token) => {
